@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 const Protected = (props) => {
   const { isAuthenticated } = useIsAuthenticated();
   const location = useLocation();
-  console.log(location);
 
   if ( isAuthenticated ) return props.children;
 

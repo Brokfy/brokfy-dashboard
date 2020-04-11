@@ -17,9 +17,24 @@ const PageLogin = (props) => {
   };
 
   return (
-    <div>
-      <p>You must log in to view the page at {from.pathname}</p>
-      <button onClick={autenticate}>Log in</button>
+    // <div>
+    //   <p>You must log in to view the page at {from.pathname}</p>
+    //   <button onClick={autenticate}>Log in</button>
+    // </div>
+    <div class="login">
+      <div class="top">
+        <div class="title">Sign In</div>
+      </div>
+      <div class="body">
+        <form>
+          <div class="login-tooltip">Usuario</div>
+          <input class="email" type="text" name="email"/>
+
+          <div class="login-tooltip">Contraseña</div>
+          <input class="email" type="password" name="email"/>
+        </form>
+        <a href="https://codepen.io/thechrisbravata/debug/NqPaQZ"><div class="next">next</div></a>
+      </div>
     </div>
   );
 }
