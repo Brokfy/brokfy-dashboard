@@ -9815,7 +9815,10 @@ body.md-skin {
   }
 }
 
+.nav > li.active > a { 
+  background-color: #4B77BD !important;
+}
 
 .nav > li > a:hover { 
-background-color: #000 !important;
+background-color: #4B77BD !important;
 }
