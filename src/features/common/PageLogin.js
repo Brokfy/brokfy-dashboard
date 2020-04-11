@@ -4,6 +4,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useLogin } from './redux/hooks';
+import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
+
 
 const PageLogin = (props) => {
   const history = useHistory();
@@ -23,17 +25,26 @@ const PageLogin = (props) => {
     // </div>
     <div class="login">
       <div class="top">
-        <div class="title">Sign In</div>
+        <div class="title">Control de Acceso</div>
       </div>
       <div class="body">
-        <form>
-          <div class="login-tooltip">Usuario</div>
-          <input class="email" type="text" name="email"/>
+        <form autoComplete="off">
+        <FormControl>
+          <InputLabel htmlFor="user">Usuario</InputLabel>
+          <Input id="user" />
+        </FormControl>
 
-          <div class="login-tooltip">Contraseña</div>
-          <input class="email" type="password" name="email"/>
+        <FormControl>
+          <InputLabel htmlFor="password">Contraseña</InputLabel>
+          <Input id="password" type="password" />
+        </FormControl>
+          {/* <TextField id="user" type="text" name="email" label="Usuario" />
+          <TextField id="password" type="password" name="email" label="Contraseña" /> */}
         </form>
-        <a href="https://codepen.io/thechrisbravata/debug/NqPaQZ"><div class="next">next</div></a>
+        <br/><br/>
+        <Button classes="btn-login" variant="contained" href="#contained-buttons" onClick={autenticate} fullWidth="true">
+          Log in
+        </Button>
       </div>
     </div>
   );
