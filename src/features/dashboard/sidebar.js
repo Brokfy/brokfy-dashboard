@@ -1,5 +1,6 @@
 import React from 'react';
 import NavLink from './navlink';
+import logo from '../../images/logo.png';
 
 const Sidebar = () => {
   return (
@@ -8,17 +9,11 @@ const Sidebar = () => {
         <ul className="nav metismenu" id="side-menu">
           <li className="nav-header">
             <div className="dropdown profile-element">
-              <a data-toggle="dropdown" className="dropdown-toggle" href="#!">
-                <span className="block m-t-xs font-bold">Example user</span>
-                <span className="text-muted text-xs block">menu <b className="caret"></b></span>
-              </a>
-              <ul className="dropdown-menu animated fadeInRight m-t-xs">
-                <li><a className="dropdown-item" href="login.html">Logout</a></li>
-              </ul>
+              <img src={logo} className="img-fluid" />
             </div>
             <div className="logo-element">
-              IN+
-                    </div>
+              BFY
+            </div>
           </li>
           <NavLink to="/">
             <i className="fa fa-th-large"></i> <span className="nav-label">Dashboard</span>
