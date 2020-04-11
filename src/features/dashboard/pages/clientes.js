@@ -1,6 +1,4 @@
 import React from 'react';
-import MUIDataTable from "mui-datatables";
-import { Button, Modal } from '@material-ui/core';
 import BTable from '../../../components/btable';
 
 const Clientes = () => {
