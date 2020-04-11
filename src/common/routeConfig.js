@@ -1,5 +1,5 @@
 import { Dashboard } from '../features/dashboard';
-import { PageNotFound } from '../features/common';
+import { PageNotFound, PageLogin } from '../features/common';
 import commonRoute from '../features/common/route';
 import _ from 'lodash';
 import dashboardRoute from '../features/dashboard/route';
@@ -16,6 +16,7 @@ const routes = [{
   component: Dashboard,
   childRoutes: [
     ...childRoutes,
+    { path: '/login', name: 'login', component: PageLogin },
     { path: '*', name: 'Page not found', component: PageNotFound },
   ].filter(r => r.component || (r.childRoutes && r.childRoutes.length > 0)),
 }];
