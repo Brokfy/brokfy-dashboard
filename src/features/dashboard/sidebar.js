@@ -9,7 +9,7 @@ const Sidebar = () => {
         <ul className="nav metismenu" id="side-menu">
           <li className="nav-header">
             <div className="dropdown profile-element">
-              <img src={logo} className="img-fluid" />
+              <img src={logo} className="img-fluid" alt="Brokfy"/>
             </div>
             <div className="logo-element">
               BFY

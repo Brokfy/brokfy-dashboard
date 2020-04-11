@@ -2,15 +2,16 @@ import React from 'react';
 import { useIsAuthenticated } from '../common/redux/hooks';
 import { PageLogin } from '../common';
 import { useLocation } from 'react-router-dom';
+import PageProtected from '../common/PageProtected';
 
 const Protected = (props) => {
   const { isAuthenticated } = useIsAuthenticated();
   const location = useLocation();
-  console.log(location);
 
   if ( isAuthenticated ) return props.children;
 
-  return <PageLogin location={location.pathname}/>;
+  return <PageProtected />;
+    {/* </PageProtected><PageLogin location={location.pathname}/>; */}
 }
 
 export default Protected;

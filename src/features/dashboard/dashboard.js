@@ -1,26 +1,43 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import Sidebar from './sidebar';
 import Topbar from './topbar';
 import Footer from './footer';
 import { useIsAuthenticated } from '../common/redux/hooks';
 import Protected from './protected';
+import { PageLogin } from '../common';
+
+const Modal = ({ children }) => {
+  const element = document.getElementById("overlay");
+  if (children) {
+    element.classList.remove("hidden");
+    return ReactDOM.createPortal(children, element);
+  }
+  element.classList.add("hidden");
+  return null;
+};
 
 const Dashboard = (props) => {  
   const { isAuthenticated } = useIsAuthenticated();
 
   return (
-    <div id="wrapper">
-      <Sidebar />
-      <div id="page-wrapper" className="gray-bg">
-        <Topbar />
-        <div className="wrapper wrapper-content animated fadeInRight">
-          <Protected>
-            {props.children}
-          </Protected>
+    <React.Fragment>
+      <Modal>
+        { !isAuthenticated ? <PageLogin /> : null }
+      </Modal>
+      <div id="wrapper">
+        <Sidebar />
+        <div id="page-wrapper" className="gray-bg">
+          <Topbar />
+          <div className="wrapper wrapper-content animated fadeInRight">
+            <Protected>
+              {props.children}
+            </Protected>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </div >
+      </div >
+    </React.Fragment>
   );
 }
 
