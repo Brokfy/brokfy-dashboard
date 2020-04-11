@@ -57,13 +57,6 @@ const Clientes = () => {
 
   return (
     <div>
-      <MUIDataTable
-        title={<Button onClick={() => setOpen(true)} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
-        data={data}
-        columns={columns}
-        options={options}
-      />
-
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -75,6 +68,15 @@ const Clientes = () => {
           <p id="transition-modal-description">react-transition-group animates me.</p>
         </div>
       </Modal>
+      
+      <MUIDataTable
+        title={<Button onClick={() => setOpen(true)} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
+        data={data}
+        columns={columns}
+        options={options}
+      />
+
+      
     </div>
   );
 }
