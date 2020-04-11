@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MUIDataTable from "mui-datatables";
 import { Button, Modal } from '@material-ui/core';
-
+import BTable from '../../../components/btable';
 
 const Clientes = () => {
-
-  const [open, setOpen] = useState(false)
 
   const columns = [
     {
@@ -56,28 +54,7 @@ const Clientes = () => {
   };
 
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div>
-          <h2 id="transition-modal-title">Transition modal</h2>
-          <p id="transition-modal-description">react-transition-group animates me.</p>
-        </div>
-      </Modal>
-      
-      <MUIDataTable
-        title={<Button onClick={() => setOpen(true)} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
-        data={data}
-        columns={columns}
-        options={options}
-      />
-
-      
-    </div>
+    <BTable columns={columns} data={data} options={options} />
   );
 }
 
