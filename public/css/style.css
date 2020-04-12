@@ -5750,8 +5750,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
   z-index: 10;
   position: absolute;
   top: 110px;
-  left: 50%;
-  margin-left: -470px;
+  left: 13%;
 }
 .lock-word span {
   font-size: 100px;
@@ -9815,10 +9814,28 @@ body.md-skin {
   }
 }
 
-.nav > li.active > a { 
+.metismenu > li.active > a { 
   background-color: #4B77BD !important;
 }
 
-.nav > li > a:hover { 
-background-color: #4B77BD !important;
+.metismenu > li > a:hover { 
+  background-color: #4B77BD !important;
+  color: #FFF;
+}
+
+.icon-lock {
+  position: relative;
+  font-size: 10em;
+  right: 74px;
+  color: #e9e9e9;
+}
+
+.texto-pagina-restringida {
+  margin-top: 240px;
+  font-size: 14px;
+  padding-left: 13%;
+}
+
+.gray-bg, .bg-muted {
+  background-color: #f3f3f4;
 }

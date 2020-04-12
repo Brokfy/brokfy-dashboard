@@ -1,6 +1,4 @@
-// import { useCallback } from 'react';
 import { 
-  // useDispatch, 
   useSelector 
 } from 'react-redux';
 import {
@@ -14,8 +12,6 @@ export function isAuthenticated() {
 }
 
 export function useIsAuthenticated() {
-  // const dispatch = useDispatch();
-  // const boundAction = useCallback((...params) => dispatch(isAuthenticated(...params)), [dispatch]);
   const isAuthenticated = useSelector(state => state.common.isAuthenticated);
   return { isAuthenticated: isAuthenticated };
 }
