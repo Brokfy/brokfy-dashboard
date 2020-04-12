@@ -11,7 +11,7 @@ const BConfirm = (props) => {
     return (
         <Dialog
             open={props.open}
-            onClose={() => props.setConfirmOpen(false)}
+            onClose={() => props.setOpen(false)}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -22,7 +22,7 @@ const BConfirm = (props) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => props.setConfirmOpen(false)} color="primary">
+                <Button onClick={() => props.setOpen(false)} color="primary">
                     Cancelar
                 </Button>
                 <Button onClick={() => props.confirmAction()} color="primary" autoFocus>

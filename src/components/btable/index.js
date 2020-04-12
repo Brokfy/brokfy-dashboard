@@ -4,7 +4,6 @@ import { Button } from '@material-ui/core';
 import { IconButton } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/core/styles';
 import BModal from '../../components/bmodal';
 import BConfirm from '../../components/bconfirm';
 import './styles.css';
@@ -63,8 +62,8 @@ const BTable = (props) => {
 
   return (
     <div>
-      <BModal open={modalOpen} setModalOpen={setModalOpen} columns={columns} data={dataEdit} />
-      <BConfirm open={confirmOpen} confirmAction={confirmDelete} setConfirmOpen={setConfirmOpen} title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
+      <BModal open={modalOpen} setOpen={setModalOpen} columns={columns} data={dataEdit} />
+      <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete}  title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
 
       <MUIDataTable
         title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
