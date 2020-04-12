@@ -7,6 +7,9 @@ const Clientes = () => {
     {
       name: "name",
       label: "Name",
+      type: "string",
+      required: true,
+      defaultValue: "",
       options: {
         filter: true,
         sort: true,
@@ -15,6 +18,7 @@ const Clientes = () => {
     {
       name: "company",
       label: "Company",
+      type: "string",
       options: {
         filter: true,
         sort: true,
@@ -23,6 +27,7 @@ const Clientes = () => {
     {
       name: "city",
       label: "City",
+      type: "string",
       options: {
         filter: true,
         sort: true,
@@ -31,6 +36,7 @@ const Clientes = () => {
     {
       name: "state",
       label: "State",
+      type: "int",
       options: {
         filter: true,
         sort: true,
@@ -39,16 +45,14 @@ const Clientes = () => {
   ];
 
   const data = [
-    { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-    { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-    { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-    { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
+    { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "1" },
+    { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "5" },
+    { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "66" },
+    { name: "James Houston", company: "Test Corp", city: "Dallas", state: "8888" },
   ];
 
   const options = {
-    filterType: "dropdown",
-    responsive: "scroll",
-    selectableRows: "none"
+    module: "usuario"
   };
 
   return (
