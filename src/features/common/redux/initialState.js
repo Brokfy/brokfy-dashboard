@@ -7,7 +7,7 @@
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 
 const initialState = {
-  isAuthenticated: sessionStorage["isAuthenticated"] || false,
+  isAuthenticated: sessionStorage["isAuthenticated"] === "true" || false,
   getTokenPending: false,
   getTokenError: null,
   auth: sessionStorage["auth"] ? JSON.parse(sessionStorage["auth"]) : null
