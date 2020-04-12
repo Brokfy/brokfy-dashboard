@@ -10,11 +10,15 @@ import initialState from './initialState';
 import { reducer as isAuthenticatedReducer } from './isAuthenticated';
 import { reducer as loginReducer } from './login';
 import { reducer as logoutReducer } from './logout';
+import { reducer as getTokenReducer } from './getToken';
+import { reducer as authReducer } from './auth';
 
 const reducers = [
   isAuthenticatedReducer,
   loginReducer,
   logoutReducer,
+  getTokenReducer,
+  authReducer,
 ];
 
 export default function reducer(state = initialState, action) {

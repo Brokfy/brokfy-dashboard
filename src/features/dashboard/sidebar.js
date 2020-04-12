@@ -1,8 +1,22 @@
 import React from 'react';
 import NavLink from './navlink';
 import logo from '../../images/logo.png';
+import { useIsAuthenticated } from '../common/redux/hooks';
 
 const Sidebar = () => {
+  const { isAuthenticated } = useIsAuthenticated();
+
+  var links = [
+    { icon: "fa fa-th-large", to: "/", label: "Dashboard", protected: false },
+    { icon: "fa fa-th-large", to: "/clientes", label: "Clientes", protected: true },
+    { icon: "fa fa-th-large", to: "/polizas", label: "Polizas", protected: true },
+    { icon: "fa fa-th-large", to: "/pagos", label: "Pagos", protected: true },
+    { icon: "fa fa-th-large", to: "/atencion-clientes", label: "Atención Clientes", protected: true },
+    { icon: "fa fa-th-large", to: "/siniestros", label: "Siniestros", protected: true },
+    { icon: "fa fa-th-large", to: "/reportes", label: "Reportes", protected: true },
+    { icon: "fa fa-th-large", to: "/aseguradoras", label: "Aseguradoras", protected: true },
+  ];
+
   return (
     <nav className="navbar-default navbar-static-side" role="navigation">
       <div className="sidebar-collapse">
@@ -15,37 +29,18 @@ const Sidebar = () => {
               BFY
             </div>
           </li>
-          <NavLink to="/">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Dashboard</span>
-          </NavLink>
-
-          <NavLink to="/clientes">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Clientes</span>
-          </NavLink>
-
-          <NavLink to="/polizas">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Polizas</span>
-          </NavLink>
-
-          <NavLink to="/pagos">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Pagos</span>
-          </NavLink>
-
-          <NavLink to="/atencion-clientes">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Atención Clientes</span>
-          </NavLink>
-
-          <NavLink to="/siniestros">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Siniestros</span>
-          </NavLink>
-
-          <NavLink to="/reportes">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Reportes</span>
-          </NavLink>
-
-          <NavLink to="/aseguradoras">
-            <i className="fa fa-th-large"></i> <span className="nav-label">Aseguradoras</span>
-          </NavLink>
+          
+          {
+            links
+              .filter(item => !item.protected || isAuthenticated)
+              .map( item => {
+                return (
+                  <NavLink key={item.label} to={item.to}>
+                    <i className={item.icon}></i> <span className="nav-label">{item.label}</span>
+                  </NavLink>
+                );
+              })
+          }
         </ul>
 
       </div>

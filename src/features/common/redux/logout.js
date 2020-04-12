@@ -21,7 +21,10 @@ export function reducer(state, action) {
     case COMMON_LOGOUT:
       return {
         ...state,
-        isAuthenticated: false
+        isAuthenticated: false,
+        auth: null,
+        getTokenPending: false,
+        getTokenError: null,
       };
 
     default:
