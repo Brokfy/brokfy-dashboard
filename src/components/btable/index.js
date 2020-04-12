@@ -10,6 +10,7 @@ import './styles.css';
 
 const BTable = (props) => {
   const [open, setOpen] = useState(false);
+  const [dataEdit, setDataEdit] = useState(null);
   let { columns, data, options } = props;
 
 
@@ -18,7 +19,7 @@ const BTable = (props) => {
 
     return (<div className="iconBar">
       {
-        selectedRows.data.length > 1 ? null :
+        !selectedRows.data || selectedRows.data.length > 1 ? null :
           <IconButton aria-label="edit">
             <EditIcon fontSize="medium" />
           </IconButton>
