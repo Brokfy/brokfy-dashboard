@@ -17,9 +17,12 @@ const BTable = (props) => {
     console.log({ selectedRows, displayData, setSelectedRows })
 
     return (<div className="iconBar">
-      <IconButton aria-label="edit">
-        <EditIcon fontSize="medium" />
-      </IconButton>
+      {
+        selectedRows.data.length > 1 ? null :
+          <IconButton aria-label="edit">
+            <EditIcon fontSize="medium" />
+          </IconButton>
+      }
 
       <IconButton aria-label="delete">
         <DeleteIcon fontSize="medium" />
@@ -33,8 +36,8 @@ const BTable = (props) => {
     ...options,
     filterType: "dropdown",
     responsive: "scroll",
-    selectableRows: "single",
-    selectableRowsHeader: false,
+    selectableRows: "multiple",
+    //selectableRowsHeader: false,
     customToolbarSelect,
   };
 
