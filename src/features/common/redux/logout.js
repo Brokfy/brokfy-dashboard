@@ -19,6 +19,8 @@ export function useLogout() {
 export function reducer(state, action) {
   switch (action.type) {
     case COMMON_LOGOUT:
+      sessionStorage.isAuthenticated = false;
+      sessionStorage.auth = null;
       return {
         ...state,
         isAuthenticated: false,
