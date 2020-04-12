@@ -31,16 +31,15 @@ const BModal = (props) => {
     const body = (
         <Slide direction="up" in={props.open} mountOnEnter unmountOnExit>
             <div style={getModalStyle()} className={classes.paper}>
-                {/* <h2 id="simple-modal-title">Text in a modal</h2> */}
-                <p id="simple-modal-description">
-                    <form className={classes.root} noValidate autoComplete="off">
-                        {!props.columns || props.columns.length <= 0 ?
-                            null : props.columns.map(col => <BInput key={`col_${col.name}`} {...col} />)}
-                        <hr />
-                        <Button color="primary">dale pa ve</Button>
-                    </form>
-                </p>
-                <BModal />
+                <h2 id="simple-modal-title">{!props.data ? "Nuevo registro" : "Editar registro"}</h2>
+                <p>Llene el siguiente formulario y presione el boton Continuar.</p>
+                <hr />
+                <form id="simple-modal-description" className={classes.root} noValidate autoComplete="off">
+                    {!props.columns || props.columns.length <= 0 ?
+                        null : props.columns.map(col => <BInput key={`col_${col.name}`} {...col} editValue={!props.data || props.data.length <= 0 ? null : props.data.filter(x => x.name === col.name)[0].value} />)}
+                    <hr />
+                    <Button color="primary">Continuar</Button>
+                </form>
             </div>
         </Slide>
     );

@@ -2,13 +2,13 @@ import React from 'react';
 import { TextField, FormControlLabel, Checkbox } from '@material-ui/core'
 import defaultValues from '../../common/defaultValues';
 
-const BInput = ({ name, label, type, required, defaultValue, options }) => {
+const BInput = ({ name, label, type, required, defaultValue, options, editValue }) => {
     switch (type) {
         case "string":
             return <TextField
                 id={name}
                 label={label}
-                defaultValue={!defaultValue ? defaultValues[type] : defaultValue}
+                defaultValue={editValue !== null ? editValue : !defaultValue ? defaultValues[type] : defaultValue}
             />;
         case "int":
         case "long":
@@ -16,21 +16,21 @@ const BInput = ({ name, label, type, required, defaultValue, options }) => {
                 id={name}
                 label={label}
                 type="number"
-                defaultValue={!defaultValue ? defaultValues[type] : defaultValue}
+                defaultValue={editValue !== null ? editValue : !defaultValue ? defaultValues[type] : defaultValue}
             />;
         case "date":
             return <TextField
                 id={name}
                 label={label}
                 type="date"
-                defaultValue={!defaultValue ? defaultValues[type] : defaultValue}
+                defaultValue={editValue !== null ? editValue : !defaultValue ? defaultValues[type] : defaultValue}
             />
         case "bool":
         case "byte":
             return <FormControlLabel
                 control={
                     <Checkbox
-                        checked={false}
+                        checked={editValue !== null ? editValue : false}
                         onChange={() => alert("aiuda")}
                         name={name}
                         color="primary"

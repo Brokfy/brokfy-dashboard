@@ -25,9 +25,10 @@ const Clientes = () => {
       }
     },
     {
-      name: "city",
-      label: "City",
-      type: "string",
+      name: "eta",
+      label: "ETA",
+      type: "date",
+      defaultValue: "2020-01-01",
       options: {
         filter: true,
         sort: true,
@@ -45,10 +46,10 @@ const Clientes = () => {
   ];
 
   const data = [
-    { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "1" },
-    { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "5" },
-    { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "66" },
-    { name: "James Houston", company: "Test Corp", city: "Dallas", state: "8888" },
+    { name: "Joe James", company: "Test Corp", eta: "2020-01-01", state: "1" },
+    { name: "John Walsh", company: "Test Corp", eta: "2020-01-02", state: "5" },
+    { name: "Bob Herm", company: "Test Corp", eta: "2020-01-05", state: "66" },
+    { name: "James Houston", company: "Test Corp", eta: "2020-01-24", state: "8888" },
   ];
 
   const options = {
