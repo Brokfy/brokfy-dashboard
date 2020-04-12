@@ -5,11 +5,16 @@ const Breadcrumbs = () => {
   const location = useLocation();
 
   var path = location.pathname.split("/").filter(item => item !== "");
+  var lastOpt = path.slice(-1).join("").replace("-", " ").split(" ").filter(item => item !== "").map(item => 
+    item
+      .replace(/^./, item[0].toUpperCase())
+      .replace("Atencion", "Atención")
+  ).join(" ");
 
   return (
     <div className="row wrapper border-bottom white-bg">
       <div className="breadcrumb-container">
-          <h2>Clientes</h2>
+          <h2>{ lastOpt !== "" ? lastOpt : "Dashboard" }</h2>
           <ol className="breadcrumb">
               <Link className={`breadcrumb-item ${path.length === 0 ? "active": ""}`} to="/">
                 Dashboard
