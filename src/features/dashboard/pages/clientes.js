@@ -43,13 +43,29 @@ const Clientes = () => {
         sort: true,
       }
     },
+    
+      {
+        name: "city",
+        label: "City",
+        type: "list",
+        data: [
+          {text: "Santiago", value: 1},
+          {text: "Caracas", value: 2},
+          {text: "Bogota", value: 3},
+          {text: "Trujillo", value: 4},
+        ],
+        options: {
+          filter: true,
+          sort: true,
+        }
+    },
   ];
 
   const data = [
-    { name: "Joe James", company: "Test Corp", eta: "2020-01-01", state: "1" },
-    { name: "John Walsh", company: "Test Corp", eta: "2020-01-02", state: "5" },
-    { name: "Bob Herm", company: "Test Corp", eta: "2020-01-05", state: "66" },
-    { name: "James Houston", company: "Test Corp", eta: "2020-01-24", state: "8888" },
+    { name: "Joe James", company: "Test Corp", eta: "2020-01-01", state: "1", city: 4 },
+    { name: "John Walsh", company: "Test Corp", eta: "2020-01-02", state: "5", city: 2 },
+    { name: "Bob Herm", company: "Test Corp", eta: "2020-01-05", state: "66", city: 3 },
+    { name: "James Houston", company: "Test Corp", eta: "2020-01-24", state: "8888", city: 1 },
   ];
 
   const options = {

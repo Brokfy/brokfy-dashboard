@@ -9,11 +9,21 @@ import BConfirm from '../../components/bconfirm';
 import './styles.css';
 
 const BTable = (props) => {
+  let { columns, data, options } = props;
+
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [dataEdit, setDataEdit] = useState(null);
   const [dataDelete, setDataDelete] = useState(null);
-  let { columns, data, options } = props;
+  /* const [tableData] = useState(!data || data.length <= 0 ? null :
+    data.map((row, irow) => {
+      return columns.filter(c => c.type === 'list').length <= 0 ? row :
+        columns.filter(c => c.type === 'list').map(c => {
+          row[c.name] = c.data.filter(v => v.value === row[c.name])[0].text;
+          console.log(row, c.data.filter(v => v.value === row[c.name]))
+          return (row);
+        });
+    })); */
 
   const clickEdit = (selectedRows, displayData, setSelectedRows) => {
     setDataEdit(!selectedRows.data || selectedRows.data.length <= 0 || displayData.length <= 0 ? null :
@@ -63,7 +73,7 @@ const BTable = (props) => {
   return (
     <div>
       <BModal open={modalOpen} setOpen={setModalOpen} columns={columns} data={dataEdit} />
-      <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete}  title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
+      <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete} title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
 
       <MUIDataTable
         title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
