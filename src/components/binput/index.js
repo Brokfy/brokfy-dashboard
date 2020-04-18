@@ -2,6 +2,8 @@ import React from 'react';
 import { TextField, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import defaultValues from '../../common/defaultValues';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 
 const BInput = ({ name, label, type, required, defaultValue, options, editValue, data }) => {
 
@@ -19,10 +21,12 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
     const [value, setValue] = React.useState('');
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        if( data ) {
+            setValue(data.filter( i => i.value === event.target.value )[0].text);
+        } else {
+            setValue(event.target.value);
+        }
     };
-
-    console.log(data)
 
     switch (type) {
         case "string":
@@ -60,20 +64,47 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 label={label}
             />
         case "list":
-            return <FormControl className={classes.formControl}>
+            return <FormControl className={classes.formControl} style={{ margin: '0'}}>
                 <InputLabel id="demo-simple-select-label">{label}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id={name}
-                    value={editValue !== null ? editValue : !defaultValue ? defaultValues[type] : defaultValue}
+                    value={
+                        editValue !== null ? 
+                            data.filter( i => i.text === ( value !== '' ? value : editValue ) )[0].value : 
+                            !defaultValue ? 
+                                defaultValues[type] : 
+                                defaultValue
+                    }
                     onChange={handleChange}
                 >
-                    {data.map(x => <MenuItem key={`mi${name}`} value={x.value}>{x.text}</MenuItem>)}
+                    {data.map((x,i) => <MenuItem key={`mi_${i}_${name}`} value={x.value}>{x.text}</MenuItem>)}
                 </Select>
             </FormControl>
         default:
             break;
     }
+}
+
+BInput.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'list']).isRequired,
+    required: PropTypes.bool,
+    defaultValue: PropTypes.string,
+    options: PropTypes.shape({
+        filter: PropTypes.bool,
+        sort: PropTypes.bool,
+    }),
+    data: requiredIf(
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                text: PropTypes.string.isRequired, 
+                value: PropTypes.number.isRequired
+            })
+        ),
+        props => props.type === 'list'
+    ),
 }
 
 export default BInput;

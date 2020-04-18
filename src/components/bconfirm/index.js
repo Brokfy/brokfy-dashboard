@@ -5,6 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PropTypes from 'prop-types';
 
 const BConfirm = (props) => {
 
@@ -31,6 +32,14 @@ const BConfirm = (props) => {
             </DialogActions>
         </Dialog>
     );
+}
+
+BConfirm.propTypes = {
+    open: PropTypes.bool.isRequired,
+    setOpen: PropTypes.func.isRequired,
+    confirmAction: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired
 }
 
 export default BConfirm;

@@ -6,24 +6,38 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import BModal from '../../components/bmodal';
 import BConfirm from '../../components/bconfirm';
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 import './styles.css';
 
 const BTable = (props) => {
   let { columns, data, options } = props;
+  const columnList = columns.filter(item => item.type === 'list').map(item => {
+    return { name: item.name, data: item.data };
+  });
+  const columnListName = columnList.map(item => item.name);
+  
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [dataEdit, setDataEdit] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [dataDelete, setDataDelete] = useState(null);
-  /* const [tableData] = useState(!data || data.length <= 0 ? null :
-    data.map((row, irow) => {
-      return columns.filter(c => c.type === 'list').length <= 0 ? row :
-        columns.filter(c => c.type === 'list').map(c => {
-          row[c.name] = c.data.filter(v => v.value === row[c.name])[0].text;
-          console.log(row, c.data.filter(v => v.value === row[c.name]))
-          return (row);
-        });
-    })); */
+  const [tableData] = useState(data.map((row) => {
+    return Object.keys(row).map(key => {
+      let descrip = columnList.filter( item => item.name === key ).map(item => item.data.filter( d => d.value === row[key]).map(i => i.text))[0];
+      return columnListName.includes(key) ? descrip[0] : row[key];
+    });
+  }));
+  // const [tableData] = useState(data.length <= 0 ? null :
+  //   data.map((row, irow) => {
+  //     return columns.filter(c => c.type === 'list').length <= 0 ? row :
+  //       columns.filter(c => c.type === 'list').map(c => {
+  //         row[c.name] = c.data.filter(v => v.value === row[c.name])[0].text;
+  //         console.log(row, c.data.filter(v => v.value === row[c.name]))
+  //         return (row);
+  //       });
+  //   }));
 
   const clickEdit = (selectedRows, displayData, setSelectedRows) => {
     setDataEdit(!selectedRows.data || selectedRows.data.length <= 0 || displayData.length <= 0 ? null :
@@ -77,12 +91,45 @@ const BTable = (props) => {
 
       <MUIDataTable
         title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
-        data={data}
+        data={tableData}
         columns={columns}
         options={options}
       />
     </div>
   );
+}
+
+BTable.propTypes = {
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'list']).isRequired,
+      required: PropTypes.bool,
+      defaultValue: PropTypes.string,
+      options: PropTypes.shape({
+        filter: PropTypes.bool,
+        sort: PropTypes.bool,
+      }),
+      data: requiredIf(
+        PropTypes.arrayOf(
+          PropTypes.shape({
+            text: PropTypes.string.isRequired, 
+            value: PropTypes.number.isRequired
+          })
+        ),
+        props => props.type === 'list'
+      ),
+    })
+  ),
+
+  data: PropTypes.arrayOf(
+    PropTypes.object.isRequired
+  ),
+
+  options: PropTypes.shape({
+    module: PropTypes.string.isRequired
+  })
 }
 
 export default BTable;

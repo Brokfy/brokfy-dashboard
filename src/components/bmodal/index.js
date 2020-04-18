@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Modal, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import BInput from '../binput'
+import PropTypes from 'prop-types';
+import requiredIf from 'react-required-if';
 
 const BModal = (props) => {
 
@@ -20,10 +22,10 @@ const BModal = (props) => {
     const useStyles = makeStyles((theme) => ({
         paper: {
             position: 'absolute',
-            width: theme.spacing.unit * 120,
+            width: theme.spacing(120),
             backgroundColor: theme.palette.background.paper,
             boxShadow: theme.shadows[5],
-            padding: theme.spacing.unit * 4,
+            padding: theme.spacing(4),
         },
     }));
 
@@ -36,7 +38,7 @@ const BModal = (props) => {
                 <hr />
                 <form id="simple-modal-description" className={classes.root} noValidate autoComplete="off">
                     {!props.columns || props.columns.length <= 0 ?
-                        null : props.columns.map(col => <BInput key={`col_${col.name}`} {...col} editValue={!props.data || props.data.length <= 0 ? null : props.data.filter(x => x.name === col.name)[0].value} />)}
+                        null : props.columns.map((col, index) => <BInput key={`col_${index}_${col.name}`} {...col} editValue={!props.data || props.data.length <= 0 ? null : props.data.filter(x => x.name === col.name)[0].value} />)}
                     <hr />
                     <Button color="primary">Continuar</Button>
                 </form>
@@ -54,6 +56,37 @@ const BModal = (props) => {
             {body}
         </Modal>
     )
+}
+
+BModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    setOpen: PropTypes.func.isRequired,
+    columns: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+            type: PropTypes.oneOf(['string', 'date', 'int', 'list']).isRequired,
+            required: PropTypes.bool,
+            defaultValue: PropTypes.string,
+            options: PropTypes.shape({
+                filter: PropTypes.bool,
+                sort: PropTypes.bool,
+            }),
+            data: requiredIf(
+                PropTypes.arrayOf(
+                    PropTypes.shape({
+                        text: PropTypes.string.isRequired, 
+                        value: PropTypes.number.isRequired
+                    })
+                ),
+                props => props.type === 'list'
+            ),
+        })
+    ),
+
+    data: PropTypes.arrayOf(
+        PropTypes.object.isRequired
+    ),
 }
 
 export default BModal;
