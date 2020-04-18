@@ -90,8 +90,8 @@ export function reducer(state, action) {
   switch (action.type) {
     case COMMON_GET_TOKEN_BEGIN:
       // Just after a request is sent
-      sessionStorage.isAuthenticated = false;
-      sessionStorage.auth = null;
+      localStorage.setItem("isAuthenticated", false);
+      localStorage.setItem("auth", null);
       return {
         ...state,
         isAuthenticated: false,
@@ -101,8 +101,8 @@ export function reducer(state, action) {
 
     case COMMON_GET_TOKEN_SUCCESS:
       // The request is success
-      sessionStorage.isAuthenticated = true;
-      sessionStorage.auth = JSON.stringify(action.data.data);
+      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("auth", JSON.stringify(action.data.data));
       return {
         ...state,
         isAuthenticated: true,
@@ -113,8 +113,8 @@ export function reducer(state, action) {
 
     case COMMON_GET_TOKEN_FAILURE:
       // The request is failed
-      sessionStorage.isAuthenticated = false;
-      sessionStorage.auth = null;
+      localStorage.setItem("isAuthenticated", false);
+      localStorage.setItem("auth", null);
       return {
         ...state,
         isAuthenticated: false,
@@ -124,8 +124,8 @@ export function reducer(state, action) {
 
     case COMMON_GET_TOKEN_DISMISS_ERROR:
       // Dismiss the request failure error
-      sessionStorage.isAuthenticated = false;
-      sessionStorage.auth = null;
+      localStorage.setItem("isAuthenticated", false);
+      localStorage.setItem("auth", null);
       return {
         ...state,
         isAuthenticated: false,
