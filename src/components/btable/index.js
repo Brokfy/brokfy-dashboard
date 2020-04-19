@@ -90,7 +90,7 @@ const BTable = (props) => {
       <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete} title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
 
       <MUIDataTable
-        title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> {"  "} Agregar</Button>}
+        title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> &nbsp; Agregar</Button>}
         data={tableData}
         columns={columns}
         options={options}

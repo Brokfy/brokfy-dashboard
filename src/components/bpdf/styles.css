@@ -1,0 +1,38 @@
+.my-pdf {
+    margin-left: 0 !important;
+}
+.pdf-container {
+    position: relative;
+    width: 600px;
+    height: 784px;
+    background: #d1d1d1;
+    padding: 1em 1em !important;
+    overflow:'scroll';
+}
+.pdf-controls {
+    position: absolute;
+    width: 150px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    bottom: 0px;
+}
+.pdf-controls-zoom {
+    position: absolute;
+    right: 20px;
+    bottom: 0px;
+}
+.pdf-loading {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+}
+.pdf-pages-info {
+    background: #e4e4e4;
+    padding: 0.4em;
+    border: 1px solid #c0c0c0;
+    border-radius: 12px;
+}
