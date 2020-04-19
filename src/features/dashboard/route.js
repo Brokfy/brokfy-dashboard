@@ -21,6 +21,7 @@ export default {
     { path: '/clientes', component: Clientes },
     { path: '/pagos', component: Pagos },
     { path: '/polizas', component: Polizas },
+    { path: '/polizas/:tipo', component: Polizas },
     { path: '/reportes', component: Reportes },
     { path: '/siniestros', component: Siniestros },
   ],
