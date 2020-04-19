@@ -22,9 +22,10 @@ const Breadcrumbs = () => {
                       .replace(/^./, item[0].toUpperCase())
                       .replace("Atencion", "Atención")
                   ).join(" ");
+                  var to = path.slice(0, index + 1).join("/");
 
                   return (
-                    <Link key={item} className={`breadcrumb-item ${activo}`} to={`/${item}`}>
+                    <Link key={item} className={`breadcrumb-item ${activo}`} to={`/${to}`}>
                       {opcion}
                     </Link>
                   );
