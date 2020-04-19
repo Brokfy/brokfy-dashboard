@@ -9,6 +9,7 @@ const Sidebar = () => {
     { icon: "fa fa-th-large", to: "/", label: "Dashboard", protected: false, open: false, active: false },
     { icon: "fa fa-th-large", to: "/clientes", label: "Clientes", protected: true, open: false, active: false },
     { icon: "fa fa-th-large", to: "/polizas", label: "Polizas", protected: true, childrenRoutes: [
+      { to: "/polizas/carta-nombramiento", label: "Carta Nombramiento" },
       { to: "/polizas/autos", label: "Autos" },
       { to: "/polizas/motos", label: "Motos" }
     ] },
