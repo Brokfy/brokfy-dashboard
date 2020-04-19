@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PDFReader } from 'reactjs-pdf-reader';
 import BPDFControls from './bpdfcontrols';
-import BPDFLoading from './bpdfloading';
+import BLoading from '../bloading';
 import './styles.css';
 
 const BPDF = ({url, onDocumentComplete}) => {
@@ -22,7 +22,7 @@ const BPDF = ({url, onDocumentComplete}) => {
   return (
     <div>
       <div className="pdf-container">
-        { loading ? <BPDFLoading /> : null }
+        <BLoading display={loading} /> 
         {/* <div style={{overflow:'auto',height:720}}> */}
           <PDFReader 
             url={url} 

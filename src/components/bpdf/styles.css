@@ -22,14 +22,6 @@
     right: 20px;
     bottom: 0px;
 }
-.pdf-loading {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    margin: auto;
-}
 .pdf-pages-info {
     background: #e4e4e4;
     padding: 0.4em;
