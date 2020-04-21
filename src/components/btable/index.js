@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { Button } from '@material-ui/core';
-import { IconButton } from '@material-ui/core'
+import { IconButton, Avatar } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import BModal from '../../components/bmodal';
@@ -12,23 +12,15 @@ import './styles.css';
 
 const BTable = (props) => {
   let { columns, data, options } = props;
-  const columnList = columns.filter(item => item.type === 'list').map(item => {
-    return { name: item.name, data: item.data };
-  });
-  const columnListName = columnList.map(item => item.name);
-  
+
+  console.log(options)
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [dataEdit, setDataEdit] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [dataDelete, setDataDelete] = useState(null);
-  const [tableData] = useState(data.map((row) => {
-    return Object.keys(row).map(key => {
-      let descrip = columnList.filter( item => item.name === key ).map(item => item.data.filter( d => d.value === row[key]).map(i => i.text))[0];
-      return columnListName.includes(key) ? descrip[0] : row[key];
-    });
-  }));
+  const [tableData, setTableData] = useState([]);
   // const [tableData] = useState(data.length <= 0 ? null :
   //   data.map((row, irow) => {
   //     return columns.filter(c => c.type === 'list').length <= 0 ? row :
@@ -38,6 +30,21 @@ const BTable = (props) => {
   //         return (row);
   //       });
   //   }));
+
+  useEffect(() => {
+    const columnList = columns.filter(item => item.type === 'list').map(item => {
+      return { name: item.name, data: item.data };
+    });
+    const columnListName = columnList.map(item => item.name);
+
+    setTableData(data.map((row) => {
+      return Object.keys(row).map(key => {
+        let descrip = columnList.filter(item => item.name === key).map(item => item.data.filter(d => d.value === row[key]).map(i => i.text))[0];
+        return columnListName.includes(key) ? descrip[0] : row[key];
+      });
+    }));
+  }
+    , [data, columns])
 
   const clickEdit = (selectedRows, displayData, setSelectedRows) => {
     setDataEdit(!selectedRows.data || selectedRows.data.length <= 0 || displayData.length <= 0 ? null :
@@ -59,14 +66,30 @@ const BTable = (props) => {
   const customToolbarSelect = (selectedRows, displayData, setSelectedRows) => {
     return (<div className="iconBar">
       {
-        !selectedRows.data || selectedRows.data.length > 1 ? null :
+        !selectedRows.data || selectedRows.data.length > 1 || options.buttons.hideEdit ? null :
           <IconButton onClick={() => clickEdit(selectedRows, displayData, setSelectedRows)} aria-label="edit">
             <EditIcon />
           </IconButton>
       }
-      <IconButton onClick={() => clickDelete(selectedRows, displayData, setSelectedRows)} aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
+      {!options.buttons.hideDelete ?
+        <IconButton onClick={() => clickDelete(selectedRows, displayData, setSelectedRows)} aria-label="delete">
+          <DeleteIcon />
+        </IconButton> : null}
+
+      {
+        options.buttons.customButtons.length <= 0 ? null :
+          options.buttons.customButtons.map(but => {
+
+            if (!but.multiple && selectedRows.data.length > 1)
+              return null;
+
+            return <IconButton key={`icon${but.title}`} onClick={but.action} aria-label={but.title}>
+              {but.icon}
+            </IconButton>
+          })
+      }
+
+
     </div>)
   }
 
@@ -88,9 +111,9 @@ const BTable = (props) => {
     <div>
       <BModal open={modalOpen} setOpen={setModalOpen} columns={columns} data={dataEdit} />
       <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete} title="Desea continuar?" body="Esta apunto de eliminar varios registros, esta seguro?" />
-
+      
       <MUIDataTable
-        title={<Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> &nbsp; Agregar</Button>}
+        title={!options.buttons.hideCreate ? <Button onClick={() => newRecord()} variant="contained"><i className="fa fa-plus"></i> &nbsp; Agregar</Button> : null}
         data={tableData}
         columns={columns}
         options={options}
@@ -114,7 +137,7 @@ BTable.propTypes = {
       data: requiredIf(
         PropTypes.arrayOf(
           PropTypes.shape({
-            text: PropTypes.string.isRequired, 
+            text: PropTypes.string.isRequired,
             value: PropTypes.number.isRequired
           })
         ),

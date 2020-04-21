@@ -69,7 +69,13 @@ const Clientes = () => {
   ];
 
   const options = {
-    module: "usuario"
+    module: "clientes",
+    buttons: {
+      hideCreate: false,
+      hideEdit: false,
+      hideDelete: false,
+      customButtons: []
+    }
   };
 
   return (

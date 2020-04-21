@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BTable from '../../../components/btable';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 const CartaNombramiento = () => {
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       name: "username",
       label: "Username",
@@ -18,7 +20,7 @@ const CartaNombramiento = () => {
     {
       name: "tipo",
       label: "Tipo",
-      type: "list",
+      type: "int",
       required: true,
       defaultValue: "",
       options: {
@@ -85,28 +87,64 @@ const CartaNombramiento = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    postData();
-  }, [columns, data]);
 
-  async function postData(url = 'https://localhost:44341/api/CartaNombramiento') {
-    const response = await fetch(url, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+
+    fetch('https://localhost:44341/api/CartaNombramiento', {
+      method: 'GET',
       headers: {
         'Authorization': 'Bearer ffx8gpzL9e0:APA91bHCdUC9lxBJbYNN_V6BFTGto7ieP7JyGHWlFpbaMdwRUI7VPWdPwmgq6ZKzJaQcpx1YVcYszypup2-MUhGmK7VBmnT2Z4GBgTZISgYCEuaOffEuEtte8CxlCw1euugc4zYRKCmS',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
+      //body: JSON.stringify(data) 
     })
       .then(response => response.json())
-      .then(json => console.log);
+      .then(response => {
+
+        setData(response);
+      });
+
+  }, []);
+
+  const updateSelected = (selection, option) => {
+    // if(option === 1) // aprobar
+    // asdadas
+    // else if(option === 0) // rechazar
+    // asdadasd
+
+    // crearPoliza(selection.noPoliza)
+    console.log({sel: selection.target, option})
   }
 
+
   const options = {
-    module: "usuario"
+    module: "carta-nombramiento",
+    buttons: {
+      hideCreate: false,
+      hideEdit: true,
+      hideDelete: false,
+      customButtons: [
+        {
+          title: "Aprobar",
+          multiple: false,
+          icon: <ThumbUpIcon />,
+          action: (e) => updateSelected(e, 1)
+        },
+        {
+          title: "Rechazar",
+          multiple: true,
+          icon: <ThumbDownIcon />,
+          action: (e) => updateSelected(e, 0)
+        }
+      ]
+    }
+
   };
+
+
 
   return (
     <BTable columns={columns} data={data} options={options} />
+    //<div>hola</div>
   );
 }
 
