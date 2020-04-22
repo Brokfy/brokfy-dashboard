@@ -83,7 +83,7 @@ const BTable = (props) => {
             if (!but.multiple && selectedRows.data.length > 1)
               return null;
 
-            return <IconButton key={`icon${but.title}`} onClick={but.action} aria-label={but.title}>
+            return <IconButton key={`icon${but.title}`} onClick={(e) => {but.action(selectedRows, displayData, setSelectedRows);} } aria-label={but.title}>
               {but.icon}
             </IconButton>
           })

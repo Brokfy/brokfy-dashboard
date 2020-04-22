@@ -105,14 +105,14 @@ const CartaNombramiento = () => {
 
   }, []);
 
-  const updateSelected = (selection, option) => {
+  const updateSelected = (selectedRows, displayData, setSelectedRows, option) => {
     // if(option === 1) // aprobar
     // asdadas
     // else if(option === 0) // rechazar
     // asdadasd
 
     // crearPoliza(selection.noPoliza)
-    console.log({sel: selection.target, option})
+    console.log({selectedRows, displayData, setSelectedRows, option})
   }
 
 
@@ -127,13 +127,13 @@ const CartaNombramiento = () => {
           title: "Aprobar",
           multiple: false,
           icon: <ThumbUpIcon />,
-          action: (e) => updateSelected(e, 1)
+          action: (selectedRows, displayData, setSelectedRows) => updateSelected(selectedRows, displayData, setSelectedRows, 1)
         },
         {
           title: "Rechazar",
           multiple: true,
           icon: <ThumbDownIcon />,
-          action: (e) => updateSelected(e, 0)
+          action: (selectedRows, displayData, setSelectedRows) => updateSelected(selectedRows, displayData, setSelectedRows, 0)
         }
       ]
     }
