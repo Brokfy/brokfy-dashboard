@@ -76,6 +76,10 @@ const initialState = {
   fetchPolizasError: null,
   insertPagosPending: false,
   insertPagosError: null,
+  fetchListadoUsuarioPending: false,
+  fetchListadoUsuarioError: null,
+  fetchDetalleUsuarioPending: false,
+  fetchDetalleUsuarioError: null,
 };
 
 export default initialState;
