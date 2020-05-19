@@ -3,11 +3,18 @@
 }
 .pdf-container {
     position: relative;
-    width: 600px;
-    height: 784px;
+    width: calc(100%);
+    /* height: calc(60%); */
+    height: 830px;
     background: #d1d1d1;
     padding: 1em 1em !important;
     overflow:'scroll';
+    margin-top: 2px;
+    z-index: 0;
+}
+.pdf-container-scroll {
+    overflow: 'auto';
+    /* height: calc(60%); */
 }
 .pdf-controls {
     position: absolute;

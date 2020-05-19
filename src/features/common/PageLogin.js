@@ -103,13 +103,13 @@ const PageLogin = (props) => {
       </div>
       <div className="body">
         <form autoComplete="off" onSubmit={autenticate}>
-          <FormControl>
+          <FormControl className="mb-20">
             <InputLabel htmlFor="username">Usuario</InputLabel>
             <Input id="username" name="username" type="text" value={username} onChange={actualizarFormulario} error={error.username.error} />
             { error.username.error ? <FormHelperText className="error-field-required">{error.username.message}</FormHelperText> : null }
           </FormControl>
 
-          <FormControl>
+          <FormControl className="mb-20">
             <InputLabel htmlFor="password">Contraseña</InputLabel>
             <Input id="password" name="password" type="password" value={password} onChange={actualizarFormulario} error={error.password.error} />
             { error.password.error ? <FormHelperText className="error-field-required">{error.password.message}</FormHelperText> : null }

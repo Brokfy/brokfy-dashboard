@@ -60,6 +60,8 @@ export function dismissGetTokenError() {
 }
 
 export function useGetToken() {
+  const auth = useSelector(state => state.common.auth);
+
   const dispatch = useDispatch();
 
   const { getTokenPending, getTokenError } = useSelector(
@@ -79,6 +81,7 @@ export function useGetToken() {
   }, [dispatch]);
 
   return {
+    auth: auth,
     getToken: boundAction,
     getTokenPending,
     getTokenError,
