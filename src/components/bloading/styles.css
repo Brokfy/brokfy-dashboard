@@ -1,0 +1,24 @@
+.bloading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: -webkit-translate(-50%, -50%);
+    transform: -moz-translate(-50%, -50%);
+    transform: -ms-translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    padding-top: calc(50vh - 220px);
+
+}
+
+.bloading-mensaje {
+    position: relative;
+    width: 280px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #2e4f85;
+}

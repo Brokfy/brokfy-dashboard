@@ -1,21 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavLink from './navlink';
 import logo from '../../images/logo.png';
 import { useIsAuthenticated } from '../common/redux/hooks';
+import { useTipoPoliza } from './hooks';
+import { DashboardOutlined, AccountCircleOutlined, MobileFriendly, PolicyOutlined, AccountBalanceOutlined, VerifiedUserOutlined, MonetizationOnOutlined, RoomServiceOutlined, ReportProblemOutlined, InsertChartOutlined } from '@material-ui/icons';
 
 const Sidebar = () => {
   const { isAuthenticated } = useIsAuthenticated();
+  const [menu, setMenu] = useState([]);
+  const [tipoPoliza, TipoPolizaView, setInitialValue, options] = useTipoPoliza();
 
-  var links = [
-    { icon: "fa fa-th-large", to: "/", label: "Dashboard", protected: false },
-    { icon: "fa fa-th-large", to: "/clientes", label: "Clientes", protected: true },
-    { icon: "fa fa-th-large", to: "/polizas", label: "Polizas", protected: true },
-    { icon: "fa fa-th-large", to: "/pagos", label: "Pagos", protected: true },
-    { icon: "fa fa-th-large", to: "/atencion-clientes", label: "Atención Clientes", protected: true },
-    { icon: "fa fa-th-large", to: "/siniestros", label: "Siniestros", protected: true },
-    { icon: "fa fa-th-large", to: "/reportes", label: "Reportes", protected: true },
-    { icon: "fa fa-th-large", to: "/aseguradoras", label: "Aseguradoras", protected: true },
-  ];
+  useEffect(() => {
+    setMenu([
+      { icon: DashboardOutlined, to: "/", label: "Dashboard", protected: false, open: false, active: false },
+      { icon: AccountCircleOutlined, to: "/clientes", label: "Clientes", protected: true, open: false, active: false },
+      { icon: MobileFriendly, to: "/polizas/todas/aprobaciones", label: "Aprobaciones", protected: true, childrenRoutes:
+        [
+          { to: "/polizas/todas/aprobaciones", label: "Aprobar" },
+          { to: "/polizas/todas/confirmaciones", label: "Confirmar" },
+        ]
+      },
+      {
+        icon: VerifiedUserOutlined, to: "/polizas/brokfy", label: "Polizas Brokfy", protected: true, childrenRoutes: [
+          { to: "/polizas/brokfy/carta-nombramiento", label: "Carta Nombramiento" },
+          ...options.filter(item => item.tipo == "Auto").map(item => { return { to: `/polizas/brokfy/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+        ]
+      },
+      {
+        icon: PolicyOutlined, to: "/polizas/otras", label: "Polizas Otras", protected: true, childrenRoutes: [
+          ...options.filter(item => item.tipo == "Auto").map(item => { return { to: `/polizas/otras/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+        ]
+      },
+
+      {
+        icon: MonetizationOnOutlined, to: "/pagos", label: "Pagos", protected: true, childrenRoutes:
+          [
+            { to: "/pagos/registrar", label: "Registrar Pago" },
+          ]
+      },
+
+      { icon: RoomServiceOutlined, to: "/atencion-clientes", label: "Atención Clientes", protected: true, open: false, active: false },
+      { icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, open: false, active: false },
+      { icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, open: false, active: false },
+      {
+        icon: AccountBalanceOutlined, to: "/aseguradoras", label: "Aseguradoras", protected: true, childrenRoutes: [
+          { to: "/aseguradoras", label: "Aseguradoras" },
+          { to: "/aseguradoras/productos", label: "Productos" },
+          { to: "/aseguradoras/comisiones", label: "Comisiones" },
+        ]
+      },
+    ]);
+  }, [options]);
 
   return (
     <nav className="navbar-default navbar-static-side" role="navigation">
@@ -23,20 +58,21 @@ const Sidebar = () => {
         <ul className="nav metismenu" id="side-menu">
           <li className="nav-header">
             <div className="dropdown profile-element">
-              <img src={logo} className="img-fluid" alt="Brokfy"/>
+              <img src={logo} className="img-fluid" alt="Brokfy" />
             </div>
             <div className="logo-element">
               BFY
             </div>
           </li>
-          
+
           {
-            links
+            menu
               .filter(item => !item.protected || isAuthenticated)
-              .map( item => {
+              .map(item => {
+                const Icon = item.icon;
                 return (
-                  <NavLink key={item.label} to={item.to}>
-                    <i className={item.icon}></i> <span className="nav-label">{item.label}</span>
+                  <NavLink key={item.label} menu={menu} setMenu={setMenu} data={item}>
+                    <Icon /> <span className="nav-label">{item.label}</span>
                   </NavLink>
                 );
               })
