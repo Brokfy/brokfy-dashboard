@@ -102,6 +102,7 @@ export function reducer(state, action) {
         polizasPorConfirmar: action.data.data.map(item => {
           return {
             noPoliza: item.noPoliza,
+            tipoPoliza: parseInt(item.tipoPoliza),
             formaPago: item.formaPago,
             proximoPago: format(new Date(item.proximoPago), 'dd/MM/yyyy'),
             fechaInicio: format(new Date(item.fechaInicio), 'dd/MM/yyyy'),

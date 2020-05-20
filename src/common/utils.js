@@ -234,6 +234,41 @@ const listFormasPago =
     { text: "Mensual", value: "Mensual" }
   ];
 
+const generarCuotas = ( periodicidad, fechaInicio, fechaFin ) => {
+  var listDate = [];
+  var dateMove = new Date(fechaInicio);
+  var strDate = fechaInicio;
+  
+  while (strDate < fechaFin){
+    var strDate = dateMove.toISOString().slice(0,10);
+    listDate.push(strDate); 
+
+    switch( periodicidad ) {
+      case "Anual":
+        dateMove.setFullYear(dateMove.getFullYear()+1);
+        break;
+      case "Mensual":
+        dateMove.setMonth(dateMove.getMonth()+1);
+        break;
+      case "Semestral":
+        dateMove.setMonth(dateMove.getMonth()+6);
+        break;
+      case "Trimestral":
+        dateMove.setMonth(dateMove.getMonth()+3);
+        break;
+      default: break;
+    }
+  };
+
+  switch( periodicidad ) {
+    case "Anual": return listDate.slice(0,1);
+    case "Mensual": return listDate.slice(0,12);
+    case "Semestral": return listDate.slice(0,2);
+    case "Trimestral": return listDate.slice(0,4);
+    default: break;
+  };
+}
+
 export {
   inputParsers,
   getFormData,
@@ -246,5 +281,6 @@ export {
   formatMoney,
   listEstadoPoliza,
   listFormasPago,
-  nowrapColumnAlignRight
+  nowrapColumnAlignRight,
+  generarCuotas
 }

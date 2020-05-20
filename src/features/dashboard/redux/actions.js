@@ -44,3 +44,7 @@ export {
   fetchPolizasPorConfirmar,
   dismissFetchPolizasPorConfirmarError,
 } from './fetchPolizasPorConfirmar';
+export {
+  fetchPolizaPorConfirmar,
+  dismissFetchPolizaPorConfirmarError,
+} from './fetchPolizaPorConfirmar';

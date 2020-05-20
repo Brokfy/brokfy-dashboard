@@ -29,3 +29,4 @@ export { useFetchPolizas } from './fetchPolizas';
 export { useChangePoliza } from './changePoliza';
 export { useInsertPagos } from './insertPagos';
 export { useFetchPolizasPorConfirmar } from './fetchPolizasPorConfirmar';
+export { useFetchPolizaPorConfirmar } from './fetchPolizaPorConfirmar';

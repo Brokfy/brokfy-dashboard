@@ -1,54 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { TextField, Button } from '@material-ui/core'
 import { useLocation, useParams } from 'react-router-dom';
 import { PageNotFound } from '../../../common';
 import { useGetToken } from '../../../common/redux/hooks';
-import BPDF from '../../../../components/bpdf';
-import axios from 'axios';
-import ConfirmarFormulario from './confirmar_formulario';
-import BLoading from '../../../../components/bloading';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import NumberFormat from 'react-number-format';
-import format from 'date-fns/format';
-import { getDateFormated } from '../../../../common/utils';
-import { Info } from '@material-ui/icons'
+import { useFetchDropdownAseguradora } from '../../redux/fetchDropdownAseguradora';
+import { useFetchPolizaPorConfirmar } from '../../redux/fetchPolizaPorConfirmar';
+import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza';
+import format from 'date-fns/format'
+import BLoading from '../../../../components/bloading';
+import { TextField, Button } from '@material-ui/core';
+import { getDateFormated, generarCuotas } from '../../../../common/utils';
+import { Info } from '@material-ui/icons';
 
-/*
-  e.g. URL: /polizas/carta-nombramiento/aprobar?poliza=0334210196
-*/
 const Confirmar = (props) => {
     const { tipo, propia } = useParams();
 
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
-    const noPoliza = "TEST-124";
+    const noPoliza = query.get("poliza");
+
+    /*
+        Se debe llevar a la página de NOT FOUND si lo que se va a aprobar
+        no es una carta de nombramiento o si no se suministra un número
+        de poliza
+    */
+    if (noPoliza == null || noPoliza.trim() === "" || propia !== 'todas' || tipo !== 'confirmaciones') {
+        return <PageNotFound />
+    }
 
     return <ConfirmarView noPoliza={noPoliza} />;
 }
 
 const ConfirmarView = (props) => {
-
-    const setInputDate = () => {
-        var date = new Date();
-
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-
-        var today = year + "-" + month + "-" + day;
-
-        return today;
-    }
+    const [loading, setLoading] = useState(true);
+    const [datosCargados, setDatosCargados] = useState({
+      aseguradoras: false,
+      tipoPolizas: false,
+      polizaPorConfirmar: false,
+    });
+    const { auth } = useGetToken();
+    const { dropdownAseguradoras: listadoAseguradora, fetchDropdownAseguradora, fetchDropdownAseguradoraPending } = useFetchDropdownAseguradora();
+    const { dropdownTipoPoliza: listadoTipoPoliza, fetchDropdownTipoPoliza, fetchDropdownTipoPolizaPending } = useFetchDropdownTipoPoliza();
+    const { polizaPorConfirmar, fetchPolizaPorConfirmar, fetchPolizaPorConfirmarPending } = useFetchPolizaPorConfirmar();
+    const [ aseguradora, setAseguradora ] = useState(null);
+    const [ tipoPoliza, setTipoPoliza ] = useState(null);
+    const [ comision, setComision ] = useState(null);
+    const [ showDeglosePagos, setShowDeglosePagos ] = useState(false);
+    const [ fechaConfirmacion, setFechaConfirmacion ] = useState(getDateFormated());
+    const [ cuotasData, setCuotasData ] = useState([]);
+    const [ totalRecaudable, setTotalRecaudable ] = useState(0);
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -68,6 +74,92 @@ const ConfirmarView = (props) => {
     }));
 
     const classes = useStyles();
+
+    useEffect(() => {
+        if ( auth.tokenFirebase === "" ) return;
+        if( fetchDropdownAseguradoraPending || fetchPolizaPorConfirmarPending || fetchDropdownTipoPolizaPending ) return;
+    
+        if ( !datosCargados.aseguradoras ) {
+          fetchDropdownAseguradora(auth.tokenFirebase);
+          setDatosCargados({
+            ...datosCargados,
+            aseguradoras: true,
+          });
+          return;
+        }
+
+        if ( !datosCargados.polizaPorConfirmar ) {
+            fetchPolizaPorConfirmar({ token: auth.tokenFirebase, no_poliza: props.noPoliza });
+            setDatosCargados({
+              ...datosCargados,
+              polizaPorConfirmar: true,
+            });
+            return;
+        }
+
+        if ( !datosCargados.tipoPolizas ) {
+            fetchDropdownTipoPoliza(auth.tokenFirebase);
+            setDatosCargados({
+              ...datosCargados,
+              tipoPolizas: true,
+            });
+            return;
+        }
+
+        if( listadoAseguradora && listadoAseguradora.length > 0 && aseguradora === null && polizaPorConfirmar ) {
+            const aseguradoraData = listadoAseguradora.filter(item => item.idAseguradora === polizaPorConfirmar.idAseguradoras)[0];
+            if( aseguradoraData ) {
+                setAseguradora(aseguradoraData.nombre);
+            }
+            return;
+        }
+
+        if( listadoTipoPoliza && listadoTipoPoliza.length > 0 && tipoPoliza === null && polizaPorConfirmar ) {
+            const tipoPolizaData = listadoTipoPoliza.filter(item => item.id === polizaPorConfirmar.tipoPoliza)[0];
+            if( tipoPolizaData ) {
+                setTipoPoliza(tipoPolizaData.tipo);
+            }
+            return;
+        }
+
+        // TODO: Hacer fetch para consultar la comision
+        setTimeout(() => {
+            setComision(10);
+        }, 1000);
+
+        setLoading(false);
+      }, [
+          auth.tokenFirebase, fetchDropdownAseguradoraPending, fetchDropdownAseguradora, datosCargados, 
+          aseguradora, listadoAseguradora, fetchPolizaPorConfirmarPending, fetchPolizaPorConfirmar, polizaPorConfirmar,
+          props.noPoliza, fetchDropdownTipoPolizaPending, fetchDropdownTipoPoliza, listadoTipoPoliza, tipoPoliza
+        ]);
+
+    useEffect(() => {
+        if( showDeglosePagos ) {
+            const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
+                return {
+                    cuota: index + 1,
+                    fecha,
+                    valor: parseFloat(polizaPorConfirmar.costoRecibosSubsecuentes) * parseFloat(comision)/100,
+                    recaudable: format(new Date(fecha), 'yyyy-MM-dd') < format(new Date(fechaConfirmacion), 'yyyy-MM-dd') ? "No" : "Si",
+                };
+            });
+            setCuotasData(cuotas);
+            setTotalRecaudable(cuotas.reduce((a,b) => a + (b.recaudable === "Si" ? b.valor : 0), 0));
+        }
+    }, [showDeglosePagos, polizaPorConfirmar, comision, fechaConfirmacion]);
+
+    const confirmarPoliza = () => {
+        // TODO: POST para generar las cuotas y cambiar el estado a ACTIVA en la poliza
+        const cuotasAGenerar = cuotasData.filter(item => item.recaudable === "Si").map(({fecha, valor}) => {  return { fecha, valor }; });
+        console.log(cuotasAGenerar);
+
+        // TODO: Volver a la pantalla de confirmaciones
+    }
+
+    if( loading ) {
+        return <BLoading />;
+    }
 
     return (
         <div>
@@ -91,23 +183,23 @@ const ConfirmarView = (props) => {
                                         <tbody>
                                             <tr>
                                                 <td width="50%">Tipo</td>
-                                                <td width="50%">Auto</td>
+                                                <td width="50%">{ tipoPoliza }</td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Aseguradora</td>
-                                                <td width="50%">Mapfre</td>
+                                                <td width="50%">{ aseguradora }</td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Inicio Vigencia</td>
-                                                <td width="50%">12/03/2019</td>
+                                                <td width="50%">{ format(new Date(polizaPorConfirmar.fechaInicio), 'dd/MM/yyyy') }</td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Fin Vigencia</td>
-                                                <td width="50%">12/03/2020</td>
+                                                <td width="50%">{ format(new Date(polizaPorConfirmar.fechaFin), 'dd/MM/yyyy') }</td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Forma Pago</td>
-                                                <td width="50%">Mensual</td>
+                                                <td width="50%">{ polizaPorConfirmar.formaPago }</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -123,38 +215,31 @@ const ConfirmarView = (props) => {
                                         <tbody>
                                             <tr>
                                                 <td width="50%">Prima Total</td>
-                                                <td width="50%"><NumberFormat value={15000} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                                <td width="50%"><NumberFormat value={polizaPorConfirmar.costo} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Prima Neta</td>
                                                 <td width="50%">
-                                                    <NumberFormat value={12000} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                    <NumberFormat value={polizaPorConfirmar.primaNeta} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Primer Recibo</td>
-                                                <td width="50%"><NumberFormat value={4000} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                                <td width="50%"><NumberFormat value={polizaPorConfirmar.costoPrimerRecibo} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Recibos Subsecuentes</td>
-                                                <td width="50%"><NumberFormat value={1000} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
+                                                <td width="50%"><NumberFormat value={polizaPorConfirmar.costoRecibosSubsecuentes} displayType={'text'} thousandSeparator={true} prefix={'$'} /></td>
                                             </tr>
                                             <tr>
                                                 <td width="50%">Comisión</td>
-                                                <td width="50%">10%</td>
+                                                <td width="50%">{ comision !== null ? `${comision}%` : "" }</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
                             </div>
-
-                                {/* <br />
-                                <div className="text-right">
-                                    <Button onClick={() => { }} variant="contained" color="primary" className={"color-principal"}>
-                                        &nbsp;&nbsp;Confirmar&nbsp;&nbsp;
-                                        </Button>
-                                </div> */}
                         </Grid>
 
 
@@ -172,79 +257,81 @@ const ConfirmarView = (props) => {
                                                 label={"Fecha Confirmación"}
                                                 type="date"
                                                 defaultValue={getDateFormated()}
+                                                onBlur={event => setFechaConfirmacion(event.target.value)}
                                             />
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Button onClick={() => { }} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
-                                                &nbsp;&nbsp;Simular Pagos&nbsp;&nbsp;
-                                            </Button>
+                                            { !showDeglosePagos ? 
+                                                <Button onClick={() => { setShowDeglosePagos(!showDeglosePagos); }} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
+                                                    &nbsp;&nbsp;Simular Pagos&nbsp;&nbsp;
+                                                </Button> : null }
                                         </Grid>
                                     </Grid>
                                 </div>
                             </div>
 
-                            <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-                                <div className="panel-heading">
-                                    Desglose de Pagos
-                                </div>
-                                <div className="panel-body">
-                                    <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                                        <thead>
-                                            <tr>
-                                                <th>CUOTA</th>
-                                                <th>FECHA</th>
-                                                <th>VALOR</th>
-                                                <th>RECAUDABLE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr className="noCobro"><td>1</td><td>12/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="noCobro"><td>2</td><td>01/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="noCobro"><td>3</td><td>02/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="noCobro"><td>4</td><td>03/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="noCobro"><td>5</td><td>04/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="noCobro"><td>6</td><td>05/03/2019</td><td>$100</td><td>No</td></tr>
-                                            <tr className="siCobro"><td>7</td><td>06/03/2019</td><td>$100</td><td>Si</td></tr>
-                                            <tr className="siCobro"><td>8</td><td>07/03/2019</td><td>$100</td><td>Si</td></tr>
-                                            <tr className="siCobro"><td>9</td><td>08/03/2019</td><td>$100</td><td>Si</td></tr>
-                                            <tr className="siCobro"><td>10</td><td>09/03/2019</td><td>$100</td><td>Si</td></tr>
-                                            <tr className="siCobro"><td>11</td><td>10/03/2019</td><td>$100</td><td>Si</td></tr>
-                                            <tr className="siCobro"><td>12</td><td>11/03/2019</td><td>$100</td><td>Si</td></tr>
-                                        </tbody>
+                            { showDeglosePagos ? 
+                                <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                    <div className="panel-heading">
+                                        Desglose de Pagos
+                                    </div>
+                                    <div className="panel-body">
+                                        <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                            <thead>
+                                                <tr>
+                                                    <th>CUOTA</th>
+                                                    <th>FECHA</th>
+                                                    <th>VALOR</th>
+                                                    <th>RECAUDABLE</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    cuotasData
+                                                        .map(cuota => <tr key={`cuota_${cuota.cuota}`} className={ cuota.recaudable === "No" ? "noCobro" : "" }>
+                                                            <td>{cuota.cuota}</td>
+                                                            <td>{cuota.fecha}</td>
+                                                            <td>{<NumberFormat value={cuota.valor} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</td>
+                                                            <td>{cuota.recaudable}</td>
+                                                        </tr>)
+                                                }
+                                            </tbody>
 
-                                        <tfoot>
-                                            <tr>
-                                            <th colSpan="2">TOTAL RECAUDABLE</th>
-                                            <th colSpan="2">$600</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                            <tfoot>
+                                                <tr>
+                                                <th colSpan="2">TOTAL RECAUDABLE</th>
+                                                <th colSpan="2">{<NumberFormat value={totalRecaudable} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
 
-                                    <br />
+                                        <br />
 
-                                    <Grid container>
-                                        <Grid item xs={12} sm={6} md={8} lg={9}>
-                                            <div class="bg-muted p-md b-r-sm" style={{display: "inline-flex", alignItems: "center"}}>
-                                                <div style={{ width: "24px", marginRight: "16px" }}>
-                                                    <Info />
+                                        <Grid container>
+                                            <Grid item xs={12} sm={6} md={8} lg={9}>
+                                                <div className="bg-muted p-md b-r-sm" style={{display: "inline-flex", alignItems: "center"}}>
+                                                    <div style={{ width: "24px", marginRight: "16px" }}>
+                                                        <Info />
+                                                    </div>
+                                                    <div>
+                                                        <span>Al confirmar la póliza se generarán las cuotas recaudables y quedarán disponibles para conciliarlas al momento de registrar pagos efectuados por las aseguradoras</span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <span>Al confirmar la póliza se generarán las cuotas recaudables y quedarán disponibles para conciliarlas al momento de registrar pagos efectuados por las aseguradoras</span>
-                                                </div>
-                                            </div>
-                                        </Grid>
+                                            </Grid>
 
-                                        <Grid item lg={1}></Grid>
+                                            <Grid item lg={1}></Grid>
 
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Button onClick={() => { }} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
-                                                &nbsp;&nbsp;Confirmar Póliza&nbsp;&nbsp;
-                                            </Button>
+                                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                                <Button onClick={confirmarPoliza} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
+                                                    &nbsp;&nbsp;Confirmar Póliza&nbsp;&nbsp;
+                                                </Button>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                </div>
-                            </div>
+                                    </div>
+                                </div> :
+                                null
+                            }
                         </Grid>
                     </Grid>
                 </Paper>

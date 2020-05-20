@@ -69,10 +69,10 @@ const Confirmaciones = () => {
 
     const updateSelected = ({ data: [{ index }] }, displayData, setSelectedRows, option, history) => {
         const { data } = displayData[index];
-        const noPoliza = data[5];
+        const noPoliza = data[0];
 
         if (option === 1) {
-            history.push(`/polizas/todas/aprobaciones/confirmar?poliza=${noPoliza}`);
+            history.push(`/polizas/todas/confirmaciones/confirmar?poliza=${noPoliza}`);
         }
     }
 
