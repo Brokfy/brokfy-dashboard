@@ -37,6 +37,7 @@ import { reducer as fetchDetallePolizaReducer } from './fetchDetallePoliza';
 import { reducer as fetchPolizasReducer } from './fetchPolizas';
 import { reducer as changePolizaReducer } from './changePoliza';
 import { reducer as insertPagosReducer } from './insertPagos';
+import { reducer as fetchPolizasPorConfirmarReducer } from './fetchPolizasPorConfirmar';
 
 const reducers = [
   fetchProductosReducer,
@@ -69,6 +70,7 @@ const reducers = [
   fetchPolizasReducer,
   changePolizaReducer,
   insertPagosReducer,
+  fetchPolizasPorConfirmarReducer,
 ];
 
 export default function reducer(state = initialState, action) {

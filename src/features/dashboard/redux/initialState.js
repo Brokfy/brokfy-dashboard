@@ -76,6 +76,8 @@ const initialState = {
   fetchPolizasError: null,
   insertPagosPending: false,
   insertPagosError: null,
+  fetchPolizasPorConfirmarPending: false,
+  fetchPolizasPorConfirmarError: null,
 };
 
 export default initialState;

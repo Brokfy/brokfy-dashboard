@@ -114,6 +114,11 @@ const nowrapColumn = {
   setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
 }
 
+const nowrapColumnAlignRight = {
+  setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
+  setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
+}
+
 const checkboxRender = (controlName, value, tableMeta, updateValue) => {
   var bl_value = null;
 
@@ -218,8 +223,16 @@ const listEstadoPoliza =
     { value: 1, text: 'ACTIVA' },
     { value: 2, text: 'CANCELADA' },
     { value: 3, text: 'SINIESTRO' },
+    { value: 4, text: 'POR CONFIRMAR' },
   ];
 
+const listFormasPago =
+  [
+    { text: "Anual", value: "Anual" },
+    { text: "Semestral", value: "Semestral" },
+    { text: "Trimestral", value: "Trimestral" },
+    { text: "Mensual", value: "Mensual" }
+  ];
 
 export {
   inputParsers,
@@ -231,5 +244,7 @@ export {
   getDateFormated,
   getEstadoPolizaLabel,
   formatMoney,
-  listEstadoPoliza
+  listEstadoPoliza,
+  listFormasPago,
+  nowrapColumnAlignRight
 }
