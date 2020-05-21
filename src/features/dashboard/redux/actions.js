@@ -48,3 +48,4 @@ export {
   fetchPolizaPorConfirmar,
   dismissFetchPolizaPorConfirmarError,
 } from './fetchPolizaPorConfirmar';
+export { fetchValorComision, dismissFetchValorComisionError } from './fetchValorComision';

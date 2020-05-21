@@ -17,6 +17,7 @@ import BLoading from '../../../../components/bloading';
 import { TextField, Button } from '@material-ui/core';
 import { getDateFormated, generarCuotas } from '../../../../common/utils';
 import { Info } from '@material-ui/icons';
+import { useFetchValorComision } from '../../redux/fetchValorComision';
 
 const Confirmar = (props) => {
     const { tipo, propia } = useParams();
@@ -43,14 +44,17 @@ const ConfirmarView = (props) => {
       aseguradoras: false,
       tipoPolizas: false,
       polizaPorConfirmar: false,
+      valorComision: false,
     });
     const { auth } = useGetToken();
     const { dropdownAseguradoras: listadoAseguradora, fetchDropdownAseguradora, fetchDropdownAseguradoraPending } = useFetchDropdownAseguradora();
     const { dropdownTipoPoliza: listadoTipoPoliza, fetchDropdownTipoPoliza, fetchDropdownTipoPolizaPending } = useFetchDropdownTipoPoliza();
     const { polizaPorConfirmar, fetchPolizaPorConfirmar, fetchPolizaPorConfirmarPending } = useFetchPolizaPorConfirmar();
+    const { valorComision, fetchValorComision, fetchValorComisionPending } = useFetchValorComision();
     const [ aseguradora, setAseguradora ] = useState(null);
     const [ tipoPoliza, setTipoPoliza ] = useState(null);
     const [ comision, setComision ] = useState(null);
+    const [ comisionIndicada, setComisionIndicada ] = useState(null);
     const [ showDeglosePagos, setShowDeglosePagos ] = useState(false);
     const [ fechaConfirmacion, setFechaConfirmacion ] = useState(getDateFormated());
     const [ cuotasData, setCuotasData ] = useState([]);
@@ -77,7 +81,7 @@ const ConfirmarView = (props) => {
 
     useEffect(() => {
         if ( auth.tokenFirebase === "" ) return;
-        if( fetchDropdownAseguradoraPending || fetchPolizaPorConfirmarPending || fetchDropdownTipoPolizaPending ) return;
+        if( fetchDropdownAseguradoraPending || fetchPolizaPorConfirmarPending || fetchDropdownTipoPolizaPending || fetchValorComisionPending ) return;
     
         if ( !datosCargados.aseguradoras ) {
           fetchDropdownAseguradora(auth.tokenFirebase);
@@ -122,32 +126,48 @@ const ConfirmarView = (props) => {
             return;
         }
 
-        // TODO: Hacer fetch para consultar la comision
-        setTimeout(() => {
-            setComision(10);
-        }, 1000);
+        if( !datosCargados.valorComision ) {
+            fetchValorComision({ 
+                token: auth.tokenFirebase, 
+                idAseguradora: polizaPorConfirmar.idAseguradoras,
+                idTipoPoliza: polizaPorConfirmar.tipoPoliza,
+                fecha: polizaPorConfirmar.fechaInicio,
+            });
+            setDatosCargados({
+                ...datosCargados,
+                valorComision: true,
+            });
+            return;
+        }
+
+        if( valorComision && comision === null ) {
+            setComision(valorComision);
+            return;
+        }
 
         setLoading(false);
       }, [
           auth.tokenFirebase, fetchDropdownAseguradoraPending, fetchDropdownAseguradora, datosCargados, 
           aseguradora, listadoAseguradora, fetchPolizaPorConfirmarPending, fetchPolizaPorConfirmar, polizaPorConfirmar,
-          props.noPoliza, fetchDropdownTipoPolizaPending, fetchDropdownTipoPoliza, listadoTipoPoliza, tipoPoliza
+          props.noPoliza, fetchDropdownTipoPolizaPending, fetchDropdownTipoPoliza, listadoTipoPoliza, tipoPoliza,
+          fetchValorComisionPending, fetchValorComision, comision, valorComision
         ]);
 
     useEffect(() => {
         if( showDeglosePagos ) {
-            const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
+            // const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
+            const cuotas = generarCuotas( "Mensual", polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
                 return {
                     cuota: index + 1,
                     fecha,
-                    valor: parseFloat(polizaPorConfirmar.costoRecibosSubsecuentes) * parseFloat(comision)/100,
+                    valor: parseFloat(polizaPorConfirmar.costoRecibosSubsecuentes) * parseFloat(comision || comisionIndicada)/100,
                     recaudable: format(new Date(fecha), 'yyyy-MM-dd') < format(new Date(fechaConfirmacion), 'yyyy-MM-dd') ? "No" : "Si",
                 };
             });
             setCuotasData(cuotas);
             setTotalRecaudable(cuotas.reduce((a,b) => a + (b.recaudable === "Si" ? b.valor : 0), 0));
         }
-    }, [showDeglosePagos, polizaPorConfirmar, comision, fechaConfirmacion]);
+    }, [showDeglosePagos, polizaPorConfirmar, comision, fechaConfirmacion, comisionIndicada]);
 
     const confirmarPoliza = () => {
         // TODO: POST para generar las cuotas y cambiar el estado a ACTIVA en la poliza
@@ -260,6 +280,38 @@ const ConfirmarView = (props) => {
                                                 onBlur={event => setFechaConfirmacion(event.target.value)}
                                             />
                                         </Grid>
+
+                                        { comision === null ? 
+                                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                                <TextField
+                                                        id={"comisionIndicada"}
+                                                        name={"comisionIndicada"}
+                                                        label={"Comisión"}
+                                                        type="number"
+                                                        inputProps={{
+                                                            min: 0, 
+                                                            max: 100,
+                                                            step: 1,
+                                                            autoComplete: 'off',
+                                                            form: {
+                                                                autoComplete: 'off',
+                                                            },
+                                                        }}
+                                                        onBlur={event => {
+                                                            try {
+                                                                const valorNumerico = parseFloat(event.target.value);
+                                                                if( valorNumerico < 0 ) {
+                                                                    event.target.value = 0;
+                                                                } else if( valorNumerico > 100 ) {
+                                                                    event.target.value = 100;
+                                                                }
+                                                            } catch {
+                                                                event.target.value = 0;
+                                                            }
+                                                            setComisionIndicada(event.target.value);
+                                                        }}
+                                                />
+                                            </Grid> : null }
 
                                         <Grid item xs={12} sm={6} md={4} lg={2}>
                                             { !showDeglosePagos ? 

@@ -80,6 +80,8 @@ const initialState = {
   fetchPolizasPorConfirmarError: null,
   fetchPolizaPorConfirmarPending: false,
   fetchPolizaPorConfirmarError: null,
+  fetchValorComisionPending: false,
+  fetchValorComisionError: null,
 };
 
 export default initialState;
