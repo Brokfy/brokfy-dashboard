@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchListadoUsuario(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/ListaUsuarios`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissFetchListadoUsuarioError() {
 }
 
 export function useFetchListadoUsuario() {
+  const listadoUsuarios = useSelector(state => state.dashboard.listadoUsuarios);
+
   const dispatch = useDispatch();
 
   const { fetchListadoUsuarioPending, fetchListadoUsuarioError } = useSelector(
@@ -64,6 +76,7 @@ export function useFetchListadoUsuario() {
   }, [dispatch]);
 
   return {
+    listadoUsuarios: listadoUsuarios,
     fetchListadoUsuario: boundAction,
     fetchListadoUsuarioPending,
     fetchListadoUsuarioError,
@@ -85,6 +98,17 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        listadoUsuarios: action.data.data.map(item => {
+          return {
+            nombre: item.nombre,
+            apellidoPaterno: item.apellidoPaterno,
+            apellidoMaterno: item.apellidoMaterno,
+            fechaNacimiento: item.fechaNacimiento,
+            sexo: item.sexo,
+            email: item.email,
+            username: item.username,
+          };
+        }),
         fetchListadoUsuarioPending: false,
         fetchListadoUsuarioError: null,
       };
