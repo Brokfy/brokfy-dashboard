@@ -3,10 +3,9 @@ import React from 'react';
 const PerfilAsegurado = () => {
     return (
         <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-            <div className="panel-heading">
-                Perfil Asegurado
-        </div>
             <div className="panel-body">
+                <span className="titulo-panel">Perfil Asegurado</span>
+                <br /><br />
                 <table className="table table-hover" style={{ marginBottom: "0px" }}>
                     <tbody>
                         <tr><td width="30%">Municipio</td><td width="70%">municipio</td></tr>

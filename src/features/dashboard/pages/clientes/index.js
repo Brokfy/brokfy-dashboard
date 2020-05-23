@@ -100,9 +100,6 @@ const Clientes = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={3} >
                             <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-                                <div className="panel-heading">
-                                    Lista de Usuarios
-                                    </div>
                                 <div className="panel-body">
 
                                     <Paper component="form" >

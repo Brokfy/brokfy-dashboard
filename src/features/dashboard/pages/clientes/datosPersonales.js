@@ -1,24 +1,53 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Avatar, Typography } from '@material-ui/core';
+import { teal, indigo } from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme) => ({
+    cTeal: {
+        color: theme.palette.getContrastText(teal[500]),
+        backgroundColor: teal[500],
+    },
+    cIndigo: {
+        color: theme.palette.getContrastText(indigo[500]),
+        backgroundColor: indigo[500],
+    },
+    large: {
+        margin: theme.spacing(1),
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+        color: theme.palette.getContrastText(indigo[500]),
+        backgroundColor: indigo[500],
+    },
+}));
 
 const DatosPersonales = () => {
+    const classes = useStyles();
+
     return (
         <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-            <div className="panel-heading">
+            {/* <div className="panel-heading">
                 Datos Personales
-        </div>
+            </div> */}
+            <br />
             <div className="panel-body">
-                <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                    <tbody>
-                        <tr><td width="30%">Nombre</td><td width="70%">nombre</td></tr>
-                        <tr><td width="30%">Apellido Paterno</td><td width="70%">apellidoPaterno</td></tr>
-                        <tr><td width="30%">Apellido Materno</td><td width="70%">apellidoMaterno</td></tr>
-                        <tr><td width="30%">Fecha Nacimiento</td><td width="70%">fechaNacimiento</td></tr>
-                        <tr><td width="30%">Sexo</td><td width="70%">sexo</td></tr>
-                        <tr><td width="30%">Email</td><td width="70%">email</td></tr>
-                        <tr><td width="30%">Username</td><td width="70%">username</td></tr>
-                    </tbody>
-                </table>
+                <Grid container spacing={3}>
+                    <Grid item xs="2">
+                        <Avatar className={classes.large}>VG</Avatar>
+                    </Grid>
+                    <Grid item xs="10">
+                        <span className="titulo-nombre">Vianney Gutierrez Gonzalez</span>
+                        <br />
+                        Fecha Nacimiento: 17/08/1986 <br />
+                        Sexo: Femenino <br />
+                        Email: sachiel17@gmail.com <br />
+                        Telefono: 990564966
+                    </Grid>
+                </Grid>
+
+
             </div>
+            <br />
         </div>
     );
 }
