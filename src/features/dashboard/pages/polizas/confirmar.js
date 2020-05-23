@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
 import { PageNotFound } from '../../../common';
 import { useGetToken } from '../../../common/redux/hooks';
@@ -18,6 +19,8 @@ import { TextField, Button } from '@material-ui/core';
 import { getDateFormated, generarCuotas } from '../../../../common/utils';
 import { Info } from '@material-ui/icons';
 import { useFetchValorComision } from '../../redux/fetchValorComision';
+import { useConfirmarPoliza } from '../../redux/confirmarPoliza';
+import BSnackbars from '../../../../components/bsnackbar';
 
 const Confirmar = (props) => {
     const { tipo, propia } = useParams();
@@ -51,6 +54,7 @@ const ConfirmarView = (props) => {
     const { dropdownTipoPoliza: listadoTipoPoliza, fetchDropdownTipoPoliza, fetchDropdownTipoPolizaPending } = useFetchDropdownTipoPoliza();
     const { polizaPorConfirmar, fetchPolizaPorConfirmar, fetchPolizaPorConfirmarPending } = useFetchPolizaPorConfirmar();
     const { valorComision, fetchValorComision, fetchValorComisionPending } = useFetchValorComision();
+    const { confirmarPoliza, confirmarPolizaPending, confirmarPolizaError, confirmarPolizaNotify } = useConfirmarPoliza();
     const [ aseguradora, setAseguradora ] = useState(null);
     const [ tipoPoliza, setTipoPoliza ] = useState(null);
     const [ comision, setComision ] = useState(null);
@@ -59,6 +63,9 @@ const ConfirmarView = (props) => {
     const [ fechaConfirmacion, setFechaConfirmacion ] = useState(getDateFormated());
     const [ cuotasData, setCuotasData ] = useState([]);
     const [ totalRecaudable, setTotalRecaudable ] = useState(0);
+    const [ confirmando, setConfirmando ] = useState(false);
+    const [ confirmado, setConfirmado ] = useState(false);
+    const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -126,7 +133,7 @@ const ConfirmarView = (props) => {
             return;
         }
 
-        if( !datosCargados.valorComision ) {
+        if( !datosCargados.valorComision && polizaPorConfirmar && polizaPorConfirmar.idAseguradoras) {
             fetchValorComision({ 
                 token: auth.tokenFirebase, 
                 idAseguradora: polizaPorConfirmar.idAseguradoras,
@@ -155,8 +162,7 @@ const ConfirmarView = (props) => {
 
     useEffect(() => {
         if( showDeglosePagos ) {
-            // const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
-            const cuotas = generarCuotas( "Mensual", polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
+            const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
                 return {
                     cuota: index + 1,
                     fecha,
@@ -169,12 +175,22 @@ const ConfirmarView = (props) => {
         }
     }, [showDeglosePagos, polizaPorConfirmar, comision, fechaConfirmacion, comisionIndicada]);
 
-    const confirmarPoliza = () => {
-        // TODO: POST para generar las cuotas y cambiar el estado a ACTIVA en la poliza
-        const cuotasAGenerar = cuotasData.filter(item => item.recaudable === "Si").map(({fecha, valor}) => {  return { fecha, valor }; });
-        console.log(cuotasAGenerar);
+    useEffect(() => {
+        if( confirmando && confirmarPolizaNotify && !confirmarPolizaError ) {
+            setConfirmado(true);
+            return;
+        }
 
-        // TODO: Volver a la pantalla de confirmaciones
+        if( confirmando && confirmado ) {
+            history.push(`/polizas/todas/confirmaciones`);
+        }
+    }, [confirmando, confirmarPolizaNotify, confirmarPolizaError, confirmado, history])
+
+    const hacerConfirmacionPoliza = () => {
+        const cuotasAGenerar = cuotasData.filter(item => item.recaudable === "Si").map(({fecha, valor}) => {  return { noPoliza: props.noPoliza, vencimiento: fecha, valor }; });
+
+        confirmarPoliza({ token: auth.tokenFirebase, no_poliza: props.noPoliza, comisiones: cuotasAGenerar });
+        setConfirmando(true);
     }
 
     if( loading ) {
@@ -270,7 +286,7 @@ const ConfirmarView = (props) => {
                                 </div>
                                 <div className="panel-body">
                                     <Grid container spacing={3}>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
+                                        <Grid item xs={12} sm={12} md={6} lg={3}>
                                             <TextField
                                                 id={"fechaConfirmacion"}
                                                 name={"fechaConfirmacion"}
@@ -282,7 +298,7 @@ const ConfirmarView = (props) => {
                                         </Grid>
 
                                         { comision === null ? 
-                                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                            <Grid item xs={12} sm={12} md={6} lg={2}>
                                                 <TextField
                                                         id={"comisionIndicada"}
                                                         name={"comisionIndicada"}
@@ -313,7 +329,7 @@ const ConfirmarView = (props) => {
                                                 />
                                             </Grid> : null }
 
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
+                                        <Grid item xs={12} sm={12} md={6} lg={3}>
                                             { !showDeglosePagos ? 
                                                 <Button onClick={() => { setShowDeglosePagos(!showDeglosePagos); }} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
                                                     &nbsp;&nbsp;Simular Pagos&nbsp;&nbsp;
@@ -375,8 +391,12 @@ const ConfirmarView = (props) => {
                                             <Grid item lg={1}></Grid>
 
                                             <Grid item xs={12} sm={6} md={4} lg={2}>
-                                                <Button onClick={confirmarPoliza} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }}>
-                                                    &nbsp;&nbsp;Confirmar Póliza&nbsp;&nbsp;
+                                                <Button onClick={hacerConfirmacionPoliza} variant="contained" color="primary" className={"color-principal"} style={{ marginTop: "10px" }} disabled={confirmarPolizaPending}>
+                                                    { confirmarPolizaPending ? <i className="fa fa-refresh fa-spin"></i> : null }
+                                                    {
+                                                        confirmarPolizaPending ? <span>&nbsp;&nbsp;Procesando...</span> :
+                                                        <span>&nbsp;&nbsp;Confirmar Póliza&nbsp;&nbsp;</span>
+                                                    }
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -388,6 +408,12 @@ const ConfirmarView = (props) => {
                     </Grid>
                 </Paper>
             </div>
+            <BSnackbars
+                severity={ confirmarPolizaError !== null ? "error" : "success" }
+                display={ confirmarPolizaNotify === true }
+                message={ confirmarPolizaError !== null ? "Hubo un error al confirmar la póliza" : "Se confirmó la póliza exitosamente" }
+                dismiss={ () => confirmarPoliza({ dismiss: true })  }
+            />
         </div>
     );
 }

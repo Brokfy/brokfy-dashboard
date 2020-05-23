@@ -1,8 +1,9 @@
 import { nowrapColumn, nowrapColumnAlignRight, checkboxRender, listFormasPago, listEstadoPoliza } from '../../../../common/utils';
 
-export default (listadoAseguradoras, listadoProductos) => {
+export default (listadoAseguradoras, listadoProductos, listadoTipoPoliza) => {
     var arrayAseguradoras = [];
     var arrayProductos = [];
+    var arrayTipoPoliza = [];
 
     if( listadoAseguradoras ) {
         if( listadoAseguradoras.length > 0 ) {
@@ -13,6 +14,12 @@ export default (listadoAseguradoras, listadoProductos) => {
     if( listadoProductos ) {
         if( listadoProductos.length > 0 ) {
             arrayProductos = listadoProductos;
+        }
+    }
+
+    if( listadoTipoPoliza ) {
+        if( listadoTipoPoliza.length > 0 ) {
+            arrayTipoPoliza = listadoTipoPoliza;
         }
     }
 
@@ -28,6 +35,19 @@ export default (listadoAseguradoras, listadoProductos) => {
                 filter: true,
                 sort: true,
                 visible: false,
+                ...nowrapColumn
+            }
+        },
+        {
+            name: "tipoPoliza",
+            label: "Tipo",
+            type: "list",
+            data: [...arrayTipoPoliza.map(item => { return { text: item.tipo, value: item.id }; })],
+            required: true,
+            defaultValue: "",
+            options: {
+                filter: true,
+                sort: true,
                 ...nowrapColumn
             }
         },

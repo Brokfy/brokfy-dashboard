@@ -31,3 +31,4 @@ export { useInsertPagos } from './insertPagos';
 export { useFetchPolizasPorConfirmar } from './fetchPolizasPorConfirmar';
 export { useFetchPolizaPorConfirmar } from './fetchPolizaPorConfirmar';
 export { useFetchValorComision } from './fetchValorComision';
+export { useConfirmarPoliza } from './confirmarPoliza';

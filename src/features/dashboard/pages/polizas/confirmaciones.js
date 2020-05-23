@@ -10,6 +10,7 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { useFetchPolizasPorConfirmar } from '../../redux/fetchPolizasPorConfirmar';
 import getColumnsConfirmaciones from './confirmaciones_columnas';
 import { getCRUDConfig } from '../../../../common/utils';
+import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza';
 
 const Confirmaciones = () => {
     const [loading, setLoading] = useState(true);
@@ -17,6 +18,7 @@ const Confirmaciones = () => {
       aseguradoras: false,
       productos: false,
       polizasPorConfirmar: false,
+      tipoPolizas: false,
     });
     const [open, setOpen] = React.useState(false);
     const [seleccion, guardarSeleccion] = useState([]);
@@ -26,6 +28,7 @@ const Confirmaciones = () => {
 
     const { aseguradoras: listadoAseguradora, fetchAseguradoras, fetchAseguradorasPending } = useFetchAseguradoras();
     const { productos: listadoProducto, fetchProductos, fetchProductosPending } = useFetchProductos();
+    const { dropdownTipoPoliza: listadoTipoPoliza, fetchDropdownTipoPoliza, fetchDropdownTipoPolizaPending } = useFetchDropdownTipoPoliza();
     const { polizasPorConfirmar: listadoPolizasPorConfirmar, fetchPolizasPorConfirmar, fetchPolizasPorConfirmarPending } = useFetchPolizasPorConfirmar();
 
     const history = useHistory();
@@ -53,8 +56,17 @@ const Confirmaciones = () => {
             return;
         }
 
+        if ( !datosCargados.tipoPolizas ) {
+            fetchDropdownTipoPoliza(auth.tokenFirebase);
+            setDatosCargados({
+              ...datosCargados,
+              tipoPolizas: true,
+            });
+            return;
+        }
+
         if ( !datosCargados.polizasPorConfirmar ) {
-            setColumns(getColumnsConfirmaciones(listadoAseguradora, listadoProducto));
+            setColumns(getColumnsConfirmaciones(listadoAseguradora, listadoProducto, listadoTipoPoliza));
             fetchPolizasPorConfirmar(auth.tokenFirebase);
             setDatosCargados({
                 ...datosCargados,
@@ -65,7 +77,7 @@ const Confirmaciones = () => {
         
         setLoading(false);
         setDatosGrid(listadoPolizasPorConfirmar);
-    }, [auth.tokenFirebase, datosCargados, fetchAseguradoras, fetchProductos, fetchAseguradorasPending, fetchProductosPending, fetchPolizasPorConfirmarPending, listadoPolizasPorConfirmar, fetchPolizasPorConfirmar, listadoAseguradora, listadoProducto]);
+    }, [auth.tokenFirebase, datosCargados, fetchAseguradoras, fetchProductos, fetchAseguradorasPending, fetchProductosPending, fetchPolizasPorConfirmarPending, listadoPolizasPorConfirmar, fetchPolizasPorConfirmar, listadoAseguradora, listadoProducto, fetchDropdownTipoPoliza, listadoTipoPoliza]);
 
     const updateSelected = ({ data: [{ index }] }, displayData, setSelectedRows, option, history) => {
         const { data } = displayData[index];

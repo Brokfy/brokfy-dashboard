@@ -49,3 +49,8 @@ export {
   dismissFetchPolizaPorConfirmarError,
 } from './fetchPolizaPorConfirmar';
 export { fetchValorComision, dismissFetchValorComisionError } from './fetchValorComision';
+export { confirmarPoliza, dismissConfirmarPolizaError } from './confirmarPoliza';
+export {
+  insertPolizasComisiones,
+  dismissInsertPolizasComisionesError,
+} from './insertPolizasComisiones';

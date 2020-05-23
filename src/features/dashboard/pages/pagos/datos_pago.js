@@ -72,6 +72,7 @@ const DatosPago = ({ listadoAseguradora = [], datosPago, setDatosPago, modoEdici
                     <Grid item xs={6} sm={4} md={3} lg={2} >
                         <TextField
                             id="fechaPago"
+                            name="fechaPago"
                             label="Fecha Pago"
                             type="date"
                             defaultValue={formData.fechaPago}
