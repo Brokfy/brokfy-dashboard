@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DatosPersonales = () => {
+const DatosPersonales = ({ nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, email, username }) => {
     const classes = useStyles();
 
     return (
@@ -32,16 +32,16 @@ const DatosPersonales = () => {
             <br />
             <div className="panel-body">
                 <Grid container spacing={3}>
-                    <Grid item xs="2">
-                        <Avatar className={classes.large}>VG</Avatar>
+                    <Grid item xs={2}>
+                        <Avatar className={classes.large}>{`${nombre.toUpperCase().charAt(0)}${apellidoPaterno.toUpperCase().charAt(0)}`}</Avatar>
                     </Grid>
-                    <Grid item xs="10">
-                        <span className="titulo-nombre">Vianney Gutierrez Gonzalez</span>
+                    <Grid item xs={10}>
+                        <span className="titulo-nombre">{`${nombre} ${apellidoPaterno} ${apellidoMaterno}`}</span>
                         <br />
-                        Fecha Nacimiento: 17/08/1986 <br />
-                        Sexo: Femenino <br />
-                        Email: sachiel17@gmail.com <br />
-                        Telefono: 990564966
+                        Fecha Nacimiento: {fechaNacimiento} <br />
+                        Sexo: {sexo} <br />
+                        Email: {email} <br />
+                        Telefono: {username}
                     </Grid>
                 </Grid>
 

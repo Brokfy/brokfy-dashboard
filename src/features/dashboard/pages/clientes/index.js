@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
 import { useFetchListadoUsuario } from '../../redux/fetchListadoUsuario';
+import { useFetchDetalleUsuario } from '../../redux/fetchDetalleUsuario';
 import BLoading from '../../../../components/bloading';
 import { getCRUDConfig } from '../../../../common/utils';
 import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button } from '@material-ui/core';
@@ -24,20 +25,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 const Clientes = () => {
     const [loading, setLoading] = useState(true);
     const [datosCargados, setDatosCargados] = useState(false);
-    const [datosGrid, setDatosGrid] = useState([]);
     const [inputBuscarCliente, setInputBuscarCliente] = useState('');
     const { auth } = useGetToken();
-    const [columns, setColumns] = useState([
-        { name: "nombre", label: "Nombre", type: "string", options: { filter: false, sort: true, display: true } },
-        { name: "apellidoPaterno", label: "ApellidoPaterno", type: "string", options: { filter: true, sort: true, display: true } },
-        { name: "apellidoMaterno", label: "ApellidoMaterno", type: "string", options: { filter: true, sort: true, display: true } },
-        { name: "fechaNacimiento", label: "FechaNacimiento", type: "string", options: { filter: false, sort: false, display: false } },
-        { name: "sexo", label: "Sexo", type: "string", options: { filter: false, sort: false, display: false } },
-        { name: "email", label: "Email", type: "string", options: { filter: false, sort: false, display: false } },
-        { name: "username", label: "Username", type: "string", options: { filter: true, sort: true, display: true } },
-    ])
+    const [listaLocal, setListaLocal] = useState([]);
 
     const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
+    const { detalleUsuario, fetchDetalleUsuario, fetchDetalleUsuarioPending } = useFetchDetalleUsuario();
 
     useEffect(() => {
         if (auth.tokenFirebase === "") return;
@@ -49,8 +42,10 @@ const Clientes = () => {
             return;
         }
 
+        if (listadoUsuarios.length > 0)
+            setListaLocal(listadoUsuarios);
+
         setLoading(false);
-        setDatosGrid(listadoUsuarios);
     }, [auth.tokenFirebase, fetchListadoUsuarioPending, listadoUsuarios, datosCargados, fetchListadoUsuario]);
 
     const useStyles = makeStyles((theme) => ({
@@ -85,12 +80,20 @@ const Clientes = () => {
         }
 
         setChecked(value);
+        console.log(value)
+        fetchDetalleUsuario({ username: value, tokenFirebase: auth.tokenFirebase });
     };
 
     const buscarClientes = (e) => {
-        e.preventDefault();
-        console.log(inputBuscarCliente);
+        let busqueda = e.target.value;
+        setListaLocal(listadoUsuarios.filter(us =>
+            us.nombre.toUpperCase().includes(busqueda.toUpperCase())
+            || us.apellidoPaterno.toUpperCase().includes(busqueda.toUpperCase())
+            || us.apellidoMaterno.toUpperCase().includes(busqueda.toUpperCase())
+            || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
+
+    console.log(detalleUsuario)
 
     return (
         <div>
@@ -110,63 +113,66 @@ const Clientes = () => {
                                             className={classes.input}
                                             placeholder="Buscar clientes"
                                             inputProps={{ 'aria-label': 'Buscar clientes' }}
-                                            onChange={(event) => setInputBuscarCliente(event.target.value)}
-                                            onKeyPress={(e) => {
+                                            onChange={(event) => buscarClientes(event)}
+                                            /* onKeyPress={(e) => {
                                                 if (e.key === 'Enter') {
                                                     buscarClientes(e);
                                                 }
-                                            }}
+                                            }} */
+                                            onKeyPress={(event) => buscarClientes(event)}
                                         />
 
                                     </Paper>
 
 
                                     <List className={classes.root}>
-                                        {listadoUsuarios.map((us) => {
-                                            const labelId = `checkbox-list-label-${us.username}`;
-                                            return (
-                                                <ListItem key={us.username} role={undefined} dense button onClick={handleToggle(us.username)}>
-                                                    <ListItemIcon>
-                                                        <Checkbox
-                                                            edge="start"
-                                                            checked={checked.indexOf(us.username) !== -1}
-                                                            tabIndex={-1}
-                                                            disableRipple
-                                                            inputProps={{ 'aria-labelledby': labelId }}
-                                                        />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={` ${us.nombre} ${us.apellidoPaterno ? us.apellidoPaterno : ""} ${us.apellidoMaterno ? us.apellidoMaterno : ""}`} secondary={us.username} />
-                                                </ListItem>
-                                            );
-                                        })}
+                                        {listaLocal.length <= 0 ? <>No hay datos para mostrar</> :
+                                            listaLocal.map((us) => {
+                                                const labelId = `checkbox-list-label-${us.username}`;
+                                                return (
+                                                    <ListItem key={us.username} role={undefined} dense button onClick={handleToggle(us.username)}>
+                                                        <ListItemIcon>
+                                                            <Checkbox
+                                                                edge="start"
+                                                                checked={checked.indexOf(us.username) !== -1}
+                                                                tabIndex={-1}
+                                                                disableRipple
+                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={` ${us.nombre} ${us.apellidoPaterno ? us.apellidoPaterno : ""} ${us.apellidoMaterno ? us.apellidoMaterno : ""}`} secondary={us.username} />
+                                                    </ListItem>
+                                                );
+                                            })}
                                     </List>
                                 </div>
                             </div>
                         </Grid>
                         <Grid item xs={9} >
-                            <Grid container spacing={3}>
+                            { !detalleUsuario ? "Seleccione un usuario" :
+                                <Grid container spacing={3}>
 
-                                <Grid item xs={5} >
-                                    <Grid container spacing={3}>
+                                    <Grid item xs={5} >
+                                        <Grid container spacing={3}>
 
-                                        <Grid item xs={12}>
-                                            <DatosPersonales />
+                                            <Grid item xs={12}>
+                                                <DatosPersonales {...detalleUsuario.datosPersonales} />
+                                            </Grid>
+
+                                            <Grid item xs={12}>
+                                                <PerfilAsegurado {...detalleUsuario.perfilAsegurado} />
+                                            </Grid>
+
                                         </Grid>
-
-                                        <Grid item xs={12}>
-                                            <PerfilAsegurado />
-                                        </Grid>
-
                                     </Grid>
+
+                                    <Grid item xs={7}>
+                                        <PolizasCliente polizas={detalleUsuario.polizas} />
+                                    </Grid>
+
+
                                 </Grid>
-
-                                <Grid item xs={7}>
-                                    <PolizasCliente />
-                                </Grid>
-
-
-                            </Grid>
-
+                            }
                         </Grid>
                     </Grid>
                 </div>

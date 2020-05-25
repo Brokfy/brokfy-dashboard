@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchDetalleUsuario(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/ListaUsuarios/${args.username}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,9 @@ export function dismissFetchDetalleUsuarioError() {
 }
 
 export function useFetchDetalleUsuario() {
+
+  const detalleUsuario = useSelector(state => state.dashboard.detalleUsuario);
+
   const dispatch = useDispatch();
 
   const { fetchDetalleUsuarioPending, fetchDetalleUsuarioError } = useSelector(
@@ -64,6 +77,7 @@ export function useFetchDetalleUsuario() {
   }, [dispatch]);
 
   return {
+    detalleUsuario: detalleUsuario,
     fetchDetalleUsuario: boundAction,
     fetchDetalleUsuarioPending,
     fetchDetalleUsuarioError,
@@ -85,6 +99,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        detalleUsuario: action.data.data,
         fetchDetalleUsuarioPending: false,
         fetchDetalleUsuarioError: null,
       };
