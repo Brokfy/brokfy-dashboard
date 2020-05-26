@@ -51,7 +51,7 @@ const RelacionPolizas = (props) => {
             </Grid>
         );
     }
-    console.log(props.listadoPolizas)
+    
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -71,22 +71,7 @@ const RelacionPolizas = (props) => {
                         <TipoPolizaPanel 
                             key={`tipo_poliza_row_${i.id}`} 
                             tipoPoliza={i} 
-                            listadoPolizas={
-                                props.listadoPolizas
-                                    .filter(poliza => poliza.tipoPoliza === i.id)
-                                    .map(poliza => {
-                                        return { 
-                                            noPoliza: poliza.noPoliza, 
-                                            vencimiento: getDateFormated(poliza.fechaFin), 
-                                            idEstatusPoliza: getEstadoPolizaLabel(poliza.idEstatusPoliza), 
-                                            primaTotal: poliza.primaTotal || 0, 
-                                            primaNeta: poliza.primaNeta, 
-                                            comision: poliza.comision || 0, 
-                                            montoPagado: poliza.montoPagado || 0, 
-                                            montoPago: poliza.montoPago || 0  }
-                                        }
-                                    )
-                            } 
+                            listadoPolizas={ props.listadoPolizas.filter(poliza => poliza.tipoPoliza === i.id) } 
                             expanded={expanded} 
                             setExpanded={setExpanded}
                             polizasConciliadas={props.polizasConciliadas}

@@ -42,3 +42,29 @@ export { changePoliza } from './changePoliza';
 export { insertPagos, dismissInsertPagosError } from './insertPagos';
 export { fetchListadoUsuario, dismissFetchListadoUsuarioError } from './fetchListadoUsuario';
 export { fetchDetalleUsuario, dismissFetchDetalleUsuarioError } from './fetchDetalleUsuario';
+export {
+  fetchPolizasPorConfirmar,
+  dismissFetchPolizasPorConfirmarError,
+} from './fetchPolizasPorConfirmar';
+export {
+  fetchPolizaPorConfirmar,
+  dismissFetchPolizaPorConfirmarError,
+} from './fetchPolizaPorConfirmar';
+export { fetchValorComision, dismissFetchValorComisionError } from './fetchValorComision';
+export { confirmarPoliza, dismissConfirmarPolizaError } from './confirmarPoliza';
+export {
+  insertPolizasComisiones,
+  dismissInsertPolizasComisionesError,
+} from './insertPolizasComisiones';
+export { fetchPolizasVida, dismissFetchPolizasVidaError } from './fetchPolizasVida';
+export { updatePolizasVida, dismissUpdatePolizasVidaError } from './updatePolizasVida';
+export { insertPolizasVida, dismissInsertPolizasVidaError } from './insertPolizasVida';
+export { deletePolizasVida, dismissDeletePolizasVidaError } from './deletePolizasVida';
+export {
+  fetchDropdownOcupaciones,
+  dismissFetchDropdownOcupacionesError,
+} from './fetchDropdownOcupaciones';
+export { insertPolizasMoto, dismissInsertPolizasMotoError } from './insertPolizasMoto';
+export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMoto';
+export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
+export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';

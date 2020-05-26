@@ -8,6 +8,7 @@ import {
   DASHBOARD_FETCH_POLIZAS_DISMISS_ERROR,
   DASHBOARD_FETCH_PAGOS_RESET,
 } from './constants';
+import format from 'date-fns/format'
 
 export function fetchPolizas(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -25,7 +26,7 @@ export function fetchPolizas(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/polizas/${args.aseguradora}`,
+        url: `https://localhost:44341/api/polizas?idAseguradora=${args.aseguradora}&fecha=${args.fecha}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,
@@ -109,15 +110,17 @@ export function reducer(state, action) {
         ...state,
         polizas: action.data.data.map(item => {
           return {
-            tipoPoliza: parseInt(item.tipoPoliza),
-            noPoliza: item.noPoliza,
-            vencimiento: item.vencimiento,
-            idEstatusPoliza: parseInt(item.idEstatusPoliza),
-            primaTotal: parseFloat(item.primaTotal),
-            primaNeta: parseFloat(item.primaNeta),
             comision: parseFloat(item.comision),
+            idEstatusPoliza: parseInt(item.idEstatusPoliza),
+            idPolizaComision: parseInt(item.idPolizaComision),
             montoPagado: parseFloat(item.montoPagado),
-            montoPago: parseFloat(item.montoPago)
+            montoPago: 0,
+            noPoliza: item.noPoliza,
+            primaNeta: parseFloat(item.montoPagado),
+            primaTotal: parseFloat(item.montoPagado),
+            tipoPoliza: parseInt(item.tipoPoliza),
+            valor: parseFloat(item.valor),
+            vencimiento: format(new Date(item.vencimiento), 'dd/MM/yyyy'),
           }
         }),
         fetchPolizasPending: false,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormaPago, useAseguradora, useTipoPoliza, useProductos} from '../../hooks';
 import Grid from '@material-ui/core/Grid';
-import { getFormData } from '../../../../common/utils';
+import { getFormData, generarCuotas } from '../../../../common/utils';
 import BStepper from '../../../../components/bstepper';
 import BInput from '../../../../components/binput';
 import SegundoFormulario from './segundo';
@@ -9,6 +9,7 @@ import { useInsertPolizasAuto } from '../../redux/insertPolizasAuto';
 import { useGetToken } from '../../../common/redux/hooks';
 import getColumnsAprobarFormulario from './aprobar_formulario_columnas';
 import { useHistory } from 'react-router-dom';
+import { useInsertPolizasMoto } from '../../redux/insertPolizasMoto';
 
 const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dropdownProductos }) => {
   const [aseguradora, AseguradoraView, setAseguradora, listadoAseguradora, idAseguradora] = useAseguradora(dropdownAseguradoras, data.aseguradora);
@@ -17,6 +18,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   const [formaPago, formaPagoView, setFormaPago, listadoFormaPago] = useFormaPago();
   const { auth } = useGetToken();
   const { insertPolizasAuto, insertPolizasAutoPending } = useInsertPolizasAuto();
+  const { insertPolizasMoto, insertPolizasMotoPending } = useInsertPolizasMoto();
   const [firstPage, setFirstPage] = useState(null);
   const [datos, setDatos] = useState(data);
   const [validacionFormulario, setValidacionFormulario] = useState({});
@@ -34,26 +36,44 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   }, [dropdownTipoPoliza, dropdownAseguradoras, dropdownProductos, listadoFormaPago, auth, filtroProductosXidAseguradora, idAseguradora, firstPage, datos]);
 
   useEffect(() => {
-    if( !procesando && insertPolizasAutoPending ) {
+    if( !procesando && (insertPolizasAutoPending || insertPolizasMotoPending) ) {
       setProcesando(true);
       return;
     }
 
-    if( procesando && !insertPolizasAutoPending ) {
+    if( procesando && !insertPolizasAutoPending && !insertPolizasMotoPending ) {
       insertPolizasAuto({ dismiss: true });
+      insertPolizasMoto({ dismiss: true });
       history.push(`/polizas/todas/aprobaciones`);
       return;
     }
 
-  }, [procesando, insertPolizasAutoPending, history, insertPolizasAuto])
+  }, [procesando, insertPolizasAutoPending, history, insertPolizasAuto, insertPolizasMotoPending, insertPolizasMoto])
+
+
+  const pasaValidacionMontos = (formData) => {
+    const cuotas = generarCuotas( formData["formaPago"], formData["fechaInicio"], formData["fechaFin"] );
+    var total = 0;
+    cuotas.forEach((cuota, index) => {
+      total += (index === 0 ? 
+        parseFloat(formData["costoPrimerRecibo"].toString() !== "" ? formData["costoPrimerRecibo"].replace(/[\$,]/gi, '') : 0) :
+        parseFloat(formData["costoRecibosSubsecuentes"].toString() !== "" ? formData["costoRecibosSubsecuentes"].replace(/[\$,]/gi, '') : 0))
+    });
+    const primaTotal = parseFloat(formData["costo"].toString() !== "" ? formData["costo"].replace(/[\$,]/gi, '') : 0);
+    return total === primaTotal;
+  }
 
 
   const submitFormStep1 = (event) => {
     const formData = getFormData(event);
     const requiredFieldText = "El campo es requerido";
     const requiredGreaterThanZeroText = "El valor debe ser mayor a 0";
+    const rangoFechaInvalido = "Seleccione un rango valido";
+    const fechaFueraRango = "Fecha fuera de rango de vigencia";
     let validacion = {};
     let pasaValidacion = true;
+
+    console.log(formData);
 
     columns.forEach(element => {
       if( element.required && (element.options.display === null || element.options.display !== false )) {
@@ -61,16 +81,30 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
           if( parseFloat(formData[element.name].toString() !== "" ? formData[element.name].replace(/[\$,]/gi, '') : 0) === 0 ) {
             validacion = { ...validacion, [element.name]: requiredGreaterThanZeroText }
             pasaValidacion = false;
-          }
+          } else if( element.name === "costoRecibosSubsecuentes" && !pasaValidacionMontos(formData) ) {
+            validacion = { ...validacion, [element.name]: "El valor ingresado no coincide con la prima total" }
+            pasaValidacion = false;
+          } 
         } else if( element.type === "long" ) {
           if( parseFloat(formData[element.name]) === 0 ) {
             validacion = { ...validacion, [element.name]: requiredGreaterThanZeroText }
             pasaValidacion = false;
           }
         } else {
-          if( `${formData[element.name]}` === "" ) {
-            validacion = { ...validacion, [element.name]: requiredFieldText }
+          if( element.name === "fechaInicio" && `${formData[element.name]}` >= `${formData["fechaFin"]}` ) {
+            validacion = { ...validacion, [element.name]: rangoFechaInvalido }
             pasaValidacion = false;
+          } else if( element.name === "fechaFin" && `${formData[element.name]}` <= `${formData["fechaInicio"]}` ) {
+            validacion = { ...validacion, [element.name]: rangoFechaInvalido }
+            pasaValidacion = false;
+          } else if( element.name === "proximoPago" && `${formData[element.name]}` < `${formData["fechaInicio"]}` && `${formData[element.name]}` > `${formData["fechaFin"]}` ) {
+            validacion = { ...validacion, [element.name]: fechaFueraRango }
+            pasaValidacion = false;
+          } else {
+            if( `${formData[element.name]}` === "" ) {
+              validacion = { ...validacion, [element.name]: requiredFieldText }
+              pasaValidacion = false;
+            }
           }
         }
       }
@@ -115,10 +149,14 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
 
     if( pasaValidacion ) {
       // setValidacionFormulario({});
-      insertPolizasAuto({
+      const reqData = {
         data: Object.assign({}, firstPage, getFormData(event)),
         token: auth.tokenFirebase
-      });
+      };
+
+      if( datos.tipo === "1" ) insertPolizasAuto(reqData);
+      if( datos.tipo === "2" ) insertPolizasMoto(reqData);
+      
     } else {
       // setValidacionFormulario(validacion);
     }
@@ -126,7 +164,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
 
   return (
     <div>
-      {insertPolizasAutoPending !== true ?
+      {insertPolizasAutoPending !== true && insertPolizasMotoPending !== true ?
         <BStepper
           activeStep={activeStep}
           setActiveStep={setActiveStep}

@@ -1,3 +1,5 @@
+import format from 'date-fns/format'
+
 export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, listadoFormaPago) => {
     return [
         {
@@ -132,7 +134,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
             label: "Próximo Pago",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("proximoPago") ? data.proximoPago : "",
+            defaultValue: data.hasOwnProperty("proximoPago") ? format(new Date(data.proximoPago), 'dd/MM/yyyy') : "",
             onChange: () => { },
             options: {
                 filter: true,
@@ -144,7 +146,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
             label: "Fecha Inicio",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("fechaInicio") ? data.fechaInicio : "",
+            defaultValue: data.hasOwnProperty("fechaInicio") ? format(new Date(data.fechaInicio), 'dd/MM/yyyy') : "",
             onChange: () => { },
             options: {
                 filter: true,
@@ -156,7 +158,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
             label: "Fecha Fin",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("fechaFin") ? data.fechaFin : "",
+            defaultValue: data.hasOwnProperty("fechaFin") ? format(new Date(data.fechaFin), 'dd/MM/yyyy') : "",
             onChange: () => { },
             options: {
                 filter: true,
