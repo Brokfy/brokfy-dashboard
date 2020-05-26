@@ -25,6 +25,7 @@ const Sidebar = () => {
           { to: "/polizas/brokfy/carta-nombramiento", label: "Carta Nombramiento" },
           ...options.filter(item => 
             item.tipo === "Auto" || 
+            item.tipo === "Vida" || 
             item.tipo === "Moto"
           ).map(item => { return { to: `/polizas/brokfy/${item.tipo.toLowerCase()}`, label: item.tipo }; })
         ]
@@ -33,6 +34,7 @@ const Sidebar = () => {
         icon: PolicyOutlined, to: "/polizas/otras", label: "Polizas Otras", protected: true, childrenRoutes: [
           ...options.filter(item => 
             item.tipo === "Auto" || 
+            item.tipo === "Vida" ||
             item.tipo === "Moto"
           ).map(item => { return { to: `/polizas/otras/${item.tipo.toLowerCase()}`, label: item.tipo }; })
         ]

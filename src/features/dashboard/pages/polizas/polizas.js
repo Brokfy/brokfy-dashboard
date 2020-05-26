@@ -4,6 +4,7 @@ import CartaNombramiento from './carta_nombramiento';
 import PolizasAutos from './polizas_autos';
 import Aprobaciones from './aprobaciones';
 import Confirmaciones from './confirmaciones';
+import PolizasVida from './polizas_vida';
 import PolizasMoto from './polizas_moto';
 
 const Polizas = () => {
@@ -26,6 +27,8 @@ const Polizas = () => {
         break;
       case 'auto':
         return <PolizasAutos />;
+      case 'vida':
+        return <PolizasVida />;
       case 'moto':
         return <PolizasMoto />;
       default:

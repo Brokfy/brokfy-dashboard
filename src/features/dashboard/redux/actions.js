@@ -54,6 +54,14 @@ export {
   insertPolizasComisiones,
   dismissInsertPolizasComisionesError,
 } from './insertPolizasComisiones';
+export { fetchPolizasVida, dismissFetchPolizasVidaError } from './fetchPolizasVida';
+export { updatePolizasVida, dismissUpdatePolizasVidaError } from './updatePolizasVida';
+export { insertPolizasVida, dismissInsertPolizasVidaError } from './insertPolizasVida';
+export { deletePolizasVida, dismissDeletePolizasVidaError } from './deletePolizasVida';
+export {
+  fetchDropdownOcupaciones,
+  dismissFetchDropdownOcupacionesError,
+} from './fetchDropdownOcupaciones';
 export { insertPolizasMoto, dismissInsertPolizasMotoError } from './insertPolizasMoto';
 export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMoto';
 export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
