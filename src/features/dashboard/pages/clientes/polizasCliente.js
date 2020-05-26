@@ -67,6 +67,10 @@ const PolizasCliente = ({ polizas }) => {
 
     const [selectedPoliza, setSelectedPoliza] = useState('');
 
+    const cancelarPoliza = (noPoliza) => {
+        
+    }
+
 
     return (
         <div className={classes.root}>
@@ -107,7 +111,7 @@ const PolizasCliente = ({ polizas }) => {
                         </ExpansionPanelDetails>
                         <Divider />
                         <ExpansionPanelActions>
-                            <Button size="small" color="primary">
+                            <Button size="small" color="primary" onClick={() => cancelarPoliza(p.noPoliza)}>
                                 Cancelar Poliza
                             </Button>
                         </ExpansionPanelActions>
