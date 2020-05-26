@@ -84,6 +84,14 @@ const initialState = {
   fetchValorComisionError: null,
   confirmarPolizaPending: false,
   confirmarPolizaError: null,
+  insertPolizasMotoPending: false,
+  insertPolizasMotoError: null,
+  fetchPolizasMotoPending: false,
+  fetchPolizasMotoError: null,
+  updatePolizasMotoPending: false,
+  updatePolizasMotoError: null,
+  deletePolizasMotoPending: false,
+  deletePolizasMotoError: null,
 };
 
 export default initialState;

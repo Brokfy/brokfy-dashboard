@@ -32,3 +32,7 @@ export { useFetchPolizasPorConfirmar } from './fetchPolizasPorConfirmar';
 export { useFetchPolizaPorConfirmar } from './fetchPolizaPorConfirmar';
 export { useFetchValorComision } from './fetchValorComision';
 export { useConfirmarPoliza } from './confirmarPoliza';
+export { useInsertPolizasMoto } from './insertPolizasMoto';
+export { useFetchPolizasMoto } from './fetchPolizasMoto';
+export { useUpdatePolizasMoto } from './updatePolizasMoto';
+export { useDeletePolizasMoto } from './deletePolizasMoto';

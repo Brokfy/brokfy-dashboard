@@ -23,12 +23,18 @@ const Sidebar = () => {
       {
         icon: VerifiedUserOutlined, to: "/polizas/brokfy", label: "Polizas Brokfy", protected: true, childrenRoutes: [
           { to: "/polizas/brokfy/carta-nombramiento", label: "Carta Nombramiento" },
-          ...options.filter(item => item.tipo == "Auto").map(item => { return { to: `/polizas/brokfy/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+          ...options.filter(item => 
+            item.tipo === "Auto" || 
+            item.tipo === "Moto"
+          ).map(item => { return { to: `/polizas/brokfy/${item.tipo.toLowerCase()}`, label: item.tipo }; })
         ]
       },
       {
         icon: PolicyOutlined, to: "/polizas/otras", label: "Polizas Otras", protected: true, childrenRoutes: [
-          ...options.filter(item => item.tipo == "Auto").map(item => { return { to: `/polizas/otras/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+          ...options.filter(item => 
+            item.tipo === "Auto" || 
+            item.tipo === "Moto"
+          ).map(item => { return { to: `/polizas/otras/${item.tipo.toLowerCase()}`, label: item.tipo }; })
         ]
       },
 

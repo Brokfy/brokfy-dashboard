@@ -4,6 +4,7 @@ import CartaNombramiento from './carta_nombramiento';
 import PolizasAutos from './polizas_autos';
 import Aprobaciones from './aprobaciones';
 import Confirmaciones from './confirmaciones';
+import PolizasMoto from './polizas_moto';
 
 const Polizas = () => {
   let { propia, tipo } = useParams();
@@ -14,16 +15,19 @@ const Polizas = () => {
       case 'carta-nombramiento':
         if (propia === "brokfy")
           return <CartaNombramiento />;
+        break;
       case 'aprobaciones':
         if (propia === "todas")
-          return <Aprobaciones />
+          return <Aprobaciones />;
         break;
-        case 'confirmaciones':
-          if (propia === "todas")
-            return <Confirmaciones />
-          break;
+      case 'confirmaciones':
+        if (propia === "todas")
+          return <Confirmaciones />
+        break;
       case 'auto':
         return <PolizasAutos />;
+      case 'moto':
+        return <PolizasMoto />;
       default:
         return null;
     }

@@ -54,3 +54,7 @@ export {
   insertPolizasComisiones,
   dismissInsertPolizasComisionesError,
 } from './insertPolizasComisiones';
+export { insertPolizasMoto, dismissInsertPolizasMotoError } from './insertPolizasMoto';
+export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMoto';
+export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
+export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';
