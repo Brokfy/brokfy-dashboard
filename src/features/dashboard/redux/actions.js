@@ -40,6 +40,8 @@ export { fetchDetallePoliza, dismissFetchDetallePolizaError } from './fetchDetal
 export { fetchPolizas, dismissFetchPolizasError } from './fetchPolizas';
 export { changePoliza } from './changePoliza';
 export { insertPagos, dismissInsertPagosError } from './insertPagos';
+export { fetchListadoUsuario, dismissFetchListadoUsuarioError } from './fetchListadoUsuario';
+export { fetchDetalleUsuario, dismissFetchDetalleUsuarioError } from './fetchDetalleUsuario';
 export {
   fetchPolizasPorConfirmar,
   dismissFetchPolizasPorConfirmarError,

@@ -28,6 +28,8 @@ export { useFetchDetallePoliza } from './fetchDetallePoliza';
 export { useFetchPolizas } from './fetchPolizas';
 export { useChangePoliza } from './changePoliza';
 export { useInsertPagos } from './insertPagos';
+export { useFetchListadoUsuario } from './fetchListadoUsuario';
+export { useFetchDetalleUsuario } from './fetchDetalleUsuario';
 export { useFetchPolizasPorConfirmar } from './fetchPolizasPorConfirmar';
 export { useFetchPolizaPorConfirmar } from './fetchPolizaPorConfirmar';
 export { useFetchValorComision } from './fetchValorComision';

@@ -37,22 +37,21 @@ import { reducer as fetchDetallePolizaReducer } from './fetchDetallePoliza';
 import { reducer as fetchPolizasReducer } from './fetchPolizas';
 import { reducer as changePolizaReducer } from './changePoliza';
 import { reducer as insertPagosReducer } from './insertPagos';
+import { reducer as fetchListadoUsuarioReducer } from './fetchListadoUsuario';
+import { reducer as fetchDetalleUsuarioReducer } from './fetchDetalleUsuario';
 import { reducer as fetchPolizasPorConfirmarReducer } from './fetchPolizasPorConfirmar';
 import { reducer as fetchPolizaPorConfirmarReducer } from './fetchPolizaPorConfirmar';
 import { reducer as fetchValorComisionReducer } from './fetchValorComision';
 import { reducer as confirmarPolizaReducer } from './confirmarPoliza';
-<<<<<<< HEAD
 import { reducer as fetchPolizasVidaReducer } from './fetchPolizasVida';
 import { reducer as updatePolizasVidaReducer } from './updatePolizasVida';
 import { reducer as insertPolizasVidaReducer } from './insertPolizasVida';
 import { reducer as deletePolizasVidaReducer } from './deletePolizasVida';
 import { reducer as fetchDropdownOcupacionesReducer } from './fetchDropdownOcupaciones';
-=======
 import { reducer as insertPolizasMotoReducer } from './insertPolizasMoto';
 import { reducer as fetchPolizasMotoReducer } from './fetchPolizasMoto';
 import { reducer as updatePolizasMotoReducer } from './updatePolizasMoto';
 import { reducer as deletePolizasMotoReducer } from './deletePolizasMoto';
->>>>>>> develop
 
 const reducers = [
   fetchProductosReducer,
@@ -85,6 +84,8 @@ const reducers = [
   fetchPolizasReducer,
   changePolizaReducer,
   insertPagosReducer,
+  fetchListadoUsuarioReducer,
+  fetchDetalleUsuarioReducer,
   fetchPolizasPorConfirmarReducer,
   fetchPolizaPorConfirmarReducer,
   fetchValorComisionReducer,

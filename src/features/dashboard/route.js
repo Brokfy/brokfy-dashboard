@@ -7,7 +7,7 @@ import Index from './pages';
 import Aseguradoras from './pages/aseguradoras/aseguradoras';
 import CatalogoProductos from './pages/aseguradoras/catalogo_productos';
 import AtencionClientes from './pages/atencion_clientes';
-import Clientes from './pages/clientes';
+import Clientes from './pages/clientes/';
 import Pagos from './pages/pagos';
 import Polizas from './pages/polizas/polizas';
 import Reportes from './pages/reportes';
@@ -25,7 +25,7 @@ export default {
     { path: '/aseguradoras/productos', component: CatalogoProductos },
     { path: '/aseguradoras/comisiones', component: Comisiones },
     { path: '/atencion-clientes', component: AtencionClientes },
-    { path: '/clientes', component: Clientes },
+    { path: '/clientes/', component: Clientes },
     { path: '/pagos', component: Pagos },
     { path: '/polizas', component: Polizas },
     { path: '/polizas/:propia/:tipo', component: Polizas },
