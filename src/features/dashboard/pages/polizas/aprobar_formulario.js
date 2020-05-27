@@ -10,6 +10,7 @@ import { useGetToken } from '../../../common/redux/hooks';
 import getColumnsAprobarFormulario from './aprobar_formulario_columnas';
 import { useHistory } from 'react-router-dom';
 import { useInsertPolizasMoto } from '../../redux/insertPolizasMoto';
+import { useInsertPolizasVida } from '../../redux/insertPolizasVida';
 
 const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dropdownProductos }) => {
   const [aseguradora, AseguradoraView, setAseguradora, listadoAseguradora, idAseguradora] = useAseguradora(dropdownAseguradoras, data.aseguradora);
@@ -19,6 +20,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   const { auth } = useGetToken();
   const { insertPolizasAuto, insertPolizasAutoPending } = useInsertPolizasAuto();
   const { insertPolizasMoto, insertPolizasMotoPending } = useInsertPolizasMoto();
+  const { insertPolizasVida, insertPolizasVidaPending } = useInsertPolizasVida();
   const [firstPage, setFirstPage] = useState(null);
   const [datos, setDatos] = useState(data);
   const [validacionFormulario, setValidacionFormulario] = useState({});
@@ -36,19 +38,20 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   }, [dropdownTipoPoliza, dropdownAseguradoras, dropdownProductos, listadoFormaPago, auth, filtroProductosXidAseguradora, idAseguradora, firstPage, datos]);
 
   useEffect(() => {
-    if( !procesando && (insertPolizasAutoPending || insertPolizasMotoPending) ) {
+    if( !procesando && (insertPolizasAutoPending || insertPolizasMotoPending || insertPolizasVidaPending) ) {
       setProcesando(true);
       return;
     }
 
-    if( procesando && !insertPolizasAutoPending && !insertPolizasMotoPending ) {
+    if( procesando && !insertPolizasAutoPending && !insertPolizasMotoPending && !insertPolizasVidaPending ) {
       insertPolizasAuto({ dismiss: true });
       insertPolizasMoto({ dismiss: true });
+      insertPolizasVida({ dismiss: true });
       history.push(`/polizas/todas/aprobaciones`);
       return;
     }
 
-  }, [procesando, insertPolizasAutoPending, history, insertPolizasAuto, insertPolizasMotoPending, insertPolizasMoto])
+  }, [procesando, insertPolizasAutoPending, history, insertPolizasAuto, insertPolizasMotoPending, insertPolizasMoto, insertPolizasVidaPending, insertPolizasVida])
 
 
   const pasaValidacionMontos = (formData) => {
@@ -159,9 +162,10 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
         token: auth.tokenFirebase
       };
 
-      if( datos.tipo === "1" ) insertPolizasAuto(reqData);
-      if( datos.tipo === "2" ) insertPolizasMoto(reqData);
-      
+      if( datos.tipo === "1" ) insertPolizasAuto(reqData); // AUTO
+      if( datos.tipo === "2" ) insertPolizasMoto(reqData); // MOTO
+      if( datos.tipo === "5" ) insertPolizasVida(reqData); // VIDA
+
     } else {
       // setValidacionFormulario(validacion);
     }
@@ -169,7 +173,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
 
   return (
     <div>
-      {insertPolizasAutoPending !== true && insertPolizasMotoPending !== true ?
+      {insertPolizasAutoPending !== true && insertPolizasMotoPending !== true && insertPolizasVidaPending !== true ?
         <BStepper
           activeStep={activeStep}
           setActiveStep={setActiveStep}

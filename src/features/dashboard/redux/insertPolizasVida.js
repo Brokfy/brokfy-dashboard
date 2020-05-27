@@ -34,8 +34,7 @@ export function insertPolizasVida(args = {}) {
           costo: parseFloat(args.data.costo),
           primaNeta: parseFloat(args.data.primaNeta),
           productoId: parseInt(args.data.producto),
-          ano: parseInt(args.data.ano),
-          placas: args.data.placa,
+          fumador: parseInt(args.data.fumador),
           revisado: 1,
         },
         headers: {
@@ -47,18 +46,11 @@ export function insertPolizasVida(args = {}) {
       const doRequest = axios(options);
       doRequest.then(
         (res) => {
-          axios({
-            ...options,
-            method: "GET"
-          }).then(
-            (res) => {
-              dispatch({
-                type: DASHBOARD_INSERT_POLIZAS_VIDA_SUCCESS,
-                data: res,
-              });
-              resolve(res);
-            },
-          );
+          dispatch({
+            type: DASHBOARD_INSERT_POLIZAS_VIDA_SUCCESS,
+            data: res,
+          });
+          resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
         (err) => {
@@ -125,36 +117,6 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        polizasVida: action.data.data.map(item => {
-          return {
-            noPoliza: item.noPoliza,
-            formaPago: item.formaPago,
-            proximoPago: format(new Date(item.proximoPago), 'dd/MM/yyyy'),
-            fechaInicio: format(new Date(item.fechaInicio), 'dd/MM/yyyy'),
-            fechaFin: format(new Date(item.fechaFin), 'dd/MM/yyyy'),
-            idAseguradoras: parseInt(item.idAseguradoras),
-            costo: parseFloat(item.costo),
-            primaNeta: parseFloat(item.primaNeta),
-            idEstadoPoliza: parseInt(item.idEstadoPoliza),
-            username: item.username,
-            productoId: parseInt(item.productoId),
-            habilitada: item.habilitada,
-            noAsegurado: item.noAsegurado,
-            polizaPropia: item.polizaPropia,
-            polizaPdf: item.polizaPdf,
-            reciboPdf: item.reciboPdf,
-            rcUsaCanada: item.rcUsaCanada,
-            costoPrimerRecibo: item.costoPrimerRecibo,
-            costoRecibosSubsecuentes: item.costoRecibosSubsecuentes,
-            fumador: item.fumador,
-            estatura: item.estatura,
-            peso: item.peso,
-            ingresos: item.ingresos,
-            idOcupacion: item.idOcupacion,
-            idEstado: item.idEstado,
-            idSexo: item.idSexo,
-          };
-        }),
         insertPolizasVidaNotify: true,
         insertPolizasVidaPending: false,
         insertPolizasVidaError: null,
