@@ -163,11 +163,12 @@ const ConfirmarView = (props) => {
     useEffect(() => {
         if( showDeglosePagos ) {
             const cuotas = generarCuotas( polizaPorConfirmar.formaPago, polizaPorConfirmar.fechaInicio, polizaPorConfirmar.fechaFin ).map((fecha, index) => {
+                const valor = parseFloat(polizaPorConfirmar.costoRecibosSubsecuentes) * parseFloat(comision || comisionIndicada)/100;
                 return {
                     cuota: index + 1,
                     fecha,
-                    valor: parseFloat(polizaPorConfirmar.costoRecibosSubsecuentes) * parseFloat(comision || comisionIndicada)/100,
-                    recaudable: format(new Date(fecha), 'yyyy-MM-dd') < format(new Date(fechaConfirmacion), 'yyyy-MM-dd') ? "No" : "Si",
+                    valor: valor,
+                    recaudable: format(new Date(fecha), 'yyyy-MM-dd') < format(new Date(fechaConfirmacion), 'yyyy-MM-dd') || valor === 0 ? "No" : "Si",
                 };
             });
             setCuotasData(cuotas);

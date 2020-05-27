@@ -1,8 +1,9 @@
-import { nowrapColumn, nowrapColumnAlignRight, checkboxRender, listEstadoPoliza } from '../../../../common/utils';
+import { nowrapColumn, nowrapColumnAlignRight, checkboxRender, listEstadoPoliza, listadoEstadosCiviles, listadoSexos } from '../../../../common/utils';
 
-export default (listadoAseguradoras, listadoProductos) => {
+export default (listadoAseguradoras, listadoProductos, listadoOcupaciones) => {
     var arrayAseguradoras = [];
     var arrayProductos = [];
+    var arrayOcupaciones = [];
 
     if( listadoAseguradoras ) {
         if( listadoAseguradoras.length > 0 ) {
@@ -13,6 +14,12 @@ export default (listadoAseguradoras, listadoProductos) => {
     if( listadoProductos ) {
         if( listadoProductos.length > 0 ) {
             arrayProductos = listadoProductos;
+        }
+    }
+
+    if( listadoOcupaciones ) {
+        if( listadoOcupaciones.length > 0 ) {
+            arrayOcupaciones = listadoOcupaciones;
         }
     }
 
@@ -273,14 +280,16 @@ export default (listadoAseguradoras, listadoProductos) => {
         {
             name: "fumador",
             label: "Fumador",
-            type: "string",
+            type: "list",
+            data: [{text: "Si", value: "1"},{text: "No", value: "0"}],
             required: false,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
+                customBodyRender: (value, tableMeta, updateValue) => checkboxRender("fumador", value, tableMeta, updateValue),
             }
         },       
         {
@@ -292,7 +301,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },
@@ -305,59 +314,62 @@ export default (listadoAseguradoras, listadoProductos) => {
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },
         {
             name: "ingresos",
             label: "Ingresos",
-            type: "string",
+            type: "currency",
             required: false,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },
         {
             name: "idOcupacion",
             label: "Ocupación",
-            type: "string",
+            type: "list",
+            data: [...arrayOcupaciones.map(item => { return { text: item.descripcion, value: item.id }; })],
             required: false,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },
         {
-            name: "idEstado",
-            label: "Estado",
-            type: "string",
+            name: "idEstadoCivil",
+            label: "Estado Civil",
+            type: "list",
+            data: [...listadoEstadosCiviles.map(item => { return { text: item.text, value: item.value }; })],
             required: false,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },
         {
             name: "idSexo",
             label: "Sexo",
-            type: "string",
+            type: "list",
+            data: [...listadoSexos.map(item => { return { text: item.text, value: item.value }; })],
             required: false,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                display: false,
+                display: true,
                 ...nowrapColumn,
             }
         },

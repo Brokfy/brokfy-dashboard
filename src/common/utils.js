@@ -234,6 +234,22 @@ const listFormasPago =
     { text: "Mensual", value: "Mensual" }
   ];
 
+const listadoSexos = [
+  { value: 1, text: "Masculino"}, 
+  { value: 2, text: "Femenino"}
+];
+
+const listadoEstadosCiviles = [
+  { value: 1, text: "Casado"}, 
+  { value: 2, text: "Soltero"},
+  { value: 3, text: "Viudo"},
+  { value: 4, text: "Divorciado"},
+  { value: 5, text: "No informado"},
+  { value: 6, text: "Union libre"},
+  { value: 7, text: "Separado"},
+];
+
+
 const generarCuotas = ( periodicidad, fechaInicio, fechaFin ) => {
   var listDate = [];
   var dateMove = new Date(fechaInicio);
@@ -282,5 +298,7 @@ export {
   listEstadoPoliza,
   listFormasPago,
   nowrapColumnAlignRight,
-  generarCuotas
+  generarCuotas,
+  listadoSexos,
+  listadoEstadosCiviles
 }

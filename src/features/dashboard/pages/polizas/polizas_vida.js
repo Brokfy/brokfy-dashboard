@@ -11,6 +11,7 @@ import { useInsertPolizasVida } from '../../redux/insertPolizasVida';
 import {useParams} from 'react-router-dom';
 import { nowrapColumn, checkboxRender, listEstadoPoliza } from '../../../../common/utils';
 import getColumnsPolizasVida from './polizas_vida_columnas';
+import { useFetchDropdownOcupaciones } from '../../redux/fetchDropdownOcupaciones';
 
 const PolizasVida = () => {
   const [columns, setColumns] = useState([]);
@@ -20,6 +21,7 @@ const PolizasVida = () => {
     aseguradoras: false,
     productos: false,
     polizasVida: false,
+    ocupaciones: false,
   });
   
   const { polizasVida: listadoPolizasVida, fetchPolizasVida, fetchPolizasVidaPending } = useFetchPolizasVida();
@@ -28,6 +30,7 @@ const PolizasVida = () => {
   const { insertPolizasVida, insertPolizasVidaPending, insertPolizasVidaError, insertPolizasVidaNotify } = useInsertPolizasVida();
   const { aseguradoras: listadoAseguradora, fetchAseguradoras, fetchAseguradorasPending } = useFetchAseguradoras();
   const { productos: listadoProductos, fetchProductos, fetchProductosPending } = useFetchProductos();
+  const { dropdownOcupaciones, fetchDropdownOcupaciones, fetchDropdownOcupacionesPending } = useFetchDropdownOcupaciones();
 
   let { propia, tipo } = useParams();
 
@@ -36,13 +39,14 @@ const PolizasVida = () => {
       aseguradoras: false,
       productos: false,
       polizasVida: false,
+      ocupaciones: false,
     });
   }, [propia, tipo])
 
 
   useEffect(() => {
     if ( !auth.tokenFirebase || auth.tokenFirebase  === "" ) return;
-    if ( fetchPolizasVidaPending || fetchAseguradorasPending || fetchProductosPending ) return;
+    if ( fetchPolizasVidaPending || fetchAseguradorasPending || fetchProductosPending || fetchDropdownOcupacionesPending ) return;
 
     if ( !datosCargados.aseguradoras ) {
       setLoading(true);
@@ -64,10 +68,20 @@ const PolizasVida = () => {
       return;
     }
 
+    if ( !datosCargados.ocupaciones ) {
+      setLoading(true);
+      fetchDropdownOcupaciones(auth.tokenFirebase);
+      setDatosCargados({
+        ...datosCargados,
+        ocupaciones: true
+      });
+      return;
+    }
+
     if ( !datosCargados.polizasVida ) {
       setLoading(true);
       fetchPolizasVida({propia:propia === "brokfy" ? "Si" : "No", tokenFirebase: auth.tokenFirebase});
-      setColumns(getColumnsPolizasVida(listadoAseguradora, listadoProductos));
+      setColumns(getColumnsPolizasVida(listadoAseguradora, listadoProductos, dropdownOcupaciones));
       setDatosCargados({
         ...datosCargados,
         polizasVida: true
@@ -76,7 +90,7 @@ const PolizasVida = () => {
     }
 
     setLoading(false);
-  }, [auth.tokenFirebase, fetchPolizasVidaPending, fetchAseguradorasPending, fetchProductosPending, datosCargados, fetchAseguradoras, fetchProductos, fetchPolizasVida, propia, listadoAseguradora, listadoProductos]);
+  }, [auth.tokenFirebase, fetchPolizasVidaPending, fetchAseguradorasPending, fetchProductosPending, datosCargados, fetchAseguradoras, fetchProductos, fetchPolizasVida, propia, listadoAseguradora, listadoProductos, fetchDropdownOcupaciones, fetchDropdownOcupacionesPending, dropdownOcupaciones]);
 
   const options = {
     module: "PolizaVida",
