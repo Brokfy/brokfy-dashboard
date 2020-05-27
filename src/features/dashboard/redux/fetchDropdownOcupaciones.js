@@ -16,7 +16,7 @@ export function fetchDropdownOcupaciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Dropdown/Ocupaciones`,
+        url: `https://localhost:44341/api/Dropdown/ocupaciones`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

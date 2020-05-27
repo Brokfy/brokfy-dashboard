@@ -68,3 +68,4 @@ export { insertPolizasMoto, dismissInsertPolizasMotoError } from './insertPoliza
 export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMoto';
 export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
 export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';
+export { cancelarPoliza, dismissCancelarPolizaError } from './cancelarPoliza';
