@@ -1,20 +1,38 @@
-import { useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   DASHBOARD_CANCELAR_POLIZA_BEGIN,
   DASHBOARD_CANCELAR_POLIZA_SUCCESS,
   DASHBOARD_CANCELAR_POLIZA_FAILURE,
+  DASHBOARD_CANCELAR_POLIZA_DISMISS_SUCCESS,
   DASHBOARD_CANCELAR_POLIZA_DISMISS_ERROR,
 } from './constants';
 
 export function cancelarPoliza(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
+    if (args.dismiss === true) {
+      dispatch({
+        type: DASHBOARD_CANCELAR_POLIZA_DISMISS_SUCCESS,
+      });
+      return
+    }
+
     dispatch({
       type: DASHBOARD_CANCELAR_POLIZA_BEGIN,
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/CancelarPoliza/${args.noPoliza}`,
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -47,10 +65,11 @@ export function dismissCancelarPolizaError() {
 export function useCancelarPoliza() {
   const dispatch = useDispatch();
 
-  const { cancelarPolizaPending, cancelarPolizaError } = useSelector(
+  const { cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify, } = useSelector(
     state => ({
       cancelarPolizaPending: state.dashboard.cancelarPolizaPending,
       cancelarPolizaError: state.dashboard.cancelarPolizaError,
+      cancelarPolizaNotify: state.dashboard.cancelarPolizaNotify,
     }),
     shallowEqual,
   );
@@ -65,6 +84,7 @@ export function useCancelarPoliza() {
 
   return {
     cancelarPoliza: boundAction,
+    cancelarPolizaNotify,
     cancelarPolizaPending,
     cancelarPolizaError,
     dismissCancelarPolizaError: boundDismissError,
@@ -78,6 +98,7 @@ export function reducer(state, action) {
       return {
         ...state,
         cancelarPolizaPending: true,
+        cancelarPolizaNotify: false,
         cancelarPolizaError: null,
       };
 
@@ -86,6 +107,7 @@ export function reducer(state, action) {
       return {
         ...state,
         cancelarPolizaPending: false,
+        cancelarPolizaNotify: true,
         cancelarPolizaError: null,
       };
 
@@ -94,13 +116,23 @@ export function reducer(state, action) {
       return {
         ...state,
         cancelarPolizaPending: false,
+        cancelarPolizaNotify: true,
         cancelarPolizaError: action.data.error,
+      };
+
+    case DASHBOARD_CANCELAR_POLIZA_DISMISS_SUCCESS:
+      // Dismiss the request failure error
+      return {
+        ...state,
+        cancelarPolizaNotify: false,
+        cancelarPolizaError: null,
       };
 
     case DASHBOARD_CANCELAR_POLIZA_DISMISS_ERROR:
       // Dismiss the request failure error
       return {
         ...state,
+        cancelarPolizaNotify: false,
         cancelarPolizaError: null,
       };
 
