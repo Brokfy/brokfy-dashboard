@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { PageNotFound } from '../../../common';
+import { useGetToken } from '../../../common/redux/hooks';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -13,6 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import { green, red } from '@material-ui/core/colors';
+import { useCancelarPoliza } from '../../redux/cancelarPoliza';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,63 +69,90 @@ const useStyles = makeStyles((theme) => ({
 
 const PolizasCliente = ({ polizas }) => {
     const classes = useStyles();
-
+    const { auth } = useGetToken();
     const [selectedPoliza, setSelectedPoliza] = useState('');
+    const [confirmando, setConfirmando] = useState(false);
+    const [confirmado, setConfirmado] = useState(false);
+    const history = useHistory();
+    const { cancelarPoliza, cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify } = useCancelarPoliza();
 
-    const cancelarPoliza = (noPoliza) => {
-        
+    useEffect(() => {
+        if (confirmando && cancelarPolizaNotify && !cancelarPolizaError) {
+            setConfirmado(true);
+            return;
+        }
+
+        if (confirmando && confirmado) {
+            setSelectedPoliza('');
+            history.push(`/clientes`);
+        }
+    }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history])
+
+    const hacerConfirmacionPoliza = (noPoliza) => {
+
+        cancelarPoliza({ token: auth.tokenFirebase, noPoliza: noPoliza });
+        setConfirmando(true);
     }
 
 
     return (
-        <div className={classes.root}>
-            {polizas.length <= 0 ? <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
-                </Grid>
-            </Grid> : null}
-            {polizas.map(p => {
-                return (
-                    <ExpansionPanel key={`expansionPanel${p.noPoliza}`} defaultExpanded={selectedPoliza === p.noPoliza} onClick={() => setSelectedPoliza(selectedPoliza === p.noPoliza ? null : p.noPoliza)}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1c-content"
-                            id={`panel_${p.noPoliza}`}
-                        >
-                            <Grid container spacing={3}>
-                                <Grid item xs={1}>
-                                    <Avatar className={p.estadoPoliza == "ACTIVA" ? classes.greenlarge : classes.redlarge}>{' '}</Avatar>
-                                </Grid>
-                                <Grid item xs={11}>
-                                    <Typography className={classes.heading}>{p.noPoliza}</Typography>
-                                </Grid>
-                            </Grid>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.details}>
-                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                                <tbody>
-                                    <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
-                                    <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
-                                    <tr><td>FechaInicio</td><td>{p.fechaInicio}</td></tr>
-                                    <tr><td>FechaFin</td><td>{p.fechaFin}</td></tr>
-                                    <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
-                                    <tr><td>Producto</td><td>{p.producto}</td></tr>
-                                    <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
-                                </tbody>
-                            </table>
-                        </ExpansionPanelDetails>
-                        <Divider />
-                        <ExpansionPanelActions>
-                            <Button size="small" color="primary" onClick={() => cancelarPoliza(p.noPoliza)}>
-                                Cancelar Poliza
+        <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+            <div className="panel-body">
+                <span className="titulo-panel">Lista de Polizas</span>
+                <br /><br />
+                <div className={classes.root}>
+                    {polizas.length <= 0 ? <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
+                        </Grid>
+                    </Grid> : null}
+                    {polizas.map(p => {
+                        return (
+                            <ExpansionPanel key={`expansionPanel${p.noPoliza}`} defaultExpanded={selectedPoliza === p.noPoliza} onClick={() => setSelectedPoliza(selectedPoliza === p.noPoliza ? null : p.noPoliza)}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1c-content"
+                                    id={`panel_${p.noPoliza}`}
+                                >
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={1}>
+                                            <Avatar className={p.estadoPoliza == "ACTIVA" ? classes.greenlarge : classes.redlarge}>{' '}</Avatar>
+                                        </Grid>
+                                        <Grid item xs={11}>
+                                            <Typography className={classes.heading}>{p.noPoliza}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails className={classes.details}>
+                                    <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                        <tbody>
+                                            <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
+                                            <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
+                                            <tr><td>FechaInicio</td><td>{p.fechaInicio}</td></tr>
+                                            <tr><td>FechaFin</td><td>{p.fechaFin}</td></tr>
+                                            <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
+                                            <tr><td>Producto</td><td>{p.producto}</td></tr>
+                                            <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
+                                        </tbody>
+                                    </table>
+
+                                </ExpansionPanelDetails>
+                                <ExpansionPanelActions>
+                                    <Divider />
+                                    <Button size="small" color="secondary" onClick={() => hacerConfirmacionPoliza(p.noPoliza)}>
+                                        Cancelar Poliza
                             </Button>
-                        </ExpansionPanelActions>
-                    </ExpansionPanel>
-                );
-            })}
+                                </ExpansionPanelActions>
+
+                            </ExpansionPanel>
+                        );
+                    })}
 
 
 
+                </div>
+
+            </div>
         </div>
     );
 }
