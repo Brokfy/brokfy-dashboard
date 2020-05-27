@@ -89,63 +89,70 @@ const PolizasCliente = ({ polizas }) => {
     }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history])
 
     const hacerConfirmacionPoliza = (noPoliza) => {
-        
+
         cancelarPoliza({ token: auth.tokenFirebase, noPoliza: noPoliza });
         setConfirmando(true);
     }
 
 
     return (
-        <div className={classes.root}>
-            {polizas.length <= 0 ? <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
-                </Grid>
-            </Grid> : null}
-            {polizas.map(p => {
-                return (
-                    <ExpansionPanel key={`expansionPanel${p.noPoliza}`} defaultExpanded={selectedPoliza === p.noPoliza} onClick={() => setSelectedPoliza(selectedPoliza === p.noPoliza ? null : p.noPoliza)}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1c-content"
-                            id={`panel_${p.noPoliza}`}
-                        >
-                            <Grid container spacing={3}>
-                                <Grid item xs={1}>
-                                    <Avatar className={p.estadoPoliza == "ACTIVA" ? classes.greenlarge : classes.redlarge}>{' '}</Avatar>
-                                </Grid>
-                                <Grid item xs={11}>
-                                    <Typography className={classes.heading}>{p.noPoliza}</Typography>
-                                </Grid>
-                            </Grid>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.details}>
-                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                                <tbody>
-                                    <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
-                                    <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
-                                    <tr><td>FechaInicio</td><td>{p.fechaInicio}</td></tr>
-                                    <tr><td>FechaFin</td><td>{p.fechaFin}</td></tr>
-                                    <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
-                                    <tr><td>Producto</td><td>{p.producto}</td></tr>
-                                    <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
-                                </tbody>
-                            </table>
+        <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+            <div className="panel-body">
+                <span className="titulo-panel">Lista de Polizas</span>
+                <br /><br />
+                <div className={classes.root}>
+                    {polizas.length <= 0 ? <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
+                        </Grid>
+                    </Grid> : null}
+                    {polizas.map(p => {
+                        return (
+                            <ExpansionPanel key={`expansionPanel${p.noPoliza}`} defaultExpanded={selectedPoliza === p.noPoliza} onClick={() => setSelectedPoliza(selectedPoliza === p.noPoliza ? null : p.noPoliza)}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1c-content"
+                                    id={`panel_${p.noPoliza}`}
+                                >
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={1}>
+                                            <Avatar className={p.estadoPoliza == "ACTIVA" ? classes.greenlarge : classes.redlarge}>{' '}</Avatar>
+                                        </Grid>
+                                        <Grid item xs={11}>
+                                            <Typography className={classes.heading}>{p.noPoliza}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails className={classes.details}>
+                                    <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                        <tbody>
+                                            <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
+                                            <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
+                                            <tr><td>FechaInicio</td><td>{p.fechaInicio}</td></tr>
+                                            <tr><td>FechaFin</td><td>{p.fechaFin}</td></tr>
+                                            <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
+                                            <tr><td>Producto</td><td>{p.producto}</td></tr>
+                                            <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
+                                        </tbody>
+                                    </table>
 
-                        </ExpansionPanelDetails>
-                        <ExpansionPanelActions>
-                            <Divider />
-                            <Button size="small" color="secondary" onClick={() => hacerConfirmacionPoliza(p.noPoliza)}>
-                                Cancelar Poliza
+                                </ExpansionPanelDetails>
+                                <ExpansionPanelActions>
+                                    <Divider />
+                                    <Button size="small" color="secondary" onClick={() => hacerConfirmacionPoliza(p.noPoliza)}>
+                                        Cancelar Poliza
                             </Button>
-                        </ExpansionPanelActions>
+                                </ExpansionPanelActions>
 
-                    </ExpansionPanel>
-                );
-            })}
+                            </ExpansionPanel>
+                        );
+                    })}
 
 
 
+                </div>
+
+            </div>
         </div>
     );
 }
