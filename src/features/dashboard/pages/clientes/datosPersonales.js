@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Avatar, Typography } from '@material-ui/core';
 import { teal, indigo } from '@material-ui/core/colors';
+import format from 'date-fns/format';
 
 const useStyles = makeStyles((theme) => ({
     cTeal: {
@@ -38,7 +39,7 @@ const DatosPersonales = ({ nombre, apellidoPaterno, apellidoMaterno, fechaNacimi
                     <Grid item xs={10}>
                         <span className="titulo-nombre">{`${nombre} ${apellidoPaterno} ${apellidoMaterno}`}</span>
                         <br />
-                        Fecha Nacimiento: {fechaNacimiento} <br />
+                        Fecha Nacimiento: {format(new Date(fechaNacimiento), 'dd/MM/yyyy')} <br />
                         Sexo: {sexo} <br />
                         Email: {email} <br />
                         Telefono: {username}

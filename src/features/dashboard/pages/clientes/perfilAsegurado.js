@@ -22,6 +22,7 @@ const PerfilAsegurado = ({ idPerfil, municipio, codigoPostal, estado, hijos, eda
                         <tr><td width="30%">Profesion</td><td width="70%">{profesion}</td></tr>
                     </tbody>
                 </table>
+                <br />
             </div>
         </div>
     );

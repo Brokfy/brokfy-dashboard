@@ -7,6 +7,7 @@ import {
   DASHBOARD_CANCELAR_POLIZA_FAILURE,
   DASHBOARD_CANCELAR_POLIZA_DISMISS_SUCCESS,
   DASHBOARD_CANCELAR_POLIZA_DISMISS_ERROR,
+  DASHBOARD_UPDATE_DETALLE_CLIENTE_SUCCESS,
 } from './constants';
 
 export function cancelarPoliza(args = {}) {
@@ -37,8 +38,12 @@ export function cancelarPoliza(args = {}) {
         (res) => {
           dispatch({
             type: DASHBOARD_CANCELAR_POLIZA_SUCCESS,
-            data: res,
+            data: args.noPoliza,
           });
+          /* dispatch({
+            type: DASHBOARD_UPDATE_DETALLE_CLIENTE_SUCCESS,
+            data: args.noPoliza,
+          }); */
           resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
@@ -104,8 +109,13 @@ export function reducer(state, action) {
 
     case DASHBOARD_CANCELAR_POLIZA_SUCCESS:
       // The request is success
+
       return {
         ...state,
+        detalleUsuario: {
+          ...state.detalleUsuario,
+          polizas: [...state.detalleUsuario.polizas.map(x => { return (x.noPoliza === action.data ? { ...x, estadoPoliza: "CANCELADA" } : x) })]
+        },
         cancelarPolizaPending: false,
         cancelarPolizaNotify: true,
         cancelarPolizaError: null,

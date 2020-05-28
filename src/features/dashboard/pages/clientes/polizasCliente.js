@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useUpdateDetalleCliente } from '../../redux/updateDetalleCliente';
 import { useLocation, useParams } from 'react-router-dom';
 import { PageNotFound } from '../../../common';
 import { useGetToken } from '../../../common/redux/hooks';
@@ -18,7 +19,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import { green, red } from '@material-ui/core/colors';
 import { useCancelarPoliza } from '../../redux/cancelarPoliza';
-
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import format from 'date-fns/format';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,9 +73,11 @@ const PolizasCliente = ({ polizas }) => {
     const classes = useStyles();
     const { auth } = useGetToken();
     const [selectedPoliza, setSelectedPoliza] = useState('');
+    const [selectedProcesarPoliza, setSelectedProcesarPoliza] = useState('');
     const [confirmando, setConfirmando] = useState(false);
     const [confirmado, setConfirmado] = useState(false);
     const history = useHistory();
+    const [open, setOpen] = useState(false);
     const { cancelarPoliza, cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify } = useCancelarPoliza();
 
     useEffect(() => {
@@ -83,24 +87,49 @@ const PolizasCliente = ({ polizas }) => {
         }
 
         if (confirmando && confirmado) {
-            setSelectedPoliza('');
+            //setSelectedPoliza('');
             //history.push(`/clientes`);
         }
-    }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history])
+    }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history]);
+
 
     const hacerConfirmacionPoliza = (noPoliza) => {
 
         cancelarPoliza({ token: auth.tokenFirebase, noPoliza: noPoliza });
         setConfirmando(true);
+        setOpen(false);
     }
 
+    console.log(selectedPoliza);
 
     return (
-        <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-            <div className="panel-body">
+        <div className="panel panel-default " style={{ marginBottom: "0px" }}>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">Cancelar Póliza</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Está seguro de cancelar la Póliza Nº <b>{selectedProcesarPoliza}</b>?.<br />
+                        Una vez cancelada no se podrá deshacer la acción.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)}>
+                        Cancelar
+                    </Button>
+                    <Button onClick={() => hacerConfirmacionPoliza(selectedProcesarPoliza)} color="primary" autoFocus disabled={cancelarPolizaPending}>
+                        Continuar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <div className="panel-body ">
                 <span className="titulo-panel">Lista de Polizas</span>
                 <br /><br />
-                <div className={classes.root}>
+                <div className="lista-poliza">
                     {polizas.length <= 0 ? <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
@@ -128,8 +157,8 @@ const PolizasCliente = ({ polizas }) => {
                                         <tbody>
                                             <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
                                             <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
-                                            <tr><td>FechaInicio</td><td>{p.fechaInicio}</td></tr>
-                                            <tr><td>FechaFin</td><td>{p.fechaFin}</td></tr>
+                                            <tr><td>FechaInicio</td><td>{format(new Date(p.fechaInicio), 'dd/MM/yyyy')}</td></tr>
+                                            <tr><td>FechaFin</td><td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td></tr>
                                             <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
                                             <tr><td>Producto</td><td>{p.producto}</td></tr>
                                             <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
@@ -137,12 +166,12 @@ const PolizasCliente = ({ polizas }) => {
                                     </table>
 
                                 </ExpansionPanelDetails>
-                                <ExpansionPanelActions>
+                                {p.estadoPoliza === "CANCELADA" ? null : <ExpansionPanelActions>
                                     <Divider />
-                                    <Button size="small" color="secondary" onClick={() => hacerConfirmacionPoliza(p.noPoliza)}>
-                                        Cancelar Poliza
-                            </Button>
-                                </ExpansionPanelActions>
+                                    <Button disabled={cancelarPolizaPending} size="small" color="secondary" onClick={() => { setSelectedProcesarPoliza(p.noPoliza); setOpen(true); }}>
+                                        {!cancelarPolizaPending ? "Cancelar Poliza" : "Procesando..."}
+                                    </Button>
+                                </ExpansionPanelActions>}
 
                             </ExpansionPanel>
                         );
