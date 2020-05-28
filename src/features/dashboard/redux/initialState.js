@@ -108,13 +108,8 @@ const initialState = {
   deletePolizasMotoError: null,
   cancelarPolizaPending: false,
   cancelarPolizaError: null,
-  updateDetalleClientePending: false,
-  updateDetalleClienteError: null,
-  detalleUsuario: {
-    polizas: [],
-    perfilAsegurado: null,
-    datosPersonales:null
-  },
+  fetchDropdownParentescoPending: false,
+  fetchDropdownParentescoError: null,
   cambioAgentePending: false,
   cambioAgenteError: null,
   dashboardConsultaPolizaPending: false,
@@ -128,7 +123,10 @@ const initialState = {
   dashboardGraficoPending: false,
   dashboardGraficoError: null,
   getDashboardInitPending: false,
-  getDashboardInitError: null
+  getDashboardInitError: null,
+  beneficiarios: [],
+  beneficiariosPctAsignado: 0,
+  dropdownParentesco: [],
 };
 
 export default initialState;
