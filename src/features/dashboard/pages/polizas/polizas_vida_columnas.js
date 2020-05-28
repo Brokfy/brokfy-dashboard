@@ -251,7 +251,7 @@ export default (listadoAseguradoras, listadoProductos, listadoOcupaciones) => {
         },
         {
             name: "costoPrimerRecibo",
-            label: "Costo Primer Recibo",
+            label: "Primer Recibo",
             type: "currency",
             required: true,
             defaultValue: "",
@@ -263,7 +263,7 @@ export default (listadoAseguradoras, listadoProductos, listadoOcupaciones) => {
         },
         {
             name: "costoRecibosSubsecuentes",
-            label: "Costo Recibos Subsecuentes",
+            label: "Recibos Subsecuentes",
             type: "currency",
             required: true,
             defaultValue: "",
