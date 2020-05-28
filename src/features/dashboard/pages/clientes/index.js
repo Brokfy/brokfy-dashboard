@@ -22,6 +22,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import MenuIcon from '@material-ui/icons/Menu';
 
+
 const Clientes = () => {
     const [loading, setLoading] = useState(true);
     const [datosCargados, setDatosCargados] = useState(false);
@@ -149,29 +150,35 @@ const Clientes = () => {
                             </div>
                         </Grid>
                         <Grid item xs={9} >
-                            { !detalleUsuario ? "Seleccione un usuario" :
+                            {!detalleUsuario || !detalleUsuario.datosPersonales ?
+                                fetchDetalleUsuarioPending ? <BLoading display={true} /> :
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">Seleccione un usuario</span>
+
+                                        </div>
+                                    </div>
+                                :
                                 <Grid container spacing={3}>
 
-                                    <Grid item xs={5} >
-                                        <Grid container spacing={3}>
+                                <Grid item xs={5} >
+                                    <Grid container spacing={3}>
 
-                                            <Grid item xs={12}>
-                                                <DatosPersonales {...detalleUsuario.datosPersonales} />
-                                            </Grid>
-
-                                            <Grid item xs={12}>
-                                                <PerfilAsegurado {...detalleUsuario.perfilAsegurado} />
-                                            </Grid>
-
+                                        <Grid item xs={12}>
+                                            <DatosPersonales {...detalleUsuario.datosPersonales} />
                                         </Grid>
+
+                                        <Grid item xs={12}>
+                                            <PerfilAsegurado {...detalleUsuario.perfilAsegurado} />
+                                        </Grid>
+
                                     </Grid>
-
-                                    <Grid item xs={7}>
-                                        <PolizasCliente polizas={detalleUsuario.polizas} />
-                                    </Grid>
-
-
                                 </Grid>
+
+                                <Grid item xs={7}>
+                                    <PolizasCliente polizas={detalleUsuario.polizas} />
+                                </Grid>
+                            </Grid>
                             }
                         </Grid>
                     </Grid>

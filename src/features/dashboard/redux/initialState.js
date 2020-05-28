@@ -110,6 +110,11 @@ const initialState = {
   cancelarPolizaError: null,
   updateDetalleClientePending: false,
   updateDetalleClienteError: null,
+  detalleUsuario: {
+    polizas: [],
+    perfilAsegurado: null,
+    datosPersonales:null
+  }
 };
 
 export default initialState;
