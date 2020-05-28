@@ -108,6 +108,8 @@ const initialState = {
   deletePolizasMotoError: null,
   cancelarPolizaPending: false,
   cancelarPolizaError: null,
+  updateDetalleClientePending: false,
+  updateDetalleClienteError: null,
 };
 
 export default initialState;
