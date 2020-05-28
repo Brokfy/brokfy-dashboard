@@ -96,7 +96,7 @@ const PolizasVida = () => {
     module: "PolizaVida",
     buttons: {
       hideCreate: true,
-      hideEdit: false,
+      hideEdit: true,
       hideDelete: false,
       customButtons: []
     },

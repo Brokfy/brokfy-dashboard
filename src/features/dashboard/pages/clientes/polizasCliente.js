@@ -84,7 +84,7 @@ const PolizasCliente = ({ polizas }) => {
 
         if (confirmando && confirmado) {
             setSelectedPoliza('');
-            history.push(`/clientes`);
+            //history.push(`/clientes`);
         }
     }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history])
 

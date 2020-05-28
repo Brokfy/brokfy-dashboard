@@ -93,7 +93,7 @@ const Clientes = () => {
             || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
 
-    console.log(detalleUsuario)
+    //console.log(detalleUsuario)
 
     return (
         <div>
