@@ -69,4 +69,4 @@ export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMo
 export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
 export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';
 export { cancelarPoliza, dismissCancelarPolizaError } from './cancelarPoliza';
-export { updateDetalleCliente, dismissUpdateDetalleClienteError } from './updateDetalleCliente';
+export { cambioAgente, dismissCambioAgenteError } from './cambioAgente';

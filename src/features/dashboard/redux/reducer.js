@@ -53,7 +53,7 @@ import { reducer as fetchPolizasMotoReducer } from './fetchPolizasMoto';
 import { reducer as updatePolizasMotoReducer } from './updatePolizasMoto';
 import { reducer as deletePolizasMotoReducer } from './deletePolizasMoto';
 import { reducer as cancelarPolizaReducer } from './cancelarPoliza';
-import { reducer as updateDetalleClienteReducer } from './updateDetalleCliente';
+import { reducer as cambioAgenteReducer } from './cambioAgente';
 
 const reducers = [
   fetchProductosReducer,
@@ -102,7 +102,7 @@ const reducers = [
   updatePolizasMotoReducer,
   deletePolizasMotoReducer,
   cancelarPolizaReducer,
-  updateDetalleClienteReducer,
+  cambioAgenteReducer,
 ];
 
 export default function reducer(state = initialState, action) {

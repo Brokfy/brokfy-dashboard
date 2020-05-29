@@ -114,7 +114,9 @@ const initialState = {
     polizas: [],
     perfilAsegurado: null,
     datosPersonales:null
-  }
+  },
+  cambioAgentePending: false,
+  cambioAgenteError: null
 };
 
 export default initialState;

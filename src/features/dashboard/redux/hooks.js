@@ -44,4 +44,4 @@ export { useFetchPolizasMoto } from './fetchPolizasMoto';
 export { useUpdatePolizasMoto } from './updatePolizasMoto';
 export { useDeletePolizasMoto } from './deletePolizasMoto';
 export { useCancelarPoliza } from './cancelarPoliza';
-export { useUpdateDetalleCliente } from './updateDetalleCliente';
+export { useCambioAgente } from './cambioAgente';
