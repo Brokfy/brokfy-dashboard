@@ -17,7 +17,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
-import { green, red } from '@material-ui/core/colors';
+import { green, red, yellow } from '@material-ui/core/colors';
 import { useCancelarPoliza } from '../../redux/cancelarPoliza';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import format from 'date-fns/format';
@@ -66,6 +66,12 @@ const useStyles = makeStyles((theme) => ({
         height: theme.spacing(3),
         color: theme.palette.getContrastText(green[500]),
         backgroundColor: green[500],
+    },
+    yellowlarge: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        color: theme.palette.getContrastText(yellow[500]),
+        backgroundColor: yellow[500],
     },
 }));
 
@@ -145,10 +151,13 @@ const PolizasCliente = ({ polizas }) => {
                                 >
                                     <Grid container spacing={3}>
                                         <Grid item xs={1}>
-                                            <Avatar className={p.estadoPoliza == "ACTIVA" ? classes.greenlarge : classes.redlarge}>{' '}</Avatar>
+                                            <Avatar className={p.estadoPoliza === "ACTIVA" ? classes.greenlarge :
+                                                p.estadoPoliza === "CANCELADA" ? classes.redlarge :
+                                                    classes.yellowlarge
+                                            }>{' '}</Avatar>
                                         </Grid>
                                         <Grid item xs={11}>
-                                            <Typography className={classes.heading}>{p.noPoliza}</Typography>
+                                            <Typography className={classes.heading}>{`${p.noPoliza} (${p.tipoPoliza})`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </ExpansionPanelSummary>

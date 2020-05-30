@@ -161,25 +161,30 @@ const Clientes = () => {
                                 :
                                 <Grid container spacing={3}>
 
-                                <Grid item xs={5} >
-                                    <Grid container spacing={3}>
+                                    <Grid item xs={5} >
+                                        <Grid container spacing={3}>
 
-                                        <Grid item xs={12}>
-                                            <DatosPersonales {...detalleUsuario.datosPersonales} />
+                                            <Grid item xs={12}>
+                                                <DatosPersonales {...detalleUsuario.datosPersonales} />
+                                            </Grid>
+
+                                            <Grid item xs={12}>
+                                                <PerfilAsegurado {...detalleUsuario.perfilAsegurado} />
+                                            </Grid>
+
                                         </Grid>
+                                    </Grid>
 
-                                        <Grid item xs={12}>
-                                            <PerfilAsegurado {...detalleUsuario.perfilAsegurado} />
-                                        </Grid>
-
+                                    <Grid item xs={7}>
+                                        <PolizasCliente polizas={detalleUsuario.polizas} />
                                     </Grid>
                                 </Grid>
-
-                                <Grid item xs={7}>
-                                    <PolizasCliente polizas={detalleUsuario.polizas} />
-                                </Grid>
-                            </Grid>
                             }
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={3}>
+                        <Grid item xs={3} >
+
                         </Grid>
                     </Grid>
                 </div>
