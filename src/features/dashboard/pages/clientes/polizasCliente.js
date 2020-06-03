@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useUpdateDetalleCliente } from '../../redux/updateDetalleCliente';
 import { useLocation, useParams } from 'react-router-dom';
 import { PageNotFound } from '../../../common';
 import { useGetToken } from '../../../common/redux/hooks';
@@ -19,6 +18,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import { green, red, yellow } from '@material-ui/core/colors';
 import { useCancelarPoliza } from '../../redux/cancelarPoliza';
+import { useCambioAgente } from '../../redux/cambioAgente';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import format from 'date-fns/format';
 
@@ -82,9 +82,16 @@ const PolizasCliente = ({ polizas }) => {
     const [selectedProcesarPoliza, setSelectedProcesarPoliza] = useState('');
     const [confirmando, setConfirmando] = useState(false);
     const [confirmado, setConfirmado] = useState(false);
+
+    const [confirmandoCambioAgente, setConfirmandoCambioAgente] = useState(false);
+    const [confirmadoCambioAgente, setConfirmadoCambioAgente] = useState(false);
     const history = useHistory();
+
     const [open, setOpen] = useState(false);
+    const [openCambioAgente, setOpenCambioAgente] = useState(false);
+
     const { cancelarPoliza, cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify } = useCancelarPoliza();
+    const { cambioAgente, cambioAgentePending, cambioAgenteError, cambioAgenteNotify } = useCambioAgente();
 
     useEffect(() => {
         if (confirmando && cancelarPolizaNotify && !cancelarPolizaError) {
@@ -98,6 +105,18 @@ const PolizasCliente = ({ polizas }) => {
         }
     }, [confirmando, cancelarPolizaNotify, cancelarPolizaError, confirmado, history]);
 
+    useEffect(() => {
+        if (confirmandoCambioAgente && cambioAgenteNotify && !cambioAgenteError) {
+            setConfirmadoCambioAgente(true);
+            return;
+        }
+
+        if (confirmandoCambioAgente && confirmadoCambioAgente) {
+            //setSelectedPoliza('');
+            //history.push(`/clientes`);
+        }
+    }, [confirmandoCambioAgente, cambioAgenteNotify, cambioAgenteError, confirmadoCambioAgente, history]);
+
 
     const hacerConfirmacionPoliza = (noPoliza) => {
 
@@ -106,7 +125,12 @@ const PolizasCliente = ({ polizas }) => {
         setOpen(false);
     }
 
-    console.log(selectedPoliza);
+    const hacerCambioAgente = (noPoliza) => {
+
+        cambioAgente({ token: auth.tokenFirebase, noPoliza: noPoliza });
+        setConfirmandoCambioAgente(true);
+        setOpenCambioAgente(false);
+    }
 
     return (
         <div className="panel panel-default " style={{ marginBottom: "0px" }}>
@@ -128,6 +152,29 @@ const PolizasCliente = ({ polizas }) => {
                         Cancelar
                     </Button>
                     <Button onClick={() => hacerConfirmacionPoliza(selectedProcesarPoliza)} color="primary" autoFocus disabled={cancelarPolizaPending}>
+                        Continuar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openCambioAgente}
+                onClose={() => setOpenCambioAgente(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">Cambiar Agente</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Está seguro de cambiar de agente a la Póliza Nº <b>{selectedProcesarPoliza}</b>?.<br />
+                        Una vez realizado, no se podrá deshacer la acción.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenCambioAgente(false)}>
+                        Cancelar
+                    </Button>
+                    <Button onClick={() => hacerCambioAgente(selectedProcesarPoliza)} color="primary" autoFocus disabled={cambioAgentePending}>
                         Continuar
                     </Button>
                 </DialogActions>
@@ -177,7 +224,10 @@ const PolizasCliente = ({ polizas }) => {
                                 </ExpansionPanelDetails>
                                 {p.estadoPoliza === "CANCELADA" ? null : <ExpansionPanelActions>
                                     <Divider />
-                                    <Button disabled={cancelarPolizaPending} size="small" color="secondary" onClick={() => { setSelectedProcesarPoliza(p.noPoliza); setOpen(true); }}>
+                                    <Button disabled={cancelarPolizaPending || cambioAgentePending || p.polizaPropia === "No"} size="small" color="secondary" onClick={() => { setSelectedProcesarPoliza(p.noPoliza); setOpenCambioAgente(true); }}>
+                                        {!cambioAgentePending ? "Cambiar Agente" : "Procesando..."}
+                                    </Button>
+                                    <Button disabled={cancelarPolizaPending || cambioAgentePending} size="small" color="secondary" onClick={() => { setSelectedProcesarPoliza(p.noPoliza); setOpen(true); }}>
                                         {!cancelarPolizaPending ? "Cancelar Poliza" : "Procesando..."}
                                     </Button>
                                 </ExpansionPanelActions>}

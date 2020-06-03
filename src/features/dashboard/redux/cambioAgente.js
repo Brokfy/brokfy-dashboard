@@ -1,9 +1,11 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   DASHBOARD_CAMBIO_AGENTE_BEGIN,
   DASHBOARD_CAMBIO_AGENTE_SUCCESS,
   DASHBOARD_CAMBIO_AGENTE_FAILURE,
+  DASHBOARD_CAMBIO_AGENTE_DISMISS_SUCCESS,
   DASHBOARD_CAMBIO_AGENTE_DISMISS_ERROR,
 } from './constants';
 
@@ -14,12 +16,21 @@ export function cambioAgente(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/CambiarAgente/${args.noPoliza}`,
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
             type: DASHBOARD_CAMBIO_AGENTE_SUCCESS,
-            data: res,
+            data: args.noPoliza,
           });
           resolve(res);
         },
@@ -47,10 +58,11 @@ export function dismissCambioAgenteError() {
 export function useCambioAgente() {
   const dispatch = useDispatch();
 
-  const { cambioAgentePending, cambioAgenteError } = useSelector(
+  const { cambioAgentePending, cambioAgenteError, cambioAgenteNotify } = useSelector(
     state => ({
       cambioAgentePending: state.dashboard.cambioAgentePending,
       cambioAgenteError: state.dashboard.cambioAgenteError,
+      cambioAgenteNotify: state.dashboard.cambioAgenteNotify,
     }),
     shallowEqual,
   );
@@ -78,6 +90,7 @@ export function reducer(state, action) {
       return {
         ...state,
         cambioAgentePending: true,
+        cambioAgenteNotify: false,
         cambioAgenteError: null,
       };
 
@@ -85,7 +98,12 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        detalleUsuario: {
+          ...state.detalleUsuario,
+          polizas: [...state.detalleUsuario.polizas.map(x => { return (x.noPoliza === action.data ? { ...x, polizaPropia: "No" } : x) })]
+        },
         cambioAgentePending: false,
+        cambioAgenteNotify: true,
         cambioAgenteError: null,
       };
 
@@ -94,15 +112,25 @@ export function reducer(state, action) {
       return {
         ...state,
         cambioAgentePending: false,
+        cambioAgenteNotify: true,
         cambioAgenteError: action.data.error,
       };
 
-    case DASHBOARD_CAMBIO_AGENTE_DISMISS_ERROR:
-      // Dismiss the request failure error
-      return {
-        ...state,
-        cambioAgenteError: null,
-      };
+      case DASHBOARD_CAMBIO_AGENTE_DISMISS_SUCCESS:
+        // Dismiss the request failure error
+        return {
+          ...state,
+          cambioAgenteNotify: false,
+          cambioAgenteError: null,
+        };
+  
+      case DASHBOARD_CAMBIO_AGENTE_DISMISS_ERROR:
+        // Dismiss the request failure error
+        return {
+          ...state,
+          cambioAgenteNotify: false,
+          cambioAgenteError: null,
+        };
 
     default:
       return state;

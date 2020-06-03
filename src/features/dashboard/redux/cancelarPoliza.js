@@ -7,7 +7,6 @@ import {
   DASHBOARD_CANCELAR_POLIZA_FAILURE,
   DASHBOARD_CANCELAR_POLIZA_DISMISS_SUCCESS,
   DASHBOARD_CANCELAR_POLIZA_DISMISS_ERROR,
-  DASHBOARD_UPDATE_DETALLE_CLIENTE_SUCCESS,
 } from './constants';
 
 export function cancelarPoliza(args = {}) {
@@ -70,7 +69,7 @@ export function dismissCancelarPolizaError() {
 export function useCancelarPoliza() {
   const dispatch = useDispatch();
 
-  const { cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify, } = useSelector(
+  const { cancelarPolizaPending, cancelarPolizaError, cancelarPolizaNotify } = useSelector(
     state => ({
       cancelarPolizaPending: state.dashboard.cancelarPolizaPending,
       cancelarPolizaError: state.dashboard.cancelarPolizaError,
