@@ -3,7 +3,7 @@
 
 import {
 } from './';
-import Index from './pages';
+import Dashboard from './pages/dashboard/index';
 import Aseguradoras from './pages/aseguradoras/aseguradoras';
 import CatalogoProductos from './pages/aseguradoras/catalogo_productos';
 import AtencionClientes from './pages/atencion_clientes';
@@ -20,7 +20,7 @@ import Comisiones from './pages/aseguradoras/comisiones';
 export default {
   path: 'dashboard',
   childRoutes: [
-    { path: '/', component: Index, isIndex: true },
+    { path: '/', component: Dashboard, isIndex: true },
     { path: '/aseguradoras', component: Aseguradoras },
     { path: '/aseguradoras/productos', component: CatalogoProductos },
     { path: '/aseguradoras/comisiones', component: Comisiones },
