@@ -94,8 +94,6 @@ const Clientes = () => {
             || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
 
-    //console.log(detalleUsuario)
-
     return (
         <div>
             {loading === true ? <BLoading /> : null}
@@ -125,27 +123,28 @@ const Clientes = () => {
 
                                     </Paper>
 
-
-                                    <List className={classes.root}>
-                                        {listaLocal.length <= 0 ? <>No hay datos para mostrar</> :
-                                            listaLocal.map((us) => {
-                                                const labelId = `checkbox-list-label-${us.username}`;
-                                                return (
-                                                    <ListItem key={us.username} role={undefined} dense button onClick={handleToggle(us.username)}>
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                                edge="start"
-                                                                checked={checked.indexOf(us.username) !== -1}
-                                                                tabIndex={-1}
-                                                                disableRipple
-                                                                inputProps={{ 'aria-labelledby': labelId }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary={` ${us.nombre} ${us.apellidoPaterno ? us.apellidoPaterno : ""} ${us.apellidoMaterno ? us.apellidoMaterno : ""}`} secondary={us.username} />
-                                                    </ListItem>
-                                                );
-                                            })}
-                                    </List>
+                                    <div className="lista-poliza">
+                                        <List className={classes.root}>
+                                            {listaLocal.length <= 0 ? <>No hay datos para mostrar</> :
+                                                listaLocal.map((us) => {
+                                                    const labelId = `checkbox-list-label-${us.username}`;
+                                                    return (
+                                                        <ListItem key={us.username} role={undefined} dense button onClick={handleToggle(us.username)}>
+                                                            <ListItemIcon>
+                                                                <Checkbox
+                                                                    edge="start"
+                                                                    checked={checked.indexOf(us.username) !== -1}
+                                                                    tabIndex={-1}
+                                                                    disableRipple
+                                                                    inputProps={{ 'aria-labelledby': labelId }}
+                                                                />
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={` ${us.nombre} ${us.apellidoPaterno ? us.apellidoPaterno : ""} ${us.apellidoMaterno ? us.apellidoMaterno : ""}`} secondary={us.username} />
+                                                        </ListItem>
+                                                    );
+                                                })}
+                                        </List>
+                                    </div>
                                 </div>
                             </div>
                         </Grid>
@@ -182,13 +181,98 @@ const Clientes = () => {
                             }
                         </Grid>
                     </Grid>
-                    <Grid container spacing={3}>
-                        <Grid item xs={3} >
 
+                    {!detalleUsuario.detallePerfil ? null :
+                        <Grid container spacing={3}>
+                            {!detalleUsuario.detallePerfil.actividades || detalleUsuario.detallePerfil.actividades.length === 0 ? null :
+                                <Grid item xs={3} >
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">Actividades</span>
+                                            <br /><br />
+                                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                                <tbody>
+                                                    {detalleUsuario.detallePerfil.actividades.map(act => {
+                                                        return (
+                                                            <tr key={`actividad_${act.id}`}><td width="100%">{act.descripcion}</td></tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
+
+                            {!detalleUsuario.detallePerfil.gadgets || detalleUsuario.detallePerfil.gadgets.length === 0 ? null :
+                                <Grid item xs={3} >
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">Gadgets</span>
+                                            <br /><br />
+                                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                                <tbody>
+                                                    {detalleUsuario.detallePerfil.gadgets.map(gad => {
+                                                        return (
+                                                            <tr key={`gadget_${gad.id}`}><td width="100%">{gad.descripcion}</td></tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
+
+                            {!detalleUsuario.detallePerfil.propiedades || detalleUsuario.detallePerfil.propiedades.length === 0 ? null :
+                                <Grid item xs={3} >
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">Propiedades</span>
+                                            <br /><br />
+                                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                                <tbody>
+                                                    {detalleUsuario.detallePerfil.propiedades.map(pro => {
+                                                        return (
+                                                            <tr key={`gadget_${pro.id}`}><td width="100%">{pro.descripcion}</td></tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
+
+                            {!detalleUsuario.detallePerfil.salud || detalleUsuario.detallePerfil.salud.length === 0 ? null :
+                                <Grid item xs={3} >
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">Salud</span>
+                                            <br /><br />
+                                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                                <tbody>
+                                                    {detalleUsuario.detallePerfil.salud.map(sal => {
+                                                        return (
+                                                            <tr key={`gadget_${sal.id}`}><td width="100%">{sal.descripcion}</td></tr>
+                                                        )
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
                         </Grid>
-                    </Grid>
+                    }
                 </div>
                 : null}
+
+            <br /><br />
         </div >
     );
 }
