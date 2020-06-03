@@ -43,7 +43,7 @@ const Clientes = () => {
             return;
         }
 
-        if (listadoUsuarios.length > 0)
+        if (listadoUsuarios && listadoUsuarios.length > 0)
             setListaLocal(listadoUsuarios);
 
         setLoading(false);
