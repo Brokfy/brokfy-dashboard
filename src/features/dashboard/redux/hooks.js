@@ -50,3 +50,4 @@ export { useDashboardPolizaPorVencer } from './dashboardPolizaPorVencer';
 export { useDashboardMisClientes } from './dashboardMisClientes';
 export { useDashboardDescargas } from './dashboardDescargas';
 export { useDashboardGrafico } from './dashboardGrafico';
+export { useGetDashboardInit } from './getDashboardInit';

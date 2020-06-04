@@ -126,7 +126,9 @@ const initialState = {
   dashboardDescargasPending: false,
   dashboardDescargasError: null,
   dashboardGraficoPending: false,
-  dashboardGraficoError: null
+  dashboardGraficoError: null,
+  getDashboardInitPending: false,
+  getDashboardInitError: null
 };
 
 export default initialState;

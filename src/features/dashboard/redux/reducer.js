@@ -59,6 +59,7 @@ import { reducer as dashboardPolizaPorVencerReducer } from './dashboardPolizaPor
 import { reducer as dashboardMisClientesReducer } from './dashboardMisClientes';
 import { reducer as dashboardDescargasReducer } from './dashboardDescargas';
 import { reducer as dashboardGraficoReducer } from './dashboardGrafico';
+import { reducer as getDashboardInitReducer } from './getDashboardInit';
 
 const reducers = [
   fetchProductosReducer,
@@ -113,6 +114,7 @@ const reducers = [
   dashboardMisClientesReducer,
   dashboardDescargasReducer,
   dashboardGraficoReducer,
+  getDashboardInitReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -81,3 +81,4 @@ export {
 export { dashboardMisClientes, dismissDashboardMisClientesError } from './dashboardMisClientes';
 export { dashboardDescargas, dismissDashboardDescargasError } from './dashboardDescargas';
 export { dashboardGrafico, dismissDashboardGraficoError } from './dashboardGrafico';
+export { getDashboardInit, dismissGetDashboardInitError } from './getDashboardInit';
