@@ -70,3 +70,14 @@ export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePoliza
 export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';
 export { cancelarPoliza, dismissCancelarPolizaError } from './cancelarPoliza';
 export { cambioAgente, dismissCambioAgenteError } from './cambioAgente';
+export {
+  dashboardConsultaPoliza,
+  dismissDashboardConsultaPolizaError,
+} from './dashboardConsultaPoliza';
+export {
+  dashboardPolizaPorVencer,
+  dismissDashboardPolizaPorVencerError,
+} from './dashboardPolizaPorVencer';
+export { dashboardMisClientes, dismissDashboardMisClientesError } from './dashboardMisClientes';
+export { dashboardDescargas, dismissDashboardDescargasError } from './dashboardDescargas';
+export { dashboardGrafico, dismissDashboardGraficoError } from './dashboardGrafico';

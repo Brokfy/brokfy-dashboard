@@ -54,6 +54,11 @@ import { reducer as updatePolizasMotoReducer } from './updatePolizasMoto';
 import { reducer as deletePolizasMotoReducer } from './deletePolizasMoto';
 import { reducer as cancelarPolizaReducer } from './cancelarPoliza';
 import { reducer as cambioAgenteReducer } from './cambioAgente';
+import { reducer as dashboardConsultaPolizaReducer } from './dashboardConsultaPoliza';
+import { reducer as dashboardPolizaPorVencerReducer } from './dashboardPolizaPorVencer';
+import { reducer as dashboardMisClientesReducer } from './dashboardMisClientes';
+import { reducer as dashboardDescargasReducer } from './dashboardDescargas';
+import { reducer as dashboardGraficoReducer } from './dashboardGrafico';
 
 const reducers = [
   fetchProductosReducer,
@@ -103,6 +108,11 @@ const reducers = [
   deletePolizasMotoReducer,
   cancelarPolizaReducer,
   cambioAgenteReducer,
+  dashboardConsultaPolizaReducer,
+  dashboardPolizaPorVencerReducer,
+  dashboardMisClientesReducer,
+  dashboardDescargasReducer,
+  dashboardGraficoReducer,
 ];
 
 export default function reducer(state = initialState, action) {

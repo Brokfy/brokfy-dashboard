@@ -45,3 +45,8 @@ export { useUpdatePolizasMoto } from './updatePolizasMoto';
 export { useDeletePolizasMoto } from './deletePolizasMoto';
 export { useCancelarPoliza } from './cancelarPoliza';
 export { useCambioAgente } from './cambioAgente';
+export { useDashboardConsultaPoliza } from './dashboardConsultaPoliza';
+export { useDashboardPolizaPorVencer } from './dashboardPolizaPorVencer';
+export { useDashboardMisClientes } from './dashboardMisClientes';
+export { useDashboardDescargas } from './dashboardDescargas';
+export { useDashboardGrafico } from './dashboardGrafico';

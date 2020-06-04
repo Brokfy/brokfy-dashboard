@@ -116,7 +116,17 @@ const initialState = {
     datosPersonales:null
   },
   cambioAgentePending: false,
-  cambioAgenteError: null
+  cambioAgenteError: null,
+  dashboardConsultaPolizaPending: false,
+  dashboardConsultaPolizaError: null,
+  dashboardPolizaPorVencerPending: false,
+  dashboardPolizaPorVencerError: null,
+  dashboardMisClientesPending: false,
+  dashboardMisClientesError: null,
+  dashboardDescargasPending: false,
+  dashboardDescargasError: null,
+  dashboardGraficoPending: false,
+  dashboardGraficoError: null
 };
 
 export default initialState;
