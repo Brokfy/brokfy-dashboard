@@ -63,42 +63,40 @@ const ResumenPago = (props) => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} >
-                            <Typography className={classes.secondaryHeadingWhite}>
-                                {`Resumen del Pago`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <Paper elevation={3} className={classes.paper}>
-                <table className="table invoice-total">
-                    <tbody>
-                        <tr>
-                            <td><strong>Pago Recibido :</strong></td>
-                            <td>${formatMoney(props.montoPago)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monto Conciliado :</strong></td>
-                            <td>${formatMoney(props.montoConciliado)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monto No Conciliado :</strong></td>
-                            <td>${formatMoney(props.montoNoConciliado)}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div className="text-right">
-                    <Button onClick={procesarPago} variant="contained" color="primary" className={"color-principal"} disabled={props.montoNoConciliado !== 0 || procesando || insertPagosPending}>
-                        {procesando || insertPagosPending ? <i className="fa fa-refresh fa-spin"></i> : null}
-                        &nbsp;&nbsp;Registrar Pago&nbsp;&nbsp;
-                    </Button>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>{`Resumen del Pago`}</h5>
                 </div>
-            </Paper>
+                <div className="ibox-content">
+                    <div>
+                        <div style={{ padding: "0px", position: "relative" }}>
+                            <table className="table invoice-total">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Pago Recibido :</strong></td>
+                                        <td>${formatMoney(props.montoPago)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Monto Conciliado :</strong></td>
+                                        <td>${formatMoney(props.montoConciliado)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Monto No Conciliado :</strong></td>
+                                        <td>${formatMoney(props.montoNoConciliado)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className="text-right">
+                                <Button onClick={procesarPago} variant="contained" color="primary" className={"color-principal"} disabled={props.montoNoConciliado !== 0 || procesando || insertPagosPending}>
+                                    {procesando || insertPagosPending ? <i className="fa fa-refresh fa-spin"></i> : null}
+                                    &nbsp;&nbsp;Registrar Pago&nbsp;&nbsp;
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <BSnackbars
                 severity={ insertPagosError !== null ? "error" : "success" }
                 display={ insertPagosNotify === true }
