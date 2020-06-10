@@ -22,6 +22,7 @@ import WarningTwoToneIcon from '@material-ui/icons/WarningTwoTone';
 import { useFetchDropdownAseguradora } from '../../redux/fetchDropdownAseguradora';
 import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza';
 import { fetchDropdownProducto, useFetchDropdownProducto } from '../../redux/fetchDropdownProducto';
+import { Hidden } from '@material-ui/core';
 
 
 /*
@@ -173,12 +174,14 @@ const AprobarView = (props) => {
               data !== null && !polizaAprobada ?
               <Paper className={classes.paper} variant="outlined" square>
                 <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                  <Grid item sm={12} lg={6}>
                     <AprobarFormulario data={data} dropdownAseguradoras={dropdownAseguradoras} dropdownTipoPoliza={dropdownTipoPoliza} dropdownProductos={dropdownProductos} />
                   </Grid>
-                  <Grid item xs={6}>
-                    <BPDF url={data.urlPoliza} />
-                  </Grid>
+                  <Hidden smDown>
+                    <Grid item sm={12} lg={6}>
+                      <BPDF url={data.urlPoliza} />
+                    </Grid>
+                  </Hidden>
                 </Grid>
               </Paper> : null
             }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../../../features/common/redux/hooks';
 import Grid from '@material-ui/core/Grid';
-import { TextField, FormHelperText, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { TextField, FormHelperText, FormControl, InputLabel, Select, MenuItem, InputAdornment, Input } from '@material-ui/core'
 import { Typography } from "@material-ui/core";
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,13 +17,13 @@ const SegundoVida = (props) => {
     })
     const { dropdownOcupaciones, fetchDropdownOcupaciones, fetchDropdownOcupacionesPending } = useFetchDropdownOcupaciones();
 
-    const [fumador, setFumador] = useState('');
-    const [estatura, setEstatura] = useState('');
-    const [peso, setPeso] = useState('');
-    const [ingresos, setIngresos] = useState('');
-    const [idOcupacion, setIdOcupacion] = useState('');
-    const [idEstadoCivil, setIdEstadoCivil] = useState('');
-    const [idSexo, setIdSexo] = useState('');
+    const [fumador, setFumador] = useState(props.datos.fumador ? props.datos.fumador : '');
+    const [estatura, setEstatura] = useState(props.datos.estatura ? props.datos.estatura : '');
+    const [peso, setPeso] = useState(props.datos.peso ? props.datos.peso : '');
+    const [ingresos, setIngresos] = useState(props.datos.ingresos ? props.datos.ingresos : '');
+    const [idOcupacion, setIdOcupacion] = useState(props.datos.idOcupacion ? props.datos.idOcupacion : '');
+    const [idEstadoCivil, setIdEstadoCivil] = useState(props.datos.idEstadoCivil ? props.datos.idEstadoCivil : '');
+    const [idSexo, setIdSexo] = useState(props.datos.idSexo ? props.datos.idSexo : '');
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -57,8 +57,8 @@ const SegundoVida = (props) => {
     return <div>
 
         <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Typography variant="h6">Datos para Póliza Vida</Typography>
+            <Grid item xs={12} style={{ borderBottomStyle: "inset" }}>
+                <Typography variant="h6">Detalle de Póliza Vida</Typography>
             </Grid>
 
             <Grid item xs={4} >
@@ -87,6 +87,9 @@ const SegundoVida = (props) => {
                     name={"estatura"}
                     label={"Estatura"}
                     type="number"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+                    }}
                     defaultValue={estatura}
                     error={estatura === ""}
                     helperText={estatura==="" ? "El campo es requerido" : ''}
@@ -100,6 +103,9 @@ const SegundoVida = (props) => {
                     name={"peso"}
                     label={"Peso"}
                     type="number"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
+                    }}
                     defaultValue={peso}
                     error={peso === ""}
                     helperText={peso==="" ? "El campo es requerido" : ''}
@@ -153,12 +159,12 @@ const SegundoVida = (props) => {
                 <TextField
                     id={"ingresos"}
                     name={"ingresos"}
-                    label={"Ingresos"}
+                    label={"Ingresos (opcional)"}
                     type="number"
                     defaultValue={ingresos}
-                    error={ingresos === ""}
-                    helperText={ingresos ==="" ? "El campo es requerido" : ''}
-                    onBlur={event => setIngresos(event.target.value)}
+                    // error={ingresos === ""}
+                    // helperText={ingresos ==="" ? "El campo es requerido" : ''}
+                    // onBlur={event => setIngresos(event.target.value)}
                 />
             </Grid>
 

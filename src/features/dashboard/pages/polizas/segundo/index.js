@@ -10,19 +10,19 @@ import SegundoViaje from './viaje';
 import SegundoRetiro from './retiro';
 import SegundoPyme from './pyme';
 
-const SegundoFormulario = ({ tipo }) => {
+const SegundoFormulario = ({ tipo, datos }) => {
 
     switch (tipo) {
-        case 1: return <SegundoAuto />;
-        case 2: return <SegundoMoto />;
-        case 3: return <SegundoHogar />;
-        case 4: return <SegundoSalud />;
-        case 5: return <SegundoVida />;
-        case 6: return <SegundoGadget />;
-        case 7: return <SegundoMascota />;
-        case 8: return <SegundoViaje />;
-        case 9: return <SegundoRetiro />;
-        case 10: return <SegundoPyme />;
+        case 1: return <SegundoAuto datos={datos} />;
+        case 2: return <SegundoMoto datos={datos}/>;
+        case 3: return <SegundoHogar datos={datos}/>;
+        case 4: return <SegundoSalud datos={datos}/>;
+        case 5: return <SegundoVida datos={datos}/>;
+        case 6: return <SegundoGadget datos={datos}/>;
+        case 7: return <SegundoMascota datos={datos}/>;
+        case 8: return <SegundoViaje datos={datos}/>;
+        case 9: return <SegundoRetiro datos={datos}/>;
+        case 10: return <SegundoPyme datos={datos}/>;
         default: return <></>;
     }
 
