@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
+//import { useFetchDetalleUsuario } from '../../redux/';
 import BLoading from '../../../../components/bloading';
 import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
@@ -9,6 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { NumberFormatCustom } from '../../../../common/utils';
 
 const ConsultaPoliza = () => {
+
+    const [poliza, setPoliza] = useState("");
+
     const useStyles = makeStyles((theme) => ({
         paper: {
             padding: theme.spacing(2),
@@ -27,6 +31,10 @@ const ConsultaPoliza = () => {
         },
     }));
     const classes = useStyles();
+    //const { detalleUsuario, fetchDetalleUsuario, fetchDetalleUsuarioPending } = useFetchDetalleUsuario();
+    const buscarPoliza = () => {
+
+    }
 
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
@@ -34,15 +42,15 @@ const ConsultaPoliza = () => {
                 <span className="titulo-panel">Consulta Poliza</span>
                 <br /><br />
                 <Paper component="form" >
-                    <IconButton onClick={(e) => { }} color="primary" className={classes.iconButton} aria-label="directions">
+                    <IconButton onClick={() => buscarPoliza()} color="primary" className={classes.iconButton} aria-label="directions">
                         <SearchIcon />
                     </IconButton>
                     <InputBase
                         className={classes.input}
                         placeholder="Buscar poliza"
                         inputProps={{ 'aria-label': 'Buscar poliza' }}
-                        onChange={() => { }}
-                        onKeyPress={(event) => { }}
+                        onChange={(e) => setPoliza(e.target.value) }
+                        onKeyPress={(e) => { e.key == "Enter" ? buscarPoliza() : null }}
                     />
 
                 </Paper>
