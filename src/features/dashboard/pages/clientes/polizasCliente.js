@@ -185,7 +185,7 @@ const PolizasCliente = ({ polizas }) => {
                 <div className="lista-poliza">
                     {polizas.length <= 0 ? <Grid container spacing={3}>
                         <Grid item xs={12}>
-                            <Typography variant="body1">El cliente seleccionado no posee polizas registradas</Typography>
+                            <Typography variant="body1">El cliente seleccionado no posee pólizas registradas</Typography>
                         </Grid>
                     </Grid> : null}
                     {polizas.map(p => {
@@ -228,7 +228,7 @@ const PolizasCliente = ({ polizas }) => {
                                         {!cambioAgentePending ? "Cambiar Agente" : "Procesando..."}
                                     </Button>
                                     <Button disabled={cancelarPolizaPending || cambioAgentePending} size="small" color="secondary" onClick={() => { setSelectedProcesarPoliza(p.noPoliza); setOpen(true); }}>
-                                        {!cancelarPolizaPending ? "Cancelar Poliza" : "Procesando..."}
+                                        {!cancelarPolizaPending ? "Cancelar Póliza" : "Procesando..."}
                                     </Button>
                                 </ExpansionPanelActions>}
 
