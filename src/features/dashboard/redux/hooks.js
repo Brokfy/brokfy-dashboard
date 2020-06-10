@@ -51,3 +51,7 @@ export { useDashboardMisClientes } from './dashboardMisClientes';
 export { useDashboardDescargas } from './dashboardDescargas';
 export { useDashboardGrafico } from './dashboardGrafico';
 export { useGetDashboardInit } from './getDashboardInit';
+export { useFetchDropdownParentesco } from './fetchDropdownParentesco';
+export { useAgregarBeneficiario } from './agregarBeneficiario';
+export { useEliminarBeneficiario } from './eliminarBeneficiario';
+export { useResetBeneficiarios } from './resetBeneficiarios';

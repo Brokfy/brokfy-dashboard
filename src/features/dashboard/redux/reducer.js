@@ -60,6 +60,10 @@ import { reducer as dashboardMisClientesReducer } from './dashboardMisClientes';
 import { reducer as dashboardDescargasReducer } from './dashboardDescargas';
 import { reducer as dashboardGraficoReducer } from './dashboardGrafico';
 import { reducer as getDashboardInitReducer } from './getDashboardInit';
+import { reducer as fetchDropdownParentescoReducer } from './fetchDropdownParentesco';
+import { reducer as agregarBeneficiarioReducer } from './agregarBeneficiario';
+import { reducer as eliminarBeneficiarioReducer } from './eliminarBeneficiario';
+import { reducer as resetBeneficiariosReducer } from './resetBeneficiarios';
 
 const reducers = [
   fetchProductosReducer,
@@ -115,6 +119,10 @@ const reducers = [
   dashboardDescargasReducer,
   dashboardGraficoReducer,
   getDashboardInitReducer,
+  fetchDropdownParentescoReducer,
+  agregarBeneficiarioReducer,
+  eliminarBeneficiarioReducer,
+  resetBeneficiariosReducer,
 ];
 
 export default function reducer(state = initialState, action) {

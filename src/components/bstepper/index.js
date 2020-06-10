@@ -19,7 +19,11 @@ const style = makeStyles(theme => ({
     padding: "10px 20px",
     borderBottomRightRadius: "4px",
     borderBottomLeftRadius: "4px",
-    background: theme.palette.background.default
+    background: theme.palette.background.default,
+    border: "solid 2px #efefef",
+    WebkitBoxShadow: "2px 2px 5px 0px rgba(205,205,205,0.75)",
+    MozBoxShadow: "2px 2px 5px 0px rgba(205,205,205,0.75)",
+    boxShadow: "2px 2px 5px 0px rgba(205,205,205,0.75)",
   },
   stepper: {
       height: "calc(10vh - 0px)",
@@ -36,7 +40,13 @@ const style = makeStyles(theme => ({
   },
   botonera: {
     marginBottom: '16px',
-  }
+  },
+  formContainer: {
+    minHeight: "150px", 
+    maxHeight: "650px", 
+    marginTop: "10px", 
+    marginBottom: "8px",
+  },
 }));
 
 const BStepper = (props) => {
@@ -74,7 +84,7 @@ const BStepper = (props) => {
         }
       </Stepper>
       <Box className={classes.mainBox}>
-        <Grid container spacing={3} direction="column" justify="space-around" alignItems="center" style={{ minHeight: "150px", maxHeight: "650px", marginTop: "10px", marginBottom: "8px" }}>
+        <Grid container spacing={3} direction="column" justify="space-around" alignItems="center" className={classes.formContainer}>
           <form className={classes.form} ref={form} autoComplete="off">
             <Grid container spacing={3}>
               <StepContent step={props.activeStep} />
@@ -84,7 +94,7 @@ const BStepper = (props) => {
                     <Button disabled={props.activeStep === 0} className={classes.button} onClick={handleBack}>
                       Anterior
                     </Button>
-                    <Button variant="contained" color="primary" className={classes.button} onClick={handleNext}>
+                    <Button variant="contained" color="primary" className={classes.button} onClick={handleNext} disabled={!props.stepContent[props.activeStep].canSubmit}>
                       {props.activeStep === props.stepContent.length - 1 ? props.labelAction : 'Siguiente'}
                     </Button>
                   </Grid> :
@@ -110,6 +120,7 @@ BStepper.propTypes = {
   stepContent: PropTypes.arrayOf(
     PropTypes.shape({
       handleSubmit: PropTypes.func.isRequired, 
+      canSubmit: PropTypes.bool.isRequired,
       renderView: PropTypes.any.isRequired
     })
   ),

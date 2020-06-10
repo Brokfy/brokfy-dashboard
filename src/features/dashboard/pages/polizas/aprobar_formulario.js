@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormaPago, useAseguradora, useTipoPoliza, useProductos} from '../../hooks';
 import Grid from '@material-ui/core/Grid';
 import { getFormData, generarCuotas } from '../../../../common/utils';
@@ -11,6 +12,9 @@ import getColumnsAprobarFormulario from './aprobar_formulario_columnas';
 import { useHistory } from 'react-router-dom';
 import { useInsertPolizasMoto } from '../../redux/insertPolizasMoto';
 import { useInsertPolizasVida } from '../../redux/insertPolizasVida';
+import { Typography } from '@material-ui/core';
+import BeneficiariosFormulario from './segundo/beneficiarios_formulario';
+import { useResetBeneficiarios } from '../../redux/resetBeneficiarios';
 
 const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dropdownProductos }) => {
   const [aseguradora, AseguradoraView, setAseguradora, listadoAseguradora, idAseguradora] = useAseguradora(dropdownAseguradoras, data.aseguradora);
@@ -28,6 +32,9 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   const [procesando, setProcesando] = useState(false);
   const [columns, setColumns] = useState([]);
   const history = useHistory();
+  const porcentajeTotal = useSelector(state => state.dashboard.beneficiariosPctAsignado);
+  const beneficiarios = useSelector(state => state.dashboard.beneficiarios);
+  const { resetBeneficiarios } = useResetBeneficiarios();
 
   useEffect(() => {
     if( !auth.tokenFirebase ) return;
@@ -36,6 +43,10 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
     filtroProductosXidAseguradora(idAseguradora);
 
   }, [dropdownTipoPoliza, dropdownAseguradoras, dropdownProductos, listadoFormaPago, auth, filtroProductosXidAseguradora, idAseguradora, firstPage, datos]);
+
+  useEffect(() => {
+    resetBeneficiarios({});
+  }, [resetBeneficiarios]);
 
   useEffect(() => {
     if( !procesando && (insertPolizasAutoPending || insertPolizasMotoPending || insertPolizasVidaPending) ) {
@@ -161,14 +172,86 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
         data: Object.assign({}, firstPage, getFormData(event)),
         token: auth.tokenFirebase
       };
+      
+      if( activeStep === getSteps().length - 1 ) {
+        if( datos.tipo === "1" ) insertPolizasAuto(reqData); // AUTO
+        if( datos.tipo === "2" ) insertPolizasMoto(reqData); // MOTO
+        if( datos.tipo === "5" ) insertPolizasVida(reqData); // VIDA
+      }
 
-      if( datos.tipo === "1" ) insertPolizasAuto(reqData); // AUTO
-      if( datos.tipo === "2" ) insertPolizasMoto(reqData); // MOTO
-      if( datos.tipo === "5" ) insertPolizasVida(reqData); // VIDA
+      setDatos({
+        ...datos, 
+        ...formData,
+      });
 
     } else {
-      // setValidacionFormulario(validacion);
+      setValidacionFormulario(validacion);
     }
+
+    return pasaValidacion;
+  }
+
+  const submitFormStep3 = (event) => {
+    if( datos.tipo === "5" ) { // VIDA
+      const reqData = {
+        data: Object.assign({}, datos, { beneficiarios }),
+        token: auth.tokenFirebase
+      };
+
+      insertPolizasVida(reqData);
+    } 
+    
+  }
+
+  const getSteps = () => {
+    let steps = [
+      {
+        handleSubmit: submitFormStep1,
+        canSubmit: true,
+        renderView: !data ? "Loading" :
+          <div>
+            <Grid container spacing={3}>
+              <Grid item xs={12} style={{ marginBottom: "1rem", borderBottomStyle: "inset" }}>
+                <Typography variant="h6">Información General</Typography>
+              </Grid>
+              {!columns || columns.length <= 0 || data.length <= 0 ?
+                null : columns.map((col, index) => {
+                  return col.options.hasOwnProperty("display") && !col.options.display ? null :
+                    <Grid key={`grid_${index}_${col.name}`} item xs={4} >
+                      {
+                        col.name === "aseguradora" ?
+                        <AseguradoraView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
+                        col.name === "producto" ?
+                        <ProductosView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
+                        <BInput key={`col_${index}_${col.name}`} {...col} editValue={col.defaultValue === "" ? null : col.defaultValue} error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} />
+                      }                          
+                    </Grid>
+                }
+                )}
+            </Grid>
+          </div>
+      },
+
+      {
+        handleSubmit: submitFormStep2,
+        canSubmit: true,
+        renderView: !data ? "Loading" :
+          <SegundoFormulario tipo={parseInt(datos.tipo)} datos={datos} />
+      }
+
+    ];
+
+    // TIPO: VIDA
+    if( parseInt(datos.tipo) === 5 ) {
+      steps = [ ...steps, {
+        handleSubmit: submitFormStep3,
+        canSubmit: porcentajeTotal === 100,
+        renderView: !data ? "Loading" :
+          <BeneficiariosFormulario />
+      }]
+    }
+
+    return steps;
   }
 
   return (
@@ -178,36 +261,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
           activeStep={activeStep}
           setActiveStep={setActiveStep}
           labelAction="Aprobar"
-          stepContent={[
-            {
-              handleSubmit: submitFormStep1,
-              renderView: !data ? "Loading" :
-                <div>
-                  <Grid container spacing={3}>
-                    {!columns || columns.length <= 0 || data.length <= 0 ?
-                      null : columns.map((col, index) => {
-                        return col.options.hasOwnProperty("display") && !col.options.display ? null :
-                          <Grid key={`grid_${index}_${col.name}`} item xs={4} >
-                            {
-                              col.name === "aseguradora" ?
-                              <AseguradoraView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
-                              col.name === "producto" ?
-                              <ProductosView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
-                              <BInput key={`col_${index}_${col.name}`} {...col} editValue={col.defaultValue === "" ? null : col.defaultValue} error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} />
-                            }                          
-                          </Grid>
-                      }
-                      )}
-                  </Grid>
-                </div>
-            },
-
-            {
-              handleSubmit: submitFormStep2,
-              renderView: !data ? "Loading" :
-                <SegundoFormulario tipo={parseInt(datos.tipo)} />
-            }
-          ]}
+          stepContent={[...getSteps()]}
         /> : <h3>Procesando....</h3> }
     </div>
   );

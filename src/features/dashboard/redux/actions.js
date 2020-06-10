@@ -82,3 +82,10 @@ export { dashboardMisClientes, dismissDashboardMisClientesError } from './dashbo
 export { dashboardDescargas, dismissDashboardDescargasError } from './dashboardDescargas';
 export { dashboardGrafico, dismissDashboardGraficoError } from './dashboardGrafico';
 export { getDashboardInit, dismissGetDashboardInitError } from './getDashboardInit';
+export {
+  fetchDropdownParentesco,
+  dismissFetchDropdownParentescoError,
+} from './fetchDropdownParentesco';
+export { agregarBeneficiario } from './agregarBeneficiario';
+export { eliminarBeneficiario } from './eliminarBeneficiario';
+export { resetBeneficiarios } from './resetBeneficiarios';
