@@ -34,23 +34,23 @@ const Descargas = () => {
                 <span className="titulo-panel">Descargas</span>
                 <br /><br />
                 <Grid container spacing={3}>
-                    <Grid item xs="4">
+                    <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 1</Button>
                     </Grid>
 
-                    <Grid item xs="4">
+                    <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 2</Button>
                     </Grid>
 
-                    <Grid item xs="4">
+                    <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 3</Button>
                     </Grid>
 
-                    <Grid item xs="4">
+                    <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 4</Button>
                     </Grid>
 
-                    <Grid item xs="4">
+                    <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 5</Button>
                     </Grid>
 
