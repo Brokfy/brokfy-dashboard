@@ -9,16 +9,6 @@ const ReporteContenido = ({data}) => {
                 {  
                     data && data.length > 0 ?
                         data.map((item,index) => {
-                            // <tr key={`report_row_${index}`} className="gradeX footable-even" >
-                            //     <td className="footable-visible footable-first-column"><span className="footable-toggle"></span>Trident</td>
-                            //     <td className="footable-visible">Internet
-                            //         Explorer 4.0
-                            //     </td>
-                            //     <td className="footable-visible">Win 95+</td>
-                            //     <td className="center footable-visible">4</td>
-                            //     <td className="center footable-visible footable-last-column">X</td>
-                            // </tr>
-
                             if( item.tipoRegistro === 1 ) {
                                 return (
                                     <>
@@ -112,145 +102,24 @@ const ReporteContenido = ({data}) => {
                                 );
                             }
 
-                            // return (
-                            //     <tr key={`report_row_${index}`}>
-                            //         <td style={{ border: "none" }}>Trident</td>
-                            //         <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            //         <td style={{ border: "none" }}>Win</td>
-                            //         <td style={{ border: "none" }}>4</td>
-                            //         <td style={{ border: "none" }}>x</td>
-                            //     </tr>
-                            // );
+                            if( item.tipoRegistro === 6 ) {
+                                return (
+                                    <>
+                                        <div style={{ marginTop: "4px" }}></div>
+                                        <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
+                                            <tbody>
+                                                <tr>
+                                                    <td width="570" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total General</b></td>
+                                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.primaNeta} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
+                                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.primaTotal} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </>
+                                );
+                            }
                         }) : null
                 }
-                {/* <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse" }}>
-                    <thead>
-                        <tr>
-                            <th className="footable-visible footable-first-column footable-sortable">Rendering engine<span className="footable-sort-indicator"></span></th>
-                            <th className="footable-visible footable-sortable">Browser<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Platform(s)<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Engine version<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-last-column footable-sortable">CSS grade<span className="footable-sort-indicator"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                    </tbody>
-
-                    <thead>
-                        <tr>
-                            <th colSpan={5}>
-                                Aseguradora: MAPFRE<br/>
-                                TipoPoliza: PRUEBA
-                            </th>
-                        </tr>
-                        <tr>
-                            <th className="footable-visible footable-first-column footable-sortable">Rendering engine<span className="footable-sort-indicator"></span></th>
-                            <th className="footable-visible footable-sortable">Browser<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Platform(s)<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Engine version<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-last-column footable-sortable">CSS grade<span className="footable-sort-indicator"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                    </tbody>
-
-                    <thead>
-                        <br/>
-                        <tr>
-                            <th className="footable-visible footable-first-column footable-sortable">Rendering engine<span className="footable-sort-indicator"></span></th>
-                            <th className="footable-visible footable-sortable">Browser<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Platform(s)<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-sortable">Engine version<span className="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" className="footable-visible footable-last-column footable-sortable">CSS grade<span className="footable-sort-indicator"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                        <tr>
-                            <td style={{ border: "none" }}>Trident</td>
-                            <td style={{ border: "none" }}>Internet Explorer 4</td>
-                            <td style={{ border: "none" }}>Win</td>
-                            <td style={{ border: "none" }}>4</td>
-                            <td style={{ border: "none" }}>x</td>
-                        </tr>
-                    </tbody>
-                </table> */}
             </div>
         </div>
     );
