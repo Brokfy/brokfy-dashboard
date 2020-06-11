@@ -137,7 +137,9 @@ const initialState = {
     idTipoPoliza: 0,
   },
   fetchDataReporteFacturacionTotalPending: false,
-  fetchDataReporteFacturacionTotalError: null
+  fetchDataReporteFacturacionTotalError: null,
+  fetchDataReporteComisionesRecibidasPending: false,
+  fetchDataReporteComisionesRecibidasError: null
 };
 
 export default initialState;

@@ -58,3 +58,4 @@ export { useResetBeneficiarios } from './resetBeneficiarios';
 export { useFetchListadoReportes } from './fetchListadoReportes';
 export { useUpdateFiltrosReportes } from './updateFiltrosReportes';
 export { useFetchDataReporteFacturacionTotal } from './fetchDataReporteFacturacionTotal';
+export { useFetchDataReporteComisionesRecibidas } from './fetchDataReporteComisionesRecibidas';

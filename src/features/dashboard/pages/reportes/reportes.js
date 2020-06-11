@@ -14,6 +14,7 @@ import { useUpdateFiltrosReportes } from '../../redux/updateFiltrosReportes';
 import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza';
 import { useFetchDataReporteFacturacionTotal } from '../../redux/fetchDataReporteFacturacionTotal';
 import { FoldingCube } from 'styled-spinkit';
+import { useFetchDataReporteComisionesRecibidas } from '../../redux/fetchDataReporteComisionesRecibidas';
 
 const Reportes = () => {
   let { reporte } = useParams();
@@ -34,6 +35,7 @@ const Reportes = () => {
   const { dropdownAseguradoras: listadoAseguradoras, fetchDropdownAseguradora } = useFetchDropdownAseguradora();
   const { dropdownTipoPoliza: listadoTipoPolizas, fetchDropdownTipoPoliza } = useFetchDropdownTipoPoliza();
   const { dataReporteFacturacionTotal, fetchDataReporteFacturacionTotal, fetchDataReporteFacturacionTotalPending } = useFetchDataReporteFacturacionTotal();
+  const { dataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidasPending } = useFetchDataReporteComisionesRecibidas();
   const { filtrosReportes, updateFiltrosReportes } = useUpdateFiltrosReportes();
   const [nombreReporte, setNombreReporte] = useState();
   const [dataReporte, setDataReporte] = useState([]);
@@ -47,20 +49,27 @@ const Reportes = () => {
     updateFiltrosReportes({
       fechaInicio: "2019-06-01",
       // new Date().toISOString().substring(0,10),
-      fechaFin: new Date().toISOString().substring(0,10),
+      // fechaFin: new Date().toISOString().substring(0,10),
+      fechaFin: "2020-10-11",
       aseguradora: 0,
       tipoPoliza: 0,
     });
 
+    setDataReporte([]);
+
     switch(reporte) {
       case "comisiones-recibidas": 
+        setNombreReporte("Comisiones");
         break;
       case "facturacion-total": 
         setNombreReporte("FacturacionTotal");
         break;
       case "comisiones-pendientes": 
+        setNombreReporte("");
         break;
-      default: break;
+      default: 
+        setNombreReporte("");
+        break;
     }
   }, [reporte, updateFiltrosReportes, setNombreReporte]);
 
@@ -111,8 +120,12 @@ const Reportes = () => {
   }, [datosCargados, auth, fetchListadoReportesPending, fetchListadoReportes, listadoReportes, reporte, fetchDropdownAseguradora, fetchDropdownTipoPoliza]);
 
   useEffect(() => {
-    setDataReporte(dataReporteFacturacionTotal);
-  }, [dataReporteFacturacionTotal, setDataReporte]);
+    if ( nombreReporte === "FacturacionTotal" ) {
+      setDataReporte(dataReporteFacturacionTotal);
+    } else if( nombreReporte === "Comisiones" ) {
+      setDataReporte(dataReporteComisionesRecibidas);
+    }
+  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, nombreReporte, setDataReporte]);
 
   const useStyles = makeStyles((theme) => ({
     iconButton: {
@@ -132,14 +145,22 @@ const Reportes = () => {
       idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").value),
     });
 
-    fetchDataReporteFacturacionTotal({
+    const parametrosRequest = {
       token: auth.tokenFirebase,
       nombre: nombreReporte,
       fechaInicio: document.querySelector("#fechaInicio").value,
       fechaFin: document.querySelector("#fechaFin").value,
       idAseguradora: parseInt(document.querySelector("[name='aseguradora']").value),
       idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").value),
-    });
+    };
+
+    console.log(nombreReporte);
+
+    if( nombreReporte === "FacturacionTotal" ) {
+      fetchDataReporteFacturacionTotal(parametrosRequest);
+    } else if ( nombreReporte === "Comisiones" ) {
+      fetchDataReporteComisionesRecibidas(parametrosRequest);
+    }
 
     setShowReport(true);
   }
@@ -258,12 +279,12 @@ const Reportes = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={8} md={6} lg={4}>
-                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending}>
+                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending}>
                     <SearchSharp /> &nbsp; Buscar
                   </IconButton>
 
                   { 
-                    showReport && !fetchDataReporteFacturacionTotalPending ?
+                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending ?
                       <IconButton color="primary" component="span" className={classes.iconButton} onClick={() => window.print()}>
                         <PrintSharp /> &nbsp; Imprimir
                       </IconButton> : null
@@ -275,9 +296,9 @@ const Reportes = () => {
       </div>
 
       { showReport ? 
-          fetchDataReporteFacturacionTotalPending ? 
+          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending ? 
             <BLoading mensaje="Generando..." secundario={true} /> :
-            <ContenidoReporte data={dataReporte}/> : 
+            <ContenidoReporte nombreReporte={nombreReporte} data={dataReporte}/> : 
           null 
       }
       

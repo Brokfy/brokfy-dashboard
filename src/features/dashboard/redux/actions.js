@@ -95,3 +95,7 @@ export {
   fetchDataReporteFacturacionTotal,
   dismissFetchDataReporteFacturacionTotalError,
 } from './fetchDataReporteFacturacionTotal';
+export {
+  fetchDataReporteComisionesRecibidas,
+  dismissFetchDataReporteComisionesRecibidasError,
+} from './fetchDataReporteComisionesRecibidas';
