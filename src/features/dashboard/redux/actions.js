@@ -89,3 +89,9 @@ export {
 export { agregarBeneficiario } from './agregarBeneficiario';
 export { eliminarBeneficiario } from './eliminarBeneficiario';
 export { resetBeneficiarios } from './resetBeneficiarios';
+export { fetchListadoReportes, dismissFetchListadoReportesError } from './fetchListadoReportes';
+export { updateFiltrosReportes } from './updateFiltrosReportes';
+export {
+  fetchDataReporteFacturacionTotal,
+  dismissFetchDataReporteFacturacionTotalError,
+} from './fetchDataReporteFacturacionTotal';

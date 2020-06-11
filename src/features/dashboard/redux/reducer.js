@@ -64,6 +64,9 @@ import { reducer as fetchDropdownParentescoReducer } from './fetchDropdownParent
 import { reducer as agregarBeneficiarioReducer } from './agregarBeneficiario';
 import { reducer as eliminarBeneficiarioReducer } from './eliminarBeneficiario';
 import { reducer as resetBeneficiariosReducer } from './resetBeneficiarios';
+import { reducer as fetchListadoReportesReducer } from './fetchListadoReportes';
+import { reducer as updateFiltrosReportesReducer } from './updateFiltrosReportes';
+import { reducer as fetchDataReporteFacturacionTotalReducer } from './fetchDataReporteFacturacionTotal';
 
 const reducers = [
   fetchProductosReducer,
@@ -123,6 +126,9 @@ const reducers = [
   agregarBeneficiarioReducer,
   eliminarBeneficiarioReducer,
   resetBeneficiariosReducer,
+  fetchListadoReportesReducer,
+  updateFiltrosReportesReducer,
+  fetchDataReporteFacturacionTotalReducer,
 ];
 
 export default function reducer(state = initialState, action) {
