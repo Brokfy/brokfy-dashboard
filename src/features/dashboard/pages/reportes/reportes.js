@@ -154,8 +154,6 @@ const Reportes = () => {
       idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").value),
     };
 
-    console.log(nombreReporte);
-
     if( nombreReporte === "FacturacionTotal" ) {
       fetchDataReporteFacturacionTotal(parametrosRequest);
     } else if ( nombreReporte === "Comisiones" ) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import format from 'date-fns/format'
 import NumberFormat from 'react-number-format';
 
@@ -7,7 +7,7 @@ const ReporteFacturacionTotal = ({data}) => {
         data.map((item,index) => {
             if( item.tipoRegistro === 1 ) {
                 return (
-                    <>
+                    <Fragment key={`report_row_${index}`}>
                         <br/>
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                             <tbody>
@@ -17,13 +17,13 @@ const ReporteFacturacionTotal = ({data}) => {
                                 </tr>
                             </tbody>
                         </table>
-                    </>
+                    </Fragment>
                 );
             }
 
             if( item.tipoRegistro === 2 ) {
                 return (
-                    <>
+                    <Fragment key={`report_row_${index}`}>
                         <div style={{ marginTop: "4px" }}></div>
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0.4rem" }}>
                             <tbody>
@@ -34,7 +34,7 @@ const ReporteFacturacionTotal = ({data}) => {
                             </tbody>
                         </table>
 
-                        <table class="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
+                        <table className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
                             <thead>
                                 <tr>
                                     <th className={"table-header-group"} width="150" >Número Póliza<span className="footable-sort-indicator"></span></th>
@@ -46,13 +46,13 @@ const ReporteFacturacionTotal = ({data}) => {
                                 </tr>
                             </thead>
                         </table>
-                    </>
+                    </Fragment>
                 );
             }
 
             if( item.tipoRegistro === 3 ) {
                 return (
-                    <table className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
+                    <table key={`report_row_${index}`} className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
                         <tbody>
                             <tr>
                                 <td className={"table-row"} width="150">{item.numeroPoliza}</td>
@@ -69,7 +69,7 @@ const ReporteFacturacionTotal = ({data}) => {
 
             if( item.tipoRegistro === 4 ) {
                 return (
-                    <>
+                    <Fragment key={`report_row_${index}`}>
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                             <tbody>
                                 <tr>
@@ -80,13 +80,13 @@ const ReporteFacturacionTotal = ({data}) => {
                             </tbody>
                         </table>
                         <div style={{ marginTop: "4px" }}></div>
-                    </>
+                    </Fragment>
                 );
             }
 
             if( item.tipoRegistro === 5 ) {
                 return (
-                    <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
+                    <table key={`report_row_${index}`} className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                         <tbody>
                             <tr>
                                 <td width="570" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total Aseguradora</b> &nbsp; {item.aseguradora}</td>
@@ -100,7 +100,7 @@ const ReporteFacturacionTotal = ({data}) => {
 
             if( item.tipoRegistro === 6 ) {
                 return (
-                    <>
+                    <Fragment key={`report_row_${index}`}>
                         <div style={{ marginTop: "4px" }}></div>
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                             <tbody>
@@ -111,7 +111,7 @@ const ReporteFacturacionTotal = ({data}) => {
                                 </tr>
                             </tbody>
                         </table>
-                    </>
+                    </Fragment>
                 );
             }
         }
