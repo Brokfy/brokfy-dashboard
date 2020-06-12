@@ -99,3 +99,7 @@ export {
   fetchDataReporteComisionesRecibidas,
   dismissFetchDataReporteComisionesRecibidasError,
 } from './fetchDataReporteComisionesRecibidas';
+export {
+  fetchDataReporteComisionesPendientes,
+  dismissFetchDataReporteComisionesPendientesError,
+} from './fetchDataReporteComisionesPendientes';

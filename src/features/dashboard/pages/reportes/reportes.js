@@ -15,6 +15,7 @@ import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza'
 import { useFetchDataReporteFacturacionTotal } from '../../redux/fetchDataReporteFacturacionTotal';
 import { FoldingCube } from 'styled-spinkit';
 import { useFetchDataReporteComisionesRecibidas } from '../../redux/fetchDataReporteComisionesRecibidas';
+import { useFetchDataReporteComisionesPendientes } from '../../redux/fetchDataReporteComisionesPendientes';
 
 const Reportes = () => {
   let { reporte } = useParams();
@@ -36,6 +37,7 @@ const Reportes = () => {
   const { dropdownTipoPoliza: listadoTipoPolizas, fetchDropdownTipoPoliza } = useFetchDropdownTipoPoliza();
   const { dataReporteFacturacionTotal, fetchDataReporteFacturacionTotal, fetchDataReporteFacturacionTotalPending } = useFetchDataReporteFacturacionTotal();
   const { dataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidasPending } = useFetchDataReporteComisionesRecibidas();
+  const { dataReporteComisionesPendientes, fetchDataReporteComisionesPendientes, fetchDataReporteComisionesPendientesPending } = useFetchDataReporteComisionesPendientes();
   const { filtrosReportes, updateFiltrosReportes } = useUpdateFiltrosReportes();
   const [nombreReporte, setNombreReporte] = useState();
   const [dataReporte, setDataReporte] = useState([]);
@@ -65,7 +67,7 @@ const Reportes = () => {
         setNombreReporte("FacturacionTotal");
         break;
       case "comisiones-pendientes": 
-        setNombreReporte("");
+        setNombreReporte("ComisionesPendientes");
         break;
       default: 
         setNombreReporte("");
@@ -124,8 +126,10 @@ const Reportes = () => {
       setDataReporte(dataReporteFacturacionTotal);
     } else if( nombreReporte === "Comisiones" ) {
       setDataReporte(dataReporteComisionesRecibidas);
+    } else if( nombreReporte === "ComisionesPendientes" ) {
+      setDataReporte(dataReporteComisionesPendientes);
     }
-  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, nombreReporte, setDataReporte]);
+  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, dataReporteComisionesPendientes, nombreReporte, setDataReporte]);
 
   const useStyles = makeStyles((theme) => ({
     iconButton: {
@@ -158,6 +162,8 @@ const Reportes = () => {
       fetchDataReporteFacturacionTotal(parametrosRequest);
     } else if ( nombreReporte === "Comisiones" ) {
       fetchDataReporteComisionesRecibidas(parametrosRequest);
+    } else if ( nombreReporte === "ComisionesPendientes" ) {
+      fetchDataReporteComisionesPendientes(parametrosRequest)
     }
 
     setShowReport(true);
@@ -277,12 +283,12 @@ const Reportes = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={8} md={6} lg={4}>
-                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending}>
+                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending}>
                     <SearchSharp /> &nbsp; Buscar
                   </IconButton>
 
                   { 
-                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending ?
+                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending && !fetchDataReporteComisionesPendientesPending ?
                       <IconButton color="primary" component="span" className={classes.iconButton} onClick={() => window.print()}>
                         <PrintSharp /> &nbsp; Imprimir
                       </IconButton> : null
@@ -294,7 +300,7 @@ const Reportes = () => {
       </div>
 
       { showReport ? 
-          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending ? 
+          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending ? 
             <BLoading mensaje="Generando..." secundario={true} /> :
             <ContenidoReporte nombreReporte={nombreReporte} data={dataReporte}/> : 
           null 

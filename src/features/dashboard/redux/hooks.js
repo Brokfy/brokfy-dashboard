@@ -59,3 +59,4 @@ export { useFetchListadoReportes } from './fetchListadoReportes';
 export { useUpdateFiltrosReportes } from './updateFiltrosReportes';
 export { useFetchDataReporteFacturacionTotal } from './fetchDataReporteFacturacionTotal';
 export { useFetchDataReporteComisionesRecibidas } from './fetchDataReporteComisionesRecibidas';
+export { useFetchDataReporteComisionesPendientes } from './fetchDataReporteComisionesPendientes';

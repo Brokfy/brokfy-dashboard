@@ -139,7 +139,9 @@ const initialState = {
   fetchDataReporteFacturacionTotalPending: false,
   fetchDataReporteFacturacionTotalError: null,
   fetchDataReporteComisionesRecibidasPending: false,
-  fetchDataReporteComisionesRecibidasError: null
+  fetchDataReporteComisionesRecibidasError: null,
+  fetchDataReporteComisionesPendientesPending: false,
+  fetchDataReporteComisionesPendientesError: null
 };
 
 export default initialState;
