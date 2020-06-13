@@ -1,7 +1,9 @@
 // This is the JSON way to define React Router rules in a Rekit app.
 // Learn more from: http://rekit.js.org/docs/routing.html
 
-import Index from './pages';
+import {
+} from './';
+import Dashboard from './pages/dashboard/index';
 import Aseguradoras from './pages/aseguradoras/aseguradoras';
 import CatalogoProductos from './pages/aseguradoras/catalogo_productos';
 import AtencionClientes from './pages/atencion_clientes';

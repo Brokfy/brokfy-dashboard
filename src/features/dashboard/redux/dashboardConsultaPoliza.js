@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function dashboardConsultaPoliza(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/DashboardConsultaPoliza?noPoliza=${args.noPoliza}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissDashboardConsultaPolizaError() {
 }
 
 export function useDashboardConsultaPoliza() {
+  const consultaPoliza = useSelector(state => state.dashboard.consultaPoliza);
+
   const dispatch = useDispatch();
 
   const { dashboardConsultaPolizaPending, dashboardConsultaPolizaError } = useSelector(
@@ -64,6 +76,7 @@ export function useDashboardConsultaPoliza() {
   }, [dispatch]);
 
   return {
+    consultaPoliza: consultaPoliza,
     dashboardConsultaPoliza: boundAction,
     dashboardConsultaPolizaPending,
     dashboardConsultaPolizaError,
@@ -85,6 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        consultaPoliza: action.data.data,
         dashboardConsultaPolizaPending: false,
         dashboardConsultaPolizaError: null,
       };
