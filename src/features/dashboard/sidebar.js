@@ -14,8 +14,9 @@ const Sidebar = () => {
   const { auth } = useGetToken();  
   
   useEffect(() => {
+    if( !auth || !auth.tokenFirebase || auth.tokenFirebase === "" ) return;
     fetchListadoReportes(auth.tokenFirebase);
-  }, [fetchListadoReportes, auth.tokenFirebase]);
+  }, [fetchListadoReportes, auth]);
 
   useEffect(() => {
     setMenu([
