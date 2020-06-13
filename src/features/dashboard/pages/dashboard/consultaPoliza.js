@@ -64,7 +64,7 @@ const ConsultaPoliza = () => {
                             placeholder="Buscar poliza"
                             inputProps={{ 'aria-label': 'Buscar poliza' }}
                             onChange={(e) => setPoliza(e.target.value)}
-                            onKeyPress={(e) => e.key == "Enter" ? buscarPoliza(e) : null}
+                            onKeyPress={(e) => e.key === "Enter" ? buscarPoliza(e) : null}
                         />
                     </Grid>
                     <Grid item lg={2} md={4}>
