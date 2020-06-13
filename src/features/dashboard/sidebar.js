@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import NavLink from './navlink';
 import logo from '../../images/logo.png';
-import { useIsAuthenticated } from '../common/redux/hooks';
+import { useIsAuthenticated, useGetToken } from '../common/redux/hooks';
 import { useTipoPoliza } from './hooks';
 import { DashboardOutlined, AccountCircleOutlined, MobileFriendly, PolicyOutlined, AccountBalanceOutlined, VerifiedUserOutlined, MonetizationOnOutlined, RoomServiceOutlined, ReportProblemOutlined, InsertChartOutlined } from '@material-ui/icons';
+import { useFetchListadoReportes } from './redux/fetchListadoReportes';
 
 const Sidebar = () => {
   const { isAuthenticated } = useIsAuthenticated();
   const [menu, setMenu] = useState([]);
   const [tipoPoliza, TipoPolizaView, setInitialValue, options] = useTipoPoliza();
+  const { listadoReportes, fetchListadoReportes, fetchListadoReportesPending } = useFetchListadoReportes();
+  const { auth } = useGetToken();  
+  
+  useEffect(() => {
+    fetchListadoReportes(auth.tokenFirebase);
+  }, [fetchListadoReportes, auth.tokenFirebase]);
 
   useEffect(() => {
     setMenu([
@@ -49,7 +56,10 @@ const Sidebar = () => {
 
       { icon: RoomServiceOutlined, to: "/atencion-clientes", label: "Atención Clientes", protected: true, open: false, active: false },
       { icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, open: false, active: false },
-      { icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, open: false, active: false },
+      { icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, childrenRoutes: [
+          ...listadoReportes.map(item => { return { to: item.path.toLowerCase(), label: item.nombre }; })
+        ]
+      },
       {
         icon: AccountBalanceOutlined, to: "/aseguradoras", label: "Aseguradoras", protected: true, childrenRoutes: [
           { to: "/aseguradoras", label: "Aseguradoras" },
@@ -58,7 +68,7 @@ const Sidebar = () => {
         ]
       },
     ]);
-  }, [options]);
+  }, [options, listadoReportes]);
 
   return (
     <nav className="navbar-default navbar-static-side" role="navigation">

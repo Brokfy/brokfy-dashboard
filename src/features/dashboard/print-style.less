@@ -1,0 +1,30 @@
+@page {
+  size: A4;
+  margin: 11mm 17mm 17mm 17mm;
+}
+
+@media print {
+  .show-print-mode {
+    display: block !important;
+  }
+  .hide-print-mode {
+    display: none !important;
+  }
+  .fa, .text-navy {
+      color: #CCC !important;
+  }
+  .ibox-content {
+    border: none !important;
+  }
+
+  .page-heading {  
+    h2 {
+      color: #333 !important;
+    }
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+}

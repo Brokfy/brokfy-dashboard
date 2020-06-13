@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom'
 
 const NavLink = (props) => {
   var location = useLocation();
-  const isActive = location.pathname === props.data.to || props.data.active;
+  const isActive = location.pathname === props.data.to || props.data.active || (props.data.to === "/reportes" && /\/reportes\/(.*)/.test(location.pathname));
   const className = isActive ? 'active' : '';
 
   const activeLink = (evt, prevent) => {
@@ -15,7 +15,7 @@ const NavLink = (props) => {
     const menu = props.menu.map(item => {
       return { 
         ...item,
-        active: item.to === props.data.to
+        active: (item.to === props.data.to) || ( props.data.to === "/reportes" && /\/reportes\/(.*)/.test(item.to) )
       };
     });
     props.setMenu(menu);
@@ -36,7 +36,7 @@ const NavLink = (props) => {
       <Item />
       {
         props.data.childrenRoutes ?
-          <ul className={`nav nav-second-level collapse ${props.data.active ? 'in' : ''}`} aria-expanded="true">
+          <ul className={`nav nav-second-level collapse ${props.data.active || className !== "" ? 'in' : ''}`} aria-expanded="true">
             {
               props.data.childrenRoutes.map((element, index) => {
                 return (

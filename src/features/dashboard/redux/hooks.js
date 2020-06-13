@@ -55,3 +55,8 @@ export { useFetchDropdownParentesco } from './fetchDropdownParentesco';
 export { useAgregarBeneficiario } from './agregarBeneficiario';
 export { useEliminarBeneficiario } from './eliminarBeneficiario';
 export { useResetBeneficiarios } from './resetBeneficiarios';
+export { useFetchListadoReportes } from './fetchListadoReportes';
+export { useUpdateFiltrosReportes } from './updateFiltrosReportes';
+export { useFetchDataReporteFacturacionTotal } from './fetchDataReporteFacturacionTotal';
+export { useFetchDataReporteComisionesRecibidas } from './fetchDataReporteComisionesRecibidas';
+export { useFetchDataReporteComisionesPendientes } from './fetchDataReporteComisionesPendientes';

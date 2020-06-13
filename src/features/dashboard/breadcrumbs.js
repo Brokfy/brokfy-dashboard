@@ -10,7 +10,8 @@ const Breadcrumbs = () => {
                 if( !item || item === '' ) item = 'Dashboard';
                 return item
                   .replace(/^./, item[0].toUpperCase())
-                  .replace("Atencion", "Atención");
+                  .replace("Atencion", "Atención")
+                  .replace("Facturacion", "Facturación");
               }).join(" ");
 
   return (
@@ -28,6 +29,7 @@ const Breadcrumbs = () => {
                     item
                       .replace(/^./, item[0].toUpperCase())
                       .replace("Atencion", "Atención")
+                      .replace("Facturacion", "Facturación")
                   ).join(" ");
                   var to = path.slice(0, index + 1).join("/");
 

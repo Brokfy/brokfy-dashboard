@@ -42,7 +42,7 @@ const DatosPersonales = ({ nombre, apellidoPaterno, apellidoMaterno, fechaNacimi
                         Fecha Nacimiento: {format(new Date(fechaNacimiento), 'dd/MM/yyyy')} <br />
                         Sexo: {sexo} <br />
                         Email: {email} <br />
-                        Telefono: {username}
+                        Teléfono: {username}
                     </Grid>
                 </Grid>
 

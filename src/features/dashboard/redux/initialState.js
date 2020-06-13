@@ -127,6 +127,21 @@ const initialState = {
   beneficiarios: [],
   beneficiariosPctAsignado: 0,
   dropdownParentesco: [],
+  fetchListadoReportesPending: false,
+  fetchListadoReportesError: null,
+  listadoReportes: [],
+  filtrosReportes: {
+    fechaInicio: new Date().toISOString().substring(0,10),
+    fechaFin: new Date().toISOString().substring(0,10),
+    idAseguradora: 0,
+    idTipoPoliza: 0,
+  },
+  fetchDataReporteFacturacionTotalPending: false,
+  fetchDataReporteFacturacionTotalError: null,
+  fetchDataReporteComisionesRecibidasPending: false,
+  fetchDataReporteComisionesRecibidasError: null,
+  fetchDataReporteComisionesPendientesPending: false,
+  fetchDataReporteComisionesPendientesError: null
 };
 
 export default initialState;
