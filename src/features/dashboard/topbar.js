@@ -23,7 +23,7 @@ const Topbar = () => {
             isAuthenticated ?
             <li>
               <a className="pull-left btn-effect" data-modal="modal-1" data-rel="tooltip" data-placement="top" href="#!">
-                <i className="fa fa-user"></i> { auth.NombreCompleto }
+                <i className="fa fa-user"></i> { auth ? auth.NombreCompleto : null }
               </a>
             </li> :
             null
