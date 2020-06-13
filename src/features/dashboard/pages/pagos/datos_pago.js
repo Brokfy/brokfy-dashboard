@@ -141,7 +141,7 @@ const DatosPago = ({ listadoAseguradora = [], datosPago, setDatosPago, modoEdici
                                     </Grid>
 
                                     <Grid item xs={6} sm={4} md={3} lg={2} style={{paddingTop: "25px"}}>
-                                        <Button fullWidth={true} onClick={relacionarPolizas} disabled={!relacionarPolizasEnabled} className={classes.buttonColor}>
+                                        <Button fullWidth={true} onClick={relacionarPolizas} disabled={!relacionarPolizasEnabled || formData.montoPago <= 0} className={classes.buttonColor}>
                                             { modoEdicion ? "relacionar pólizas" : "editar pago" }
                                         </Button>
                                     </Grid>
