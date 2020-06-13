@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
+import { useGetDashboardInit } from '../../redux/getDashboardInit';
 import BLoading from '../../../../components/bloading';
 import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
@@ -19,9 +20,14 @@ const Dashboard = () => {
     const [datosCargados, setDatosCargados] = useState(true);
 
     const { auth } = useGetToken();
+    const { dashboardInit, getDashboardInit, getDashboardInitPending } = useGetDashboardInit();
 
+    useEffect(() => {
+        getDashboardInit({ tokenFirebase: auth.tokenFirebase });
+    }
+        , [getDashboardInit, auth.tokenFirebase]);
 
-
+    console.log(dashboardInit);
     return (
         <div>
             {loading === true ? <BLoading /> : null}
@@ -33,11 +39,13 @@ const Dashboard = () => {
                         </Grid>
 
                         <Grid item xs={4} >
-                            <PolizasPorVencer />
+                            {!dashboardInit ? "Cargando..." :
+                                <PolizasPorVencer tipoPoliza={dashboardInit.tipoPoliza} />}
                         </Grid>
 
                         <Grid item xs={4} >
-                            <MisClientes />
+                            {!dashboardInit ? "Cargando..." :
+                                <MisClientes clientes={dashboardInit.clientes} />}
                         </Grid>
                     </Grid>
                     <Divider orientation={"horizontal"} />

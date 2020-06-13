@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function dashboardPolizaPorVencer(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/DashboardPolizasPorVencer?tipoPoliza=${args.tipoPoliza}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,7 @@ export function dismissDashboardPolizaPorVencerError() {
 }
 
 export function useDashboardPolizaPorVencer() {
+  const polizasPorVencer = useSelector(state => state.dashboard.polizasPorVencer);
   const dispatch = useDispatch();
 
   const { dashboardPolizaPorVencerPending, dashboardPolizaPorVencerError } = useSelector(
@@ -64,6 +75,7 @@ export function useDashboardPolizaPorVencer() {
   }, [dispatch]);
 
   return {
+    polizasPorVencer: polizasPorVencer,
     dashboardPolizaPorVencer: boundAction,
     dashboardPolizaPorVencerPending,
     dashboardPolizaPorVencerError,
@@ -85,6 +97,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        polizasPorVencer: action.data.data,
         dashboardPolizaPorVencerPending: false,
         dashboardPolizaPorVencerError: null,
       };

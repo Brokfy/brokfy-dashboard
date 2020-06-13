@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
+import { useDashboardPolizaPorVencer } from '../../redux/dashboardPolizaPorVencer';
+import PolizaDrawer from '../polizas/polizaDrawer';
 import BLoading from '../../../../components/bloading';
-import { FormControl, InputLabel, Select, Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
+import { Link, FormControl, InputLabel, Select, Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NumberFormatCustom } from '../../../../common/utils';
+import format from 'date-fns/format';
+import MuiAlert from '@material-ui/lab/Alert';
 
-const PolizasPorVencer = () => {
+const PolizasPorVencer = ({ tipoPoliza }) => {
+
+    const { auth } = useGetToken();
+    const [poliza, setPoliza] = useState("");
+    const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
+    const [open, setOpen] = useState(false);
+    const { polizasPorVencer, dashboardPolizaPorVencer, dashboardPolizaPorVencerPending } = useDashboardPolizaPorVencer();
+
+    const seleccionarPoliza = (noPoliza) => {
+        setPoliza(noPoliza);
+        setOpen(true);
+    }
+
     const useStyles = makeStyles((theme) => ({
         paper: {
             padding: theme.spacing(2),
@@ -34,29 +50,46 @@ const PolizasPorVencer = () => {
         },
     }));
     const classes = useStyles();
-
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
-                <span className="titulo-panel">Polizas por vencer</span>
-                <FormControl style={{ margin: '0' }}>
-                    <InputLabel id="demo-simple-select-label">Tipo Poliza</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        onChange={(event) => { }}
-                    >
-                        <MenuItem value={1}>Auto</MenuItem>
-                        <MenuItem value={2}>Moto</MenuItem>
-                    </Select>
-                </FormControl>
-                <br /><br />
-                <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                    <tbody>
-                        <tr><td width="30%">6546124651</td><td width="30%">Auto</td><td>10/10/2020</td></tr>
-                        <tr><td width="30%">6546124651</td><td width="30%">Auto</td><td>10/10/2020</td></tr>
-                        <tr><td width="30%">6546124651</td><td width="30%">Auto</td><td>10/10/2020</td></tr>
-                    </tbody>
-                </table>
+                <span className="titulo-panel">Pólizas por vencer</span>
+                <Grid container spacing={3}>
+                    <Grid item xs={10}>
+                        <FormControl style={{ margin: '0' }}>
+                            <Select
+                                onChange={(event) => setSelectedTipoPoliza(event.target.value)}
+                            >
+                                {!tipoPoliza || tipoPoliza.length <= 0 ? null :
+                                    tipoPoliza.map(x => <MenuItem key={`menuItem${x.id}`} value={x.id}>{x.tipo}</MenuItem>)}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button size="small" onClick={() => dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza })} color="primary">
+                            <SearchIcon />
+                        </Button>
+                    </Grid>
+                </Grid>
+                <div className="dashboard-panel-alt">
+                    {!polizasPorVencer || polizasPorVencer.lenght <= 0 ?
+                        <MuiAlert elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert> :
+                        <div>
+                            <table className="table table-hover " style={{ marginBottom: "0px" }}>
+                                <tbody>
+                                    {polizasPorVencer.map(p => <tr>
+                                        <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
+                                        <td width="25%">{p.tipoPoliza}</td>
+                                        <td width="25%">{p.aseguradora}</td>
+                                        <td width="25%">{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td>
+                                    </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     );

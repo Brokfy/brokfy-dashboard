@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
 import { useDashboardConsultaPoliza } from '../../redux/dashboardConsultaPoliza';
+import PolizaDrawer from '../polizas/polizaDrawer';
 import BLoading from '../../../../components/bloading';
-import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
+import { FormControl, Link, Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NumberFormatCustom } from '../../../../common/utils';
-import format from 'date-fns/format'
+import format from 'date-fns/format';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const ConsultaPoliza = () => {
 
     const [poliza, setPoliza] = useState("");
     const { auth } = useGetToken();
+    const { consultaPoliza, dashboardConsultaPoliza, dashboardConsultaPolizaPending } = useDashboardConsultaPoliza();
+
+    const [open, setOpen] = useState(false);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -33,7 +39,7 @@ const ConsultaPoliza = () => {
         },
     }));
     const classes = useStyles();
-    const { consultaPoliza, dashboardConsultaPoliza, dashboardConsultaPolizaPending } = useDashboardConsultaPoliza();
+
 
 
     const buscarPoliza = (e) => {
@@ -46,51 +52,56 @@ const ConsultaPoliza = () => {
     }
 
 
-    console.log(consultaPoliza)
-
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
                 <span className="titulo-panel">Consulta Poliza</span>
-                <br /><br />
-                <Paper component="form" >
-                    <IconButton onClick={() => buscarPolizaNo()} color="primary" className={classes.iconButton} aria-label="directions">
-                        <SearchIcon />
-                    </IconButton>
-                    <InputBase
-                        className={classes.input}
-                        placeholder="Buscar poliza"
-                        inputProps={{ 'aria-label': 'Buscar poliza' }}
-                        onChange={(e) => setPoliza(e.target.value)}
-                        onKeyPress={(e) => e.key == "Enter" ? buscarPoliza(e) : null}
-                    />
-
-                </Paper>
-                <br />
-                {consultaPoliza !== '' && consultaPoliza !== null ?
-                    <Grid container spacing={3}>
-                        <Grid item xs={7}>
-                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                                <tbody>
-                                    <tr><td width="30%">Periodo</td><td width="70%">{`${format(new Date(consultaPoliza.fechaInicio), 'dd/MM/yyyy')} - ${format(new Date(consultaPoliza.fechaFin), 'dd/MM/yyyy')}`}</td></tr>
-                                    <tr><td width="30%">Cliente</td><td width="70%">{consultaPoliza.cliente}</td></tr>
-                                    <tr><td width="30%">Aseguradora</td><td width="70%">{consultaPoliza.aseguradora}</td></tr>
-                                </tbody>
-                            </table>
-                        </Grid>
-                        <Grid item xs={5}>
-                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                                <tbody>
-                                    <tr><td width="30%">Brokfy</td><td width="70%">{consultaPoliza.polizaPropia == "Si" ? "Si" : "No"}</td></tr>
-                                    <tr><td width="30%">Tipo</td><td width="70%">{consultaPoliza.tipoPoliza}</td></tr>
-                                    <tr><td width="30%">Estado</td><td width="70%">{consultaPoliza.estadoPoliza}</td></tr>
-                                </tbody>
-                            </table>
-                        </Grid>
+                <Grid container spacing={3}>
+                    <Grid item xs={10}>
+                        <InputBase
+                            placeholder="Buscar poliza"
+                            inputProps={{ 'aria-label': 'Buscar poliza' }}
+                            onChange={(e) => setPoliza(e.target.value)}
+                            onKeyPress={(e) => e.key == "Enter" ? buscarPoliza(e) : null}
+                        />
                     </Grid>
-                    : null
-                }
+                    <Grid item xs={2}>
+                        <Button onClick={() => buscarPolizaNo()} color="primary">
+                            <SearchIcon />
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <div className="dashboard-panel">
+                    {!consultaPoliza ?
+                        <MuiAlert elevation={6} variant="filled" severity="info" >Escriba el número de póliza y presione Enter</MuiAlert> :
+                        <div>
+                            <table className="table table-hover" style={{ marginBottom: "0px" }}>
+                                <tbody>
+                                    <tr>
+                                        <td width="15%">Póliza</td><td width="40%" ><Link className="detallePoliza" onClick={() => setOpen(true)}>{consultaPoliza.noPoliza}</Link></td>
+                                        <td width="15%">Brokfy</td><td width="20%">{consultaPoliza.polizaPropia == "Si" ? "Si" : "No"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Periodo</td><td width="40%">{`${format(new Date(consultaPoliza.fechaInicio), 'dd/MM/yyyy')} - ${format(new Date(consultaPoliza.fechaFin), 'dd/MM/yyyy')}`}</td>
+                                        <td width="15%">Tipo</td><td width="20%">{consultaPoliza.tipoPoliza}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Cliente</td><td width="40%">{consultaPoliza.cliente}</td>
+                                        <td width="15%">Estado</td><td width="20%">{consultaPoliza.estadoPoliza}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%">Aseguradora</td><td width="85%">{consultaPoliza.aseguradora}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                        </div>
+
+                    }
+                </div>
             </div>
+
         </div>
     );
 }

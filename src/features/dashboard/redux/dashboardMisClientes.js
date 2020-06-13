@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,17 @@ export function dashboardMisClientes(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+
+      const options = {
+        url: `https://localhost:44341/api/DashboardMisClientes?username=${args.username}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +56,7 @@ export function dismissDashboardMisClientesError() {
 }
 
 export function useDashboardMisClientes() {
+  const polizasCliente = useSelector(state => state.dashboard.polizasCliente);
   const dispatch = useDispatch();
 
   const { dashboardMisClientesPending, dashboardMisClientesError } = useSelector(
@@ -64,6 +76,7 @@ export function useDashboardMisClientes() {
   }, [dispatch]);
 
   return {
+    polizasCliente: polizasCliente,
     dashboardMisClientes: boundAction,
     dashboardMisClientesPending,
     dashboardMisClientesError,
@@ -85,6 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        polizasCliente: action.data.data,
         dashboardMisClientesPending: false,
         dashboardMisClientesError: null,
       };
