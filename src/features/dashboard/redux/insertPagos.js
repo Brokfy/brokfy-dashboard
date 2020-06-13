@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   DASHBOARD_INSERT_PAGOS_BEGIN,
@@ -25,7 +25,7 @@ export function insertPagos(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Pagos`,
+        url: `http://3.136.94.107:4300/api/Pagos`,
         method: 'POST',
         data: args.data,
         headers: {
@@ -37,18 +37,11 @@ export function insertPagos(args = {}) {
       const doRequest = axios(options);
       doRequest.then(
         (res) => {
-          axios({
-            ...options,
-            method: "GET"
-          }).then(
-            (res) => {
-              dispatch({
-                type: DASHBOARD_INSERT_PAGOS_SUCCESS,
-                data: res,
-              });
-              resolve(res);
-            },
-          );
+          dispatch({
+            type: DASHBOARD_INSERT_PAGOS_SUCCESS,
+            data: res,
+          });
+          resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
         (err) => {
@@ -74,10 +67,11 @@ export function dismissInsertPagosError() {
 export function useInsertPagos() {
   const dispatch = useDispatch();
 
-  const { insertPagosPending, insertPagosError } = useSelector(
+  const { insertPagosPending, insertPagosError, insertPagosNotify } = useSelector(
     state => ({
       insertPagosPending: state.dashboard.insertPagosPending,
       insertPagosError: state.dashboard.insertPagosError,
+      insertPagosNotify: state.dashboard.insertPagosNotify,
     }),
     shallowEqual,
   );
@@ -92,6 +86,7 @@ export function useInsertPagos() {
 
   return {
     insertPagos: boundAction,
+    insertPagosNotify,
     insertPagosPending,
     insertPagosError,
     dismissInsertPagosError: boundDismissError,
@@ -105,6 +100,7 @@ export function reducer(state, action) {
       return {
         ...state,
         insertPagosPending: true,
+        insertPagosNotify: false,
         insertPagosError: null,
       };
 
@@ -113,6 +109,7 @@ export function reducer(state, action) {
       return {
         ...state,
         insertPagosPending: false,
+        insertPagosNotify: true,
         insertPagosError: null,
       };
 
@@ -121,6 +118,7 @@ export function reducer(state, action) {
       return {
         ...state,
         insertPagosPending: false,
+        insertPagosNotify: true,
         insertPagosError: action.data.error,
       };
 
@@ -128,6 +126,7 @@ export function reducer(state, action) {
       // Dismiss the request failure error
       return {
         ...state,
+        insertPagosNotify: false,
         insertPagosError: null,
       };
     
@@ -135,6 +134,7 @@ export function reducer(state, action) {
       // Dismiss the request failure error
       return {
         ...state,
+        insertPagosNotify: false,
         insertPagosError: null,
       };
 

@@ -51,50 +51,29 @@ const RelacionPolizas = (props) => {
             </Grid>
         );
     }
-    console.log(props.listadoPolizas)
+    
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} >
-                            <Typography className={classes.secondaryHeadingWhite}>
-                                {`Relación de Pólizas por Pagar`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <SeccionRelacionPolizas>
-                {
-                    props.dropdownTipoPoliza.map(i => 
-                        <TipoPolizaPanel 
-                            key={`tipo_poliza_row_${i.id}`} 
-                            tipoPoliza={i} 
-                            listadoPolizas={
-                                props.listadoPolizas
-                                    .filter(poliza => poliza.tipoPoliza === i.id)
-                                    .map(poliza => {
-                                        return { 
-                                            noPoliza: poliza.noPoliza, 
-                                            vencimiento: getDateFormated(poliza.fechaFin), 
-                                            idEstatusPoliza: getEstadoPolizaLabel(poliza.idEstatusPoliza), 
-                                            primaTotal: poliza.primaTotal || 0, 
-                                            primaNeta: poliza.primaNeta, 
-                                            comision: poliza.comision || 0, 
-                                            montoPagado: poliza.montoPagado || 0, 
-                                            montoPago: poliza.montoPago || 0  }
-                                        }
-                                    )
-                            } 
-                            expanded={expanded} 
-                            setExpanded={setExpanded}
-                            polizasConciliadas={props.polizasConciliadas}
-                            openDrawer={props.openDrawer}
-                        />
-                    )
-                }
-            </SeccionRelacionPolizas>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>{`Relación de Pólizas por Pagar`}</h5>
+                </div>
+                <SeccionRelacionPolizas>
+                    {
+                        props.dropdownTipoPoliza.map(i => 
+                            <TipoPolizaPanel 
+                                key={`tipo_poliza_row_${i.id}`} 
+                                tipoPoliza={i} 
+                                listadoPolizas={ props.listadoPolizas.filter(poliza => poliza.tipoPoliza === i.id) } 
+                                expanded={expanded} 
+                                setExpanded={setExpanded}
+                                polizasConciliadas={props.polizasConciliadas}
+                                openDrawer={props.openDrawer}
+                            />
+                        )
+                    }
+                </SeccionRelacionPolizas>
+            </div>
         </div>
     );
 }

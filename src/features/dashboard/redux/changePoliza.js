@@ -24,7 +24,7 @@ export function reducer(state, action) {
         ...state,
         polizas: [
           ...state.polizas.map(item => {
-            return item.noPoliza === action.data.poliza ? {
+            return item.idPolizaComision === action.data.idPolizaComision ? {
               ...item,
               montoPago: action.data.valor
             } : item;

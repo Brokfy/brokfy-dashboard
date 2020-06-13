@@ -12,382 +12,74 @@ import {useParams} from 'react-router-dom';
 import format from 'date-fns/format'
 import { TextField, FormHelperText, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { nowrapColumn, checkboxRender, getEstadoPolizaLabel, listEstadoPoliza } from '../../../../common/utils';
+import getColumnsPolizasAuto from './polizas_auto_columnas';
 
 const PolizasAutos = () => {
   const [columns, setColumns] = useState([]);
   const { auth } = useGetToken();
+  const [loading, setLoading] = useState(true);
+  const [datosCargados, setDatosCargados] = useState({
+    aseguradoras: false,
+    productos: false,
+    polizasAuto: false,
+  });
   
-  const { polizasAuto: listadoPolizasAuto, fetchPolizasAuto } = useFetchPolizasAuto();
+  const { polizasAuto: listadoPolizasAuto, fetchPolizasAuto, fetchPolizasAutoPending } = useFetchPolizasAuto();
   const { updatePolizasAuto, updatePolizasAutoPending, updatePolizasAutoError, updatePolizasAutoNotify } = useUpdatePolizasAuto();
   const { deletePolizasAuto, deletePolizasAutoPending, deletePolizasAutoError, deletePolizasAutoNotify } = useDeletePolizasAuto();
   const { insertPolizasAuto, insertPolizasAutoPending, insertPolizasAutoError, insertPolizasAutoNotify } = useInsertPolizasAuto();
-  const { aseguradoras: listadoAseguradora, fetchAseguradoras } = useFetchAseguradoras();
-  
-
-  const { productos: listadoProductos, fetchProductos } = useFetchProductos();
-
+  const { aseguradoras: listadoAseguradora, fetchAseguradoras, fetchAseguradorasPending } = useFetchAseguradoras();
+  const { productos: listadoProductos, fetchProductos, fetchProductosPending } = useFetchProductos();
 
   let { propia, tipo } = useParams();
 
+  useEffect(() => {
+    setDatosCargados({
+      aseguradoras: false,
+      productos: false,
+      polizasAuto: false,
+    });
+  }, [propia, tipo])
+
 
   useEffect(() => {
-    if (auth.tokenFirebase !== "") {
+    if ( !auth.tokenFirebase || auth.tokenFirebase  === "" ) return;
+    if ( fetchPolizasAutoPending || fetchAseguradorasPending || fetchProductosPending ) return;
 
-      
+    if ( !datosCargados.aseguradoras ) {
+      setLoading(true);
       fetchAseguradoras(auth.tokenFirebase);
-      fetchProductos(auth.tokenFirebase);
-      fetchPolizasAuto({propia:propia === "brokfy" ? "Si" : "No", tokenFirebase: auth.tokenFirebase});
+      setDatosCargados({
+        ...datosCargados,
+        aseguradoras: true
+      });
+      return;
     }
-  }, [auth.tokenFirebase, fetchPolizasAuto, fetchAseguradoras, fetchProductos, propia]);
 
-  useEffect(() => {
-    if (listadoAseguradora && listadoAseguradora.length > 0 && listadoProductos && listadoProductos.length > 0 && listadoPolizasAuto && listadoPolizasAuto.length > 0) {
-      setColumns([
-        {
-          name: "noPoliza",
-          label: "Póliza",
-          type: "string",
-          required: true,
-          visible: false,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            visible: false,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "formaPago",
-          label: "Forma Pago",
-          type: "list",
-          data: [
-            { text: "Anual", value: "Anual" },
-            { text: "Semestral", value: "Semestral" },
-            { text: "Trimestral", value: "Trimestral" },
-            { text: "Mensual", value: "Mensual" }
-          ],
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "proximoPago",
-          label: "Próximo Pago",
-          type: "date",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "fechaInicio",
-          label: "Fecha Inicio",
-          type: "date",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "fechaFin",
-          label: "Fecha Fin",
-          type: "date",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "idAseguradoras",
-          label: "Aseguradora",
-          type: "list",
-          data: [...listadoAseguradora.map(item => { return { text: item.nombre, value: item.idAseguradora }; })],
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "costo",
-          label: "Prima Total",
-          type: "currency",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-          }
-        },
-        {
-          name: "primaNeta",
-          label: "Prima Neta",
-          type: "currency",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-          }
-        },
-        {
-          name: "idEstadoPoliza",
-          label: "Estado",
-          type: "list",
-          data: [...listEstadoPoliza],
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        
-        {
-          name: "username",
-          label: "Usuario",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "productoId",
-          label: "Producto",
-          type: "list",
-          data: [...listadoProductos.map(item => { return { text: item.producto, value: item.id }; })],
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "habilitada",
-          label: "Habilitada",
-          type: "list",
-          data: [{text: "Si", value: "Si"},{text: "No", value: "No"}],
-          required: true,
-          visible: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            visible: false,
-            ...nowrapColumn,
-            customBodyRender: (value, tableMeta, updateValue) => checkboxRender("habilitada", value, tableMeta, updateValue),
-          },
-        },
-        {
-          name: "noAsegurado",
-          label: "Nro Asegurado",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "polizaPropia",
-          label: "Póliza Propia",
-          type: "list",
-          data: [{text: "Si", value: "Si"},{text: "No", value: "No"}],
-          required: false,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            display: false,
-            ...nowrapColumn,
-            customBodyRender: (value, tableMeta, updateValue) => checkboxRender("polizaPropia", value, tableMeta, updateValue),
-          },
-        },
-        {
-          name: "polizaPdf",
-          label: "Póliza PDF",
-          type: "string",
-          required: false,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            display: false,
-          }
-        },
-        {
-          name: "reciboPdf",
-          label: "Recibo PDF",
-          type: "string",
-          required: false,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            display: false,
-          }
-        },
-        {
-          name: "rcUsaCanada",
-          label: "rcUsaCanada",
-          type: "list",
-          data: [{text: "Si", value: "Si"},{text: "No", value: "No"}],
-          required: false,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            display: false,
-            ...nowrapColumn,
-            customBodyRender: (value, tableMeta, updateValue) => checkboxRender("rcUsaCanada", value, tableMeta, updateValue),
-          },
-        },
-        {
-          name: "costoPrimerRecibo",
-          label: "Costo Primer Recibo",
-          type: "currency",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-          }
-        },
-        {
-          name: "costoRecibosSubsecuentes",
-          label: "Costo Recibos Subsecuentes",
-          type: "currency",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
-          }
-        },
-        {
-          name: "marca",
-          label: "Marca",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "modelo",
-          label: "Modelo",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "ano",
-          label: "Año",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "placas",
-          label: "Placa",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "clave",
-          label: "Clave",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-        {
-          name: "codigoPostal",
-          label: "Código Postal",
-          type: "string",
-          required: true,
-          defaultValue: "",
-          options: {
-            filter: true,
-            sort: true,
-            setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-            setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
-          }
-        },
-      ]);
+    if ( !datosCargados.productos ) {
+      setLoading(true);
+      fetchProductos(auth.tokenFirebase);
+      setDatosCargados({
+        ...datosCargados,
+        productos: true
+      });
+      return;
     }
-  }, [auth, listadoAseguradora, listadoProductos, listadoPolizasAuto]);
+
+    if ( !datosCargados.polizasAuto ) {
+      setLoading(true);
+      fetchPolizasAuto({propia:propia === "brokfy" ? "Si" : "No", tokenFirebase: auth.tokenFirebase});
+      setColumns(getColumnsPolizasAuto(listadoAseguradora, listadoProductos));
+      setDatosCargados({
+        ...datosCargados,
+        polizasAuto: true
+      });
+      return;
+    }
+
+    setLoading(false);
+  }, [auth.tokenFirebase, fetchPolizasAutoPending, fetchAseguradorasPending, fetchProductosPending, datosCargados, fetchAseguradoras, fetchProductos, fetchPolizasAuto, propia, listadoAseguradora, listadoProductos]);
+
 
   const options = {
     module: "PolizaAuto",
@@ -443,7 +135,7 @@ const PolizasAutos = () => {
     }
   };
 
-  if (columns.length > 0) {
+  if (!loading) {
     return (
       <BTable columns={columns} data={listadoPolizasAuto} options={options} isLoading={false} refreshData={fetchPolizasAuto} token={auth.tokenFirebase} />
     );

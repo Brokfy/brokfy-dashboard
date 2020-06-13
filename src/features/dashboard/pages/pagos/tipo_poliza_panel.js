@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { 
     ExpansionPanel, ExpansionPanelSummary, Typography, makeStyles, ExpansionPanelDetails, 
@@ -36,60 +36,6 @@ const TipoPolizaPanel = ({ tipoPoliza: { id, tipo }, listadoPolizas, expanded, s
         return null;
     }
 
-    const listadoPolizaAlter = [
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/06/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/07/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/08/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/09/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/10/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        {
-            noPoliza: "TEST-124",
-            vencimiento: "03/11/2020",
-            comision: 100,
-            montoPagado: 0,
-            montoPago: 0,
-        },
-        // {
-        //     noPoliza: "TEST-124",
-        //     vencimiento: "03/12/2020",
-        //     comision: 100,
-        //     montoPagado: 0,
-        //     montoPago: 0,
-        // },
-    ]
-
-
-
     return (
         <ExpansionPanel expanded={expanded === tipo} onChange={handleChange(tipo)}>
             <ExpansionPanelSummary
@@ -98,7 +44,7 @@ const TipoPolizaPanel = ({ tipoPoliza: { id, tipo }, listadoPolizas, expanded, s
                 id="panel1bh-header"
             >
                 <Typography className={classes.heading}>{ tipo }</Typography>
-                <Typography className={classes.secondaryHeading}>({ listadoPolizaAlter.length } registros)</Typography>
+                <Typography className={classes.secondaryHeading}>({ listadoPolizas.length } registros)</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <TableContainer className={"mh-500"}>
@@ -114,7 +60,7 @@ const TipoPolizaPanel = ({ tipoPoliza: { id, tipo }, listadoPolizas, expanded, s
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {listadoPolizaAlter.map((row, i) => (
+                            {listadoPolizas.map((row, i) => (
                                 <TableRow key={`row_poliza_${i}`}>
                                     <TableCell>
                                         <Button color='primary'  className={"btn-link"} onClick={ () => openDrawer(row.noPoliza) }>
@@ -124,28 +70,48 @@ const TipoPolizaPanel = ({ tipoPoliza: { id, tipo }, listadoPolizas, expanded, s
                                     <TableCell>{row.vencimiento}</TableCell>
 
                                     <TableCell align="right">
-                                        <NumberFormat value={row.comision} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                        <NumberFormat value={row.valor.toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                     </TableCell>
 
                                     <TableCell align="right">
-                                        <NumberFormat value={row.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                        <NumberFormat value={row.montoPagado.toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                     </TableCell>
 
                                     <TableCell align="right">
-                                        <NumberFormat value={row.comision - row.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                        <NumberFormat value={(row.valor - row.montoPagado).toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                     </TableCell>
 
                                     <TableCell align="right">
                                         <TextField
-                                            defaultValue={row.montoPago}
+                                            defaultValue={row.montoPago.toFixed(2)}
                                             name="montoPago"
                                             id="montoPago"
+                                            type="number"
                                             InputProps={{
-                                                inputComponent: NumberFormatCustom,
+                                                min: 0,
+                                                // inputComponent: NumberFormatCustom,
                                                 autoComplete: "off",
                                             }}
                                             onBlur={(event) => {
-                                                changePoliza({ poliza: row.noPoliza, valor: parseFloat(event.target.value.replace("$", "").replace(",",""))});
+                                                try {
+                                                    const field = event.target.value.replace("$", "").replace(",","");
+                                                    var valor = parseFloat(field);
+                                                    const saldo = row.valor - row.montoPagado;
+                                                    if( saldo > 0 ) {
+                                                        if( valor > saldo ) {
+                                                            event.target.value = parseFloat(saldo).toFixed(2);
+                                                        } else if( valor < 0 ) {
+                                                            event.target.value = 0.00;
+                                                        } else {
+                                                            event.target.value = valor.toFixed(2);
+                                                        }
+                                                    } else {
+                                                        event.target.value = 0.00;
+                                                    }
+                                                } catch {
+                                                    event.target.value = 0.00;
+                                                }
+                                                changePoliza({ idPolizaComision: row.idPolizaComision, valor: parseFloat(event.target.value)});
                                             }}
                                         />
                                     </TableCell>

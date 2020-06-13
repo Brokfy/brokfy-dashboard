@@ -37,6 +37,38 @@ import { reducer as fetchDetallePolizaReducer } from './fetchDetallePoliza';
 import { reducer as fetchPolizasReducer } from './fetchPolizas';
 import { reducer as changePolizaReducer } from './changePoliza';
 import { reducer as insertPagosReducer } from './insertPagos';
+import { reducer as fetchListadoUsuarioReducer } from './fetchListadoUsuario';
+import { reducer as fetchDetalleUsuarioReducer } from './fetchDetalleUsuario';
+import { reducer as fetchPolizasPorConfirmarReducer } from './fetchPolizasPorConfirmar';
+import { reducer as fetchPolizaPorConfirmarReducer } from './fetchPolizaPorConfirmar';
+import { reducer as fetchValorComisionReducer } from './fetchValorComision';
+import { reducer as confirmarPolizaReducer } from './confirmarPoliza';
+import { reducer as fetchPolizasVidaReducer } from './fetchPolizasVida';
+import { reducer as updatePolizasVidaReducer } from './updatePolizasVida';
+import { reducer as insertPolizasVidaReducer } from './insertPolizasVida';
+import { reducer as deletePolizasVidaReducer } from './deletePolizasVida';
+import { reducer as fetchDropdownOcupacionesReducer } from './fetchDropdownOcupaciones';
+import { reducer as insertPolizasMotoReducer } from './insertPolizasMoto';
+import { reducer as fetchPolizasMotoReducer } from './fetchPolizasMoto';
+import { reducer as updatePolizasMotoReducer } from './updatePolizasMoto';
+import { reducer as deletePolizasMotoReducer } from './deletePolizasMoto';
+import { reducer as cancelarPolizaReducer } from './cancelarPoliza';
+import { reducer as cambioAgenteReducer } from './cambioAgente';
+import { reducer as dashboardConsultaPolizaReducer } from './dashboardConsultaPoliza';
+import { reducer as dashboardPolizaPorVencerReducer } from './dashboardPolizaPorVencer';
+import { reducer as dashboardMisClientesReducer } from './dashboardMisClientes';
+import { reducer as dashboardDescargasReducer } from './dashboardDescargas';
+import { reducer as dashboardGraficoReducer } from './dashboardGrafico';
+import { reducer as getDashboardInitReducer } from './getDashboardInit';
+import { reducer as fetchDropdownParentescoReducer } from './fetchDropdownParentesco';
+import { reducer as agregarBeneficiarioReducer } from './agregarBeneficiario';
+import { reducer as eliminarBeneficiarioReducer } from './eliminarBeneficiario';
+import { reducer as resetBeneficiariosReducer } from './resetBeneficiarios';
+import { reducer as fetchListadoReportesReducer } from './fetchListadoReportes';
+import { reducer as updateFiltrosReportesReducer } from './updateFiltrosReportes';
+import { reducer as fetchDataReporteFacturacionTotalReducer } from './fetchDataReporteFacturacionTotal';
+import { reducer as fetchDataReporteComisionesRecibidasReducer } from './fetchDataReporteComisionesRecibidas';
+import { reducer as fetchDataReporteComisionesPendientesReducer } from './fetchDataReporteComisionesPendientes';
 
 const reducers = [
   fetchProductosReducer,
@@ -69,6 +101,38 @@ const reducers = [
   fetchPolizasReducer,
   changePolizaReducer,
   insertPagosReducer,
+  fetchListadoUsuarioReducer,
+  fetchDetalleUsuarioReducer,
+  fetchPolizasPorConfirmarReducer,
+  fetchPolizaPorConfirmarReducer,
+  fetchValorComisionReducer,
+  confirmarPolizaReducer,
+  fetchPolizasVidaReducer,
+  updatePolizasVidaReducer,
+  insertPolizasVidaReducer,
+  deletePolizasVidaReducer,
+  fetchDropdownOcupacionesReducer,
+  insertPolizasMotoReducer,
+  fetchPolizasMotoReducer,
+  updatePolizasMotoReducer,
+  deletePolizasMotoReducer,
+  cancelarPolizaReducer,
+  cambioAgenteReducer,
+  dashboardConsultaPolizaReducer,
+  dashboardPolizaPorVencerReducer,
+  dashboardMisClientesReducer,
+  dashboardDescargasReducer,
+  dashboardGraficoReducer,
+  getDashboardInitReducer,
+  fetchDropdownParentescoReducer,
+  agregarBeneficiarioReducer,
+  eliminarBeneficiarioReducer,
+  resetBeneficiariosReducer,
+  fetchListadoReportesReducer,
+  updateFiltrosReportesReducer,
+  fetchDataReporteFacturacionTotalReducer,
+  fetchDataReporteComisionesRecibidasReducer,
+  fetchDataReporteComisionesPendientesReducer,
 ];
 
 export default function reducer(state = initialState, action) {

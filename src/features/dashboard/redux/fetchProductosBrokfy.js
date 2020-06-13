@@ -16,7 +16,7 @@ export function fetchProductosBrokfy(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Dropdown/productos_brokfy`,
+        url: `http://3.136.94.107:4300/api/Dropdown/productos_brokfy`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,
