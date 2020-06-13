@@ -18,6 +18,7 @@ const ConsultaPoliza = () => {
     const [poliza, setPoliza] = useState("");
     const { auth } = useGetToken();
     const { consultaPoliza, dashboardConsultaPoliza, dashboardConsultaPolizaPending } = useDashboardConsultaPoliza();
+    const [busco, setBusco] = useState(false);
 
     const [open, setOpen] = useState(false);
 
@@ -48,6 +49,7 @@ const ConsultaPoliza = () => {
     }
 
     const buscarPolizaNo = () => {
+        setBusco(true);
         dashboardConsultaPoliza({ tokenFirebase: auth.tokenFirebase, noPoliza: poliza });
     }
 
@@ -56,8 +58,8 @@ const ConsultaPoliza = () => {
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
                 <span className="titulo-panel">Consulta Poliza</span>
-                <Grid container spacing={3}>
-                    <Grid item xs={10}>
+                <Grid container spacing={1}>
+                    <Grid item lg={10} md={8}>
                         <InputBase
                             placeholder="Buscar poliza"
                             inputProps={{ 'aria-label': 'Buscar poliza' }}
@@ -65,7 +67,7 @@ const ConsultaPoliza = () => {
                             onKeyPress={(e) => e.key == "Enter" ? buscarPoliza(e) : null}
                         />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item lg={2} md={4}>
                         <Button onClick={() => buscarPolizaNo()} color="primary">
                             <SearchIcon />
                         </Button>
@@ -73,8 +75,9 @@ const ConsultaPoliza = () => {
                 </Grid>
 
                 <div className="dashboard-panel">
-                    {!consultaPoliza ?
-                        <MuiAlert elevation={6} variant="filled" severity="info" >Escriba el número de póliza y presione Enter</MuiAlert> :
+                    {busco ? null :
+                        <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba el número de póliza y presione Enter</MuiAlert>}
+                    {!consultaPoliza ? null :
                         <div>
                             <table className="table table-hover" style={{ marginBottom: "0px" }}>
                                 <tbody>

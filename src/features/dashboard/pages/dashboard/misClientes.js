@@ -30,6 +30,7 @@ const MisClientes = ({ clientes }) => {
     const [poliza, setPoliza] = useState("");
     const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
     const [open, setOpen] = useState(false);
+    const [busco, setBusco] = useState(false);
 
     const seleccionarPoliza = (noPoliza) => {
         setPoliza(noPoliza);
@@ -37,6 +38,7 @@ const MisClientes = ({ clientes }) => {
     }
 
     const buscarPolizas = () => {
+        setBusco(true);
         if (selectedClient !== '')
             dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });
     }
@@ -64,8 +66,8 @@ const MisClientes = ({ clientes }) => {
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
                 <span className="titulo-panel">Mis Clientes</span>
-                <Grid container spacing={3}>
-                    <Grid item xs={10}>
+                <Grid container spacing={1}>
+                    <Grid item lg={10} md={8}>
                         <Typeahead
                             labelKey={"nombre"}
                             key={"username"}
@@ -76,14 +78,14 @@ const MisClientes = ({ clientes }) => {
                             placeholder="Buscar cliente">
                         </Typeahead>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item lg={2} md={4}>
                         <Button color="primary" onClick={buscarPolizas}>
                             <SearchIcon />
                         </Button>
                     </Grid>
                 </Grid>
                 <div className="dashboard-panel">
-                    {!polizasCliente ? <MuiAlert elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert> : null}
+                    {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
                     <table className="table table-hover" style={{ marginBottom: "0px" }}>
                         <tbody>
                             {!polizasCliente || polizasCliente.length <= 0 ? null :

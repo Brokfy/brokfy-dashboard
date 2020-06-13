@@ -182,7 +182,7 @@ const Clientes = () => {
                         </Grid>
                     </Grid>
 
-                    {!detalleUsuario.detallePerfil ? null :
+                    {!detalleUsuario || !detalleUsuario.detallePerfil ? null :
                         <Grid container spacing={3}>
                             {!detalleUsuario.detallePerfil.actividades || detalleUsuario.detallePerfil.actividades.length === 0 ? null :
                                 <Grid item xs={3} >

@@ -54,8 +54,8 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
                 <span className="titulo-panel">Pólizas por vencer</span>
-                <Grid container spacing={3}>
-                    <Grid item xs={10}>
+                <Grid container spacing={1}>
+                    <Grid item lg={10} md={8}>
                         <FormControl style={{ margin: '0' }}>
                             <Select
                                 onChange={(event) => setSelectedTipoPoliza(event.target.value)}
@@ -65,7 +65,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item lg={2} md={4}>
                         <Button size="small" onClick={() => dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza })} color="primary">
                             <SearchIcon />
                         </Button>
@@ -73,7 +73,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
                 </Grid>
                 <div className="dashboard-panel-alt">
                     {!polizasPorVencer || polizasPorVencer.lenght <= 0 ?
-                        <MuiAlert elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert> :
+                        <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert> :
                         <div>
                             <table className="table table-hover " style={{ marginBottom: "0px" }}>
                                 <tbody>
