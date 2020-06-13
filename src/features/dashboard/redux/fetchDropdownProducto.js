@@ -16,7 +16,7 @@ export function fetchDropdownProducto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Dropdown/productos`,
+        url: `http://3.136.94.107:4300/api/Dropdown/productos`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

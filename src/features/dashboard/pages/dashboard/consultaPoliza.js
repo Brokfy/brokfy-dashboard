@@ -61,6 +61,7 @@ const ConsultaPoliza = () => {
                 <Grid container spacing={1}>
                     <Grid item lg={10} md={8}>
                         <InputBase
+                            className="rbt-input"
                             placeholder="Buscar poliza"
                             inputProps={{ 'aria-label': 'Buscar poliza' }}
                             onChange={(e) => setPoliza(e.target.value)}

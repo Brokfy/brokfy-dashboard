@@ -24,7 +24,7 @@ export function cancelarPoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/CancelarPoliza/${args.noPoliza}`,
+        url: `http://3.136.94.107:4300/api/CancelarPoliza/${args.noPoliza}`,
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${args.token}`,

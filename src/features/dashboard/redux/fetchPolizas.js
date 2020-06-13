@@ -26,7 +26,7 @@ export function fetchPolizas(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/polizas?idAseguradora=${args.aseguradora}&fecha=${args.fecha}`,
+        url: `http://3.136.94.107:4300/api/polizas?idAseguradora=${args.aseguradora}&fecha=${args.fecha}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,
