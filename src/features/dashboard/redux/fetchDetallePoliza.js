@@ -16,7 +16,7 @@ export function fetchDetallePoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/DetallePoliza/${args.noPoliza}`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/DetallePoliza/${args.noPoliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.tokenFirebase}`,

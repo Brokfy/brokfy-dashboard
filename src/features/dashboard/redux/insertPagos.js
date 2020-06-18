@@ -25,7 +25,7 @@ export function insertPagos(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Pagos`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Pagos`,
         method: 'POST',
         data: args.data,
         headers: {

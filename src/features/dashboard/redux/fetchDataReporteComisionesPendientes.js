@@ -16,7 +16,7 @@ export function fetchDataReporteComisionesPendientes(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Reportes?nombre=${args.nombre}&fechaInicio=${args.fechaInicio}&fechaFin=${args.fechaFin}&idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Reportes?nombre=${args.nombre}&fechaInicio=${args.fechaInicio}&fechaFin=${args.fechaFin}&idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,

@@ -24,7 +24,7 @@ export function confirmarPoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/PolizasComisiones`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/PolizasComisiones`,
         method: 'POST',
         data: args.comisiones,
         headers: {
@@ -37,7 +37,7 @@ export function confirmarPoliza(args = {}) {
       doRequest.then(
         (res) => {
           axios({
-            url: `https://localhost:44341/api/ConfirmarPoliza/${args.no_poliza}`,
+            url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/ConfirmarPoliza/${args.no_poliza}`,
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${args.token}`,
