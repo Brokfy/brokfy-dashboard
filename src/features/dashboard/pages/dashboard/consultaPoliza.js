@@ -69,7 +69,7 @@ const ConsultaPoliza = () => {
                         />
                     </Grid>
                     <Grid item lg={2} md={4}>
-                        <Button onClick={() => buscarPolizaNo()} color="primary">
+                        <Button onClick={() => buscarPolizaNo()} color="primary" disabled={poliza === ""}>
                             <SearchIcon />
                         </Button>
                     </Grid>

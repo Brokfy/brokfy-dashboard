@@ -79,7 +79,7 @@ const MisClientes = ({ clientes }) => {
                         </Typeahead>
                     </Grid>
                     <Grid item lg={2} md={4}>
-                        <Button color="primary" onClick={buscarPolizas}>
+                        <Button color="primary" onClick={buscarPolizas} disabled={selectedClient === ""}>
                             <SearchIcon />
                         </Button>
                     </Grid>

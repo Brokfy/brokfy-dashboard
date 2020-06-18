@@ -70,7 +70,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
                         <Button size="small" onClick={() => {
                             dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza });
                             setBusco(true);
-                        }} color="primary">
+                        }} color="primary" disabled={selectedTipoPoliza===0}>
                             <SearchIcon />
                         </Button>
                     </Grid>
