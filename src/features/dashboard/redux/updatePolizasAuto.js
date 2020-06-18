@@ -24,7 +24,7 @@ export function updatePolizasAuto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/PolizaAuto`,
+        url: `https://localhost:44341/api/PolizaAuto`,
         method: 'PUT',
         data: args.data,
         headers: {
