@@ -64,7 +64,7 @@ const MisClientes = ({ clientes }) => {
 
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-            <div className="panel-body">
+            <div className="panel-body panel-body-alt-2">
                 <span className="titulo-panel">Mis Clientes</span>
                 <Grid container spacing={1}>
                     <Grid item lg={10} md={8}>
@@ -88,8 +88,8 @@ const MisClientes = ({ clientes }) => {
                     {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
                     <table className="table table-hover" style={{ marginBottom: "0px" }}>
                         <tbody>
-                            {!polizasCliente || polizasCliente.length <= 0 ? null :
-                                polizasCliente.map(p => <tr>
+                            {!polizasCliente || polizasCliente.length <= 0 || !busco ? null :
+                                polizasCliente.map((p, i) => <tr key={`misClientes_${i.toString()}`}>
                                     <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
                                     <td width="25%">{p.tipoPoliza}</td>
                                     <td width="25%">{p.aseguradora}</td>

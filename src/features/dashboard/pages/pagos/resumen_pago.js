@@ -63,8 +63,8 @@ const ResumenPago = (props) => {
 
     return (
         <div className={classes.root}>
-            <div class="ibox ">
-                <div class="ibox-title">
+            <div className="ibox ">
+                <div className="ibox-title">
                     <h5>{`Resumen del Pago`}</h5>
                 </div>
                 <div className="ibox-content">

@@ -156,7 +156,7 @@ const BeneficiariosFormulario = (props) => {
                         return <td className={classes.bodyCell}>{item[element]}</td>;
                     }) }
                 <td className={classes.bodyCell}>
-                    <button className={`btn btn-white btn-bitbucket btn-rounded btn-sm ${classes.botonEliminar}`} type="button" onClick={() => eliminarBeneficiarioDelListado(item)}  style={{ color: "red" }}><i class="fa fa-times"></i></button>
+                    <button className={`btn btn-white btn-bitbucket btn-rounded btn-sm ${classes.botonEliminar}`} type="button" onClick={() => eliminarBeneficiarioDelListado(item)}  style={{ color: "red" }}><i className="fa fa-times"></i></button>
                 </td>
             </tr>
         ));
@@ -169,7 +169,7 @@ const BeneficiariosFormulario = (props) => {
                     { 
                         columnasGrillaBeneficiarios.map(element => {
                             if( element.name === "acciones" ) return (<td className={classes.bodyCell}>
-                                <button onClick={agregarBeneficiarioAListado} type="button" className={`btn btn-white btn-bitbucket btn-rounded btn-sm`}><i class="fa fa-check text-navy"></i></button>
+                                <button onClick={agregarBeneficiarioAListado} type="button" className={`btn btn-white btn-bitbucket btn-rounded btn-sm`}><i className="fa fa-check text-navy"></i></button>
                             </td>);
 
                             if( element.name === "idParentesco" ) return (

@@ -31,9 +31,60 @@ const Descargas = () => {
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
-                <span className="titulo-panel">Descargas</span>
+                <span className="titulo-panel">Descargas Instructivos</span>
                 <br /><br />
-                <Grid container spacing={3}>
+
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                Tópico #1
+                            </div>
+                            <div className="panel-body panel-body-alt">
+                                <span><i className="fa fa-book"></i></span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                Tópico #2
+                            </div>
+                            <div className="panel-body panel-body-alt">
+                                <span><i className="fa fa-book"></i></span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                Tópico #3
+                            </div>
+                            <div className="panel-body panel-body-alt">
+                                <span><i className="fa fa-book"></i></span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                Tópico #4
+                            </div>
+                            <div className="panel-body panel-body-alt">
+                                <span><i className="fa fa-book"></i></span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <Grid container spacing={3}>
                     <Grid item xs={4}>
                         <Button color={"primary"}>Instructivo 1</Button>
                     </Grid>
@@ -54,7 +105,7 @@ const Descargas = () => {
                         <Button color={"primary"}>Instructivo 5</Button>
                     </Grid>
 
-                </Grid>
+                </Grid> */}
             </div>
         </div>
     );

@@ -24,7 +24,7 @@ export function updateComisiones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Comisiones`,
+        url: `https://3.136.94.107:4300/api/Comisiones`,
         method: 'POST',
         data: args.data,
         headers: {

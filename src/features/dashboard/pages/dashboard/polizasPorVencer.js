@@ -19,6 +19,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
     const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
     const [open, setOpen] = useState(false);
     const { polizasPorVencer, dashboardPolizaPorVencer, dashboardPolizaPorVencerPending } = useDashboardPolizaPorVencer();
+    const [busco, setBusco] = useState(false);
 
     const seleccionarPoliza = (noPoliza) => {
         setPoliza(noPoliza);
@@ -52,8 +53,8 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
     const classes = useStyles();
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-            <div className="panel-body">
-                <span className="titulo-panel">Pólizas por vencer</span>
+            <div className="panel-body panel-body-alt-2">
+                <span className="titulo-panel">Pólizas por Vencer</span>
                 <Grid container spacing={1}>
                     <Grid item lg={10} md={8}>
                         <FormControl style={{ margin: '0' }}>
@@ -66,29 +67,32 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
                         </FormControl>
                     </Grid>
                     <Grid item lg={2} md={4}>
-                        <Button size="small" onClick={() => dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza })} color="primary">
+                        <Button size="small" onClick={() => {
+                            dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza });
+                            setBusco(true);
+                        }} color="primary">
                             <SearchIcon />
                         </Button>
                     </Grid>
                 </Grid>
                 <div className="dashboard-panel-alt">
-                    {!polizasPorVencer || polizasPorVencer.lenght <= 0 ?
-                        <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert> :
+                        {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert>}
                         <div>
                             <table className="table table-hover " style={{ marginBottom: "0px" }}>
                                 <tbody>
-                                    {polizasPorVencer.map(p => <tr>
-                                        <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
-                                        <td width="25%">{p.tipoPoliza}</td>
-                                        <td width="25%">{p.aseguradora}</td>
-                                        <td width="25%">{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td>
-                                    </tr>
-                                    )}
+                                    {!polizasPorVencer || polizasPorVencer.length <= 0 || !busco ? null :
+                                        polizasPorVencer.map(p => <tr>
+                                            <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
+                                            <td width="25%">{p.tipoPoliza}</td>
+                                            <td width="25%">{p.aseguradora}</td>
+                                            <td width="25%">{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td>
+                                        </tr>
+                                        )
+                                    }
                                 </tbody>
                             </table>
                             <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
                         </div>
-                    }
                 </div>
             </div>
         </div>

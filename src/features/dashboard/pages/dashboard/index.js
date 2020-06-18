@@ -22,12 +22,20 @@ const Dashboard = () => {
     const { auth } = useGetToken();
     const { dashboardInit, getDashboardInit, getDashboardInitPending } = useGetDashboardInit();
 
+    const [tipoPoliza, setTipoPoliza] = useState();
+    const [clientes, setClientes] = useState();
+
     useEffect(() => {
         getDashboardInit({ tokenFirebase: auth.tokenFirebase });
-    }
-        , [getDashboardInit, auth.tokenFirebase]);
+    }, [getDashboardInit, auth.tokenFirebase]);
 
-    console.log(dashboardInit);
+    useEffect(() => {
+        if( dashboardInit ) {
+            setTipoPoliza(dashboardInit.tipoPoliza);
+            setClientes(dashboardInit.clientes);
+        }        
+    }, [dashboardInit]);
+    
     return (
         <div>
             {loading === true ? <BLoading /> : null}
@@ -39,13 +47,11 @@ const Dashboard = () => {
                         </Grid>
 
                         <Grid item xs={4} >
-                            {!dashboardInit ? "Cargando..." :
-                                <PolizasPorVencer tipoPoliza={dashboardInit.tipoPoliza} />}
+                            <PolizasPorVencer tipoPoliza={tipoPoliza} />
                         </Grid>
 
                         <Grid item xs={4} >
-                            {!dashboardInit ? "Cargando..." :
-                                <MisClientes clientes={dashboardInit.clientes} />}
+                            <MisClientes clientes={clientes} />
                         </Grid>
                     </Grid>
                     <Divider orientation={"horizontal"} />
