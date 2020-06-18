@@ -39,7 +39,7 @@ const SegundoAuto = (props) => {
             const CancelToken = axios.CancelToken;
             const source = CancelToken.source();
             const options = {
-                url: `https://localhost:44341/api/Marcas`,
+                url: `https://3.136.94.107:4300/api/Marcas`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -67,7 +67,7 @@ const SegundoAuto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://localhost:44341/api/Year?Marca=${event.target.value}`,
+            url: `https://3.136.94.107:4300/api/Year?Marca=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -94,7 +94,7 @@ const SegundoAuto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://localhost:44341/api/Modelos?Marca=${marca}&Year=${event.target.value}`,
+            url: `https://3.136.94.107:4300/api/Modelos?Marca=${marca}&Year=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,

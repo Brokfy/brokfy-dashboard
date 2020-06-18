@@ -24,7 +24,7 @@ export function deleteAseguradora(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Aseguradoras`,
+        url: `https://3.136.94.107:4300/api/Aseguradoras`,
         method: 'DELETE',
         data: args.data,
         headers: {
