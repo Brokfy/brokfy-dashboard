@@ -49,10 +49,10 @@ const Reportes = () => {
     setLoading(true);
     setShowReport(false);
     updateFiltrosReportes({
-      fechaInicio: "2019-06-01",
-      // new Date().toISOString().substring(0,10),
-      // fechaFin: new Date().toISOString().substring(0,10),
-      fechaFin: "2020-10-11",
+      // fechaInicio: "2019-06-01",
+      fechaInicio: new Date().toISOString().substring(0,10),
+      fechaFin: new Date().toISOString().substring(0,10),
+      // fechaFin: "2020-10-11",
       aseguradora: 0,
       tipoPoliza: 0,
     });

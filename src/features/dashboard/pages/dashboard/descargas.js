@@ -42,7 +42,7 @@ const Descargas = () => {
                             </div>
                             <div className="panel-body panel-body-alt">
                                 <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@ const Descargas = () => {
                             </div>
                             <div className="panel-body panel-body-alt">
                                 <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ const Descargas = () => {
                             </div>
                             <div className="panel-body panel-body-alt">
                                 <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ const Descargas = () => {
                             </div>
                             <div className="panel-body panel-body-alt">
                                 <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             </div>
                         </div>
                     </div>

@@ -57,7 +57,7 @@ const ConsultaPoliza = () => {
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body panel-body-alt-2">
-                <span className="titulo-panel">Consulta Poliza</span>
+                <span className="titulo-panel">Consulta por Póliza</span>
                 <Grid container spacing={1}>
                     <Grid item lg={10} md={8}>
                         <InputBase
@@ -78,7 +78,7 @@ const ConsultaPoliza = () => {
                 <div className="dashboard-panel">
                     {busco ? null :
                         <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba el número de póliza y presione Enter</MuiAlert>}
-                    {!consultaPoliza ? null :
+                    {!consultaPoliza || !busco ? null :
                         <div>
                             <table className="table table-hover" style={{ marginBottom: "0px" }}>
                                 <tbody>

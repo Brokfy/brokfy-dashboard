@@ -74,12 +74,12 @@ const Grafico = ({ grafico }) => {
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
             <div className="panel-body">
-                <span className="titulo-panel">Polizas vs Tipo Polizas</span>
+                <span className="titulo-panel">Número de pólizas por tipo</span>
                 <br /><br />
                 <Pie
                     className={""}
                     data={data}
-                    height="100%"
+                    height="120"
                     options={{
                         tooltips: {
                             callbacks: {
