@@ -32,7 +32,7 @@ const useProductos = (dropdownProductos = [], defaultAseguradora = null) => {
 
     if( auth && auth.tokenFirebase ) {
       const options = {
-        url: `https://3.136.94.107:4300/api/Dropdown/productos`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Dropdown/productos`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${auth.tokenFirebase}`,

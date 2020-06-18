@@ -39,7 +39,7 @@ const SegundoMoto = (props) => {
             const CancelToken = axios.CancelToken;
             const source = CancelToken.source();
             const options = {
-                url: `https://3.136.94.107:4300/api/MarcaMoto`,
+                url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/MarcaMoto`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -67,7 +67,7 @@ const SegundoMoto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://3.136.94.107:4300/api/YearMoto?Marca=${event.target.value}`,
+            url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/YearMoto?Marca=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -94,7 +94,7 @@ const SegundoMoto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://3.136.94.107:4300/api/ModeloMoto?Marca=${marca}&Year=${event.target.value}`,
+            url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/ModeloMoto?Marca=${marca}&Year=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,

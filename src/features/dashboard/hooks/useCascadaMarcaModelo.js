@@ -30,7 +30,7 @@ const useCascadaMarcaModelo = () => {
 
     if (auth && auth.tokenFirebase) {
       const config = {
-        url: `https://3.136.94.107:4300/api/Dropdown/cascadaMarcaModelo`,
+        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Dropdown/cascadaMarcaModelo`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${auth.tokenFirebase}`,
