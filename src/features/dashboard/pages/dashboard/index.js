@@ -32,7 +32,7 @@ const Dashboard = () => {
         <div>
             {loading === true ? <BLoading /> : null}
             {!datosCargados && loading ? null :
-                <div  className={"inicioDashboard"}>
+                <div className={"inicioDashboard"}>
                     <Grid container spacing={3}>
                         <Grid item xs={4} >
                             <ConsultaPoliza />
@@ -56,7 +56,9 @@ const Dashboard = () => {
                         </Grid>
 
                         <Grid item xs={8} >
-                            <Grafico />
+                            {!dashboardInit ? "Cargando..." :
+                                <Grafico grafico={dashboardInit.grafico} />
+                            }
                         </Grid>
 
                     </Grid>

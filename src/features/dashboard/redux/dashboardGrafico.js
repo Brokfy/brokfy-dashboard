@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function dashboardGrafico(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/DashboardGrafico`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissDashboardGraficoError() {
 }
 
 export function useDashboardGrafico() {
+  const grafico = useSelector(state => state.dashboard.grafico);
+
   const dispatch = useDispatch();
 
   const { dashboardGraficoPending, dashboardGraficoError } = useSelector(
@@ -85,6 +97,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        grafico: action.data.data,
         dashboardGraficoPending: false,
         dashboardGraficoError: null,
       };

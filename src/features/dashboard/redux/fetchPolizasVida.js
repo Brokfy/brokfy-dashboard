@@ -17,7 +17,7 @@ export function fetchPolizasVida(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://3.136.94.107:4300/api/PolizaVida?propia=${args.propia}`,
+        url: `https://localhost:44341/api/PolizaVida?propia=${args.propia}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.tokenFirebase}`,
