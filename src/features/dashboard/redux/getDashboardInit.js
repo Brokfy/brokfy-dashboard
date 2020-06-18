@@ -16,7 +16,7 @@ export function getDashboardInit(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/GetDashboardInit`,
+        url: `https://3.136.94.107:4300/api/GetDashboardInit`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.tokenFirebase}`,

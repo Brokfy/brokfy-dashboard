@@ -16,7 +16,7 @@ export function fetchComisiones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/Comisiones`,
+        url: `https://3.136.94.107:4300/api/Comisiones`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

@@ -16,7 +16,7 @@ export function fetchDataReporteComisionesPendientes(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/Reportes?nombre=${args.nombre}&fechaInicio=${args.fechaInicio}&fechaFin=${args.fechaFin}&idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}`,
+        url: `https://3.136.94.107:4300/api/Reportes?nombre=${args.nombre}&fechaInicio=${args.fechaInicio}&fechaFin=${args.fechaFin}&idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,

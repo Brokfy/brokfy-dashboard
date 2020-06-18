@@ -17,7 +17,7 @@ export function cambioAgente(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/CambiarAgente/${args.noPoliza}`,
+        url: `https://3.136.94.107:4300/api/CambiarAgente/${args.noPoliza}`,
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${args.token}`,

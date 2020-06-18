@@ -24,7 +24,7 @@ export function deleteProducto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/Productos`,
+        url: `https://3.136.94.107:4300/api/Productos`,
         method: 'DELETE',
         data: args.data,
         headers: {

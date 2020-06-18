@@ -24,7 +24,7 @@ export function confirmarPoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `http://3.136.94.107:4300/api/PolizasComisiones`,
+        url: `https://3.136.94.107:4300/api/PolizasComisiones`,
         method: 'POST',
         data: args.comisiones,
         headers: {
@@ -37,7 +37,7 @@ export function confirmarPoliza(args = {}) {
       doRequest.then(
         (res) => {
           axios({
-            url: `http://3.136.94.107:4300/api/ConfirmarPoliza/${args.no_poliza}`,
+            url: `https://3.136.94.107:4300/api/ConfirmarPoliza/${args.no_poliza}`,
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${args.token}`,
