@@ -32,7 +32,7 @@ const Dashboard = () => {
         <div>
             {loading === true ? <BLoading /> : null}
             {!datosCargados && loading ? null :
-                <div>
+                <div  className={"inicioDashboard"}>
                     <Grid container spacing={3}>
                         <Grid item xs={4} >
                             <ConsultaPoliza />
