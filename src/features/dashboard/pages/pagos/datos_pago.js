@@ -41,8 +41,8 @@ const DatosPago = ({ listadoAseguradora = [], datosPago, setDatosPago, modoEdici
 
     return (
         <>
-            <div class="ibox ">
-                <div class="ibox-title">
+            <div className="ibox ">
+                <div className="ibox-title">
                     <h5>{`Registro de Pago Recibido`}</h5>
                 </div>
                 <div className="ibox-content">

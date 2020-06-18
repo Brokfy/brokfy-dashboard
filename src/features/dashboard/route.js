@@ -21,7 +21,7 @@ import Wrapper from '../../common/wrapper';
 export default {
   path: 'dashboard',
   childRoutes: [
-    { path: '/', component: Dashboard, isIndex: true },
+    { path: '/', component: Wrapper(Dashboard), isIndex: true },
     { path: '/aseguradoras', component: Wrapper(Aseguradoras) },
     { path: '/aseguradoras/productos', component: Wrapper(CatalogoProductos) },
     { path: '/aseguradoras/comisiones', component: Wrapper(Comisiones) },

@@ -52,7 +52,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
     const classes = useStyles();
     return (
         <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-            <div className="panel-body">
+            <div className="panel-body panel-body-alt-2">
                 <span className="titulo-panel">Pólizas por vencer</span>
                 <Grid container spacing={1}>
                     <Grid item lg={10} md={8}>
