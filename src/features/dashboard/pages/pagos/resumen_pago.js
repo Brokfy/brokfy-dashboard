@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Toolbar, Grid, Typography, Paper, Button } from '@material-ui/core';
-import { SaveOutlined } from '@material-ui/icons';
 import { formatMoney } from '../../../../common/utils';
 import { insertPagos, useInsertPagos } from '../../redux/insertPagos';
-import { useHistory } from 'react-router-dom';
+import BSnackbars from '../../../../components/bsnackbar';
 
 const ResumenPago = (props) => {
-    const history = useHistory();
-    const { insertPagos, insertPagosPending } = useInsertPagos();
+    const { insertPagos, insertPagosPending, insertPagosNotify, insertPagosError } = useInsertPagos();
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -26,6 +24,7 @@ const ResumenPago = (props) => {
     }));
     const classes = useStyles();
     const [procesando, setProcesando] = useState(false);
+    const [procesado, setProcesado] = useState(false);
     const procesarPago = () => {
         const { polizas, datosPago, auth } = props;
         insertPagos({
@@ -37,11 +36,10 @@ const ResumenPago = (props) => {
                 referencia: datosPago.referenciaPago,
                 pagosDetalle: polizas.map(x => {
                     return {
-                        noPoliza: x.noPoliza,
+                        idPolizaComision: x.idPolizaComision,
                         monto: x.montoPago,
-                    }
-                })
-
+                    };
+                }).filter(item => item.monto > 0)
             },
             token: auth.tokenFirebase
         });
@@ -53,52 +51,58 @@ const ResumenPago = (props) => {
             return;
         }
 
-        if (procesando && !insertPagosPending) {
-            insertPagos({ dismiss: true });
-            props.reset();
+        if( procesando && insertPagosNotify && !insertPagosError ) {
+            setProcesado(true);
             return;
         }
 
-    }, [procesando, insertPagosPending, history, insertPagos, props]);
+        if( procesando && procesado ) {
+            props.reset();
+        }
+    }, [insertPagosError, insertPagosNotify, insertPagosPending, procesado, procesando, props]);
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} >
-                            <Typography className={classes.secondaryHeadingWhite}>
-                                {`Resumen del Pago`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <Paper elevation={3} className={classes.paper}>
-                <table className="table invoice-total">
-                    <tbody>
-                        <tr>
-                            <td><strong>Pago Recibido :</strong></td>
-                            <td>${formatMoney(props.montoPago)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monto Conciliado :</strong></td>
-                            <td>${formatMoney(props.montoConciliado)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Monto No Conciliado :</strong></td>
-                            <td>${formatMoney(props.montoNoConciliado)}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div className="text-right">
-                    <Button onClick={procesarPago} variant="contained" color="primary" className={"color-principal"} disabled={props.montoNoConciliado !== 0 || procesando || insertPagosPending}>
-                        {procesando || insertPagosPending ? <i className="fa fa-refresh fa-spin"></i> : null}
-                        &nbsp;&nbsp;Registrar Pago&nbsp;&nbsp;
-                    </Button>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>{`Resumen del Pago`}</h5>
                 </div>
-            </Paper>
+                <div className="ibox-content">
+                    <div>
+                        <div style={{ padding: "0px", position: "relative" }}>
+                            <table className="table invoice-total">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Pago Recibido :</strong></td>
+                                        <td>${formatMoney(props.montoPago)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Monto Conciliado :</strong></td>
+                                        <td>${formatMoney(props.montoConciliado)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Monto No Conciliado :</strong></td>
+                                        <td>${formatMoney(props.montoNoConciliado)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className="text-right">
+                                <Button onClick={procesarPago} variant="contained" color="primary" className={"color-principal"} disabled={props.montoNoConciliado !== 0 || procesando || insertPagosPending}>
+                                    {procesando || insertPagosPending ? <i className="fa fa-refresh fa-spin"></i> : null}
+                                    &nbsp;&nbsp;Registrar Pago&nbsp;&nbsp;
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <BSnackbars
+                severity={ insertPagosError !== null ? "error" : "success" }
+                display={ insertPagosNotify === true }
+                message={ insertPagosError !== null ? "Hubo un error al registrar el pago" : "Se registró el pago exitosamente" }
+                dismiss={ () => insertPagos({ dismiss: true })  }
+            />
         </div>
     );
 }

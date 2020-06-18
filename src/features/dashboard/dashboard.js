@@ -29,11 +29,9 @@ const Dashboard = (props) => {
         <Sidebar />
         <div id="page-wrapper" className="gray-bg">
           <Topbar />
-          <div className="wrapper wrapper-content animated fadeInRight">
             <Protected>
               {props.children}
             </Protected>
-          </div>
           <Footer />
         </div>
       </div >

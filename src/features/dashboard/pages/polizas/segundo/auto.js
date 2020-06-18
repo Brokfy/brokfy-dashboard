@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../../../features/common/redux/hooks';
 import Grid from '@material-ui/core/Grid';
-import { TextField, FormHelperText, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import DateFnsUtils from '@date-io/date-fns';
-import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { TextField, FormHelperText, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { Typography } from "@material-ui/core";
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const SegundoAuto = (props) => {
 
     const { auth } = useGetToken();
-    const [errors, setErrors] = useState({});
     const [listadoMarcas, setListadoMarcas] = useState([]);
     const [marca, setMarca] = useState('');
 
@@ -42,7 +39,7 @@ const SegundoAuto = (props) => {
             const CancelToken = axios.CancelToken;
             const source = CancelToken.source();
             const options = {
-                url: `https://localhost:44341/api/Marcas`,
+                url: `https://3.136.94.107:4300/api/Marcas`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -70,7 +67,7 @@ const SegundoAuto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://localhost:44341/api/Year?Marca=${event.target.value}`,
+            url: `https://3.136.94.107:4300/api/Year?Marca=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -97,7 +94,7 @@ const SegundoAuto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://localhost:44341/api/Modelos?Marca=${marca}&Year=${event.target.value}`,
+            url: `https://3.136.94.107:4300/api/Modelos?Marca=${marca}&Year=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,

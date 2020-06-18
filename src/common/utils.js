@@ -114,6 +114,11 @@ const nowrapColumn = {
   setCellProps: (value) => ({ style: { whiteSpace: 'nowrap' } }),
 }
 
+const nowrapColumnAlignRight = {
+  setCellHeaderProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
+  setCellProps: (value) => ({ style: { whiteSpace: 'nowrap', textAlign: 'right' } }),
+}
+
 const checkboxRender = (controlName, value, tableMeta, updateValue) => {
   var bl_value = null;
 
@@ -218,8 +223,67 @@ const listEstadoPoliza =
     { value: 1, text: 'ACTIVA' },
     { value: 2, text: 'CANCELADA' },
     { value: 3, text: 'SINIESTRO' },
+    { value: 4, text: 'POR CONFIRMAR' },
   ];
 
+const listFormasPago =
+  [
+    { text: "Anual", value: "Anual" },
+    { text: "Semestral", value: "Semestral" },
+    { text: "Trimestral", value: "Trimestral" },
+    { text: "Mensual", value: "Mensual" }
+  ];
+
+const listadoSexos = [
+  { value: 1, text: "Masculino"}, 
+  { value: 2, text: "Femenino"}
+];
+
+const listadoEstadosCiviles = [
+  { value: 1, text: "Casado"}, 
+  { value: 2, text: "Soltero"},
+  { value: 3, text: "Viudo"},
+  { value: 4, text: "Divorciado"},
+  { value: 5, text: "No informado"},
+  { value: 6, text: "Union libre"},
+  { value: 7, text: "Separado"},
+];
+
+
+const generarCuotas = ( periodicidad, fechaInicio, fechaFin ) => {
+  var listDate = [];
+  var dateMove = new Date(fechaInicio);
+  var strDate = fechaInicio;
+  
+  while (strDate < fechaFin){
+    var strDate = dateMove.toISOString().slice(0,10);
+    listDate.push(strDate); 
+
+    switch( periodicidad ) {
+      case "Anual":
+        dateMove.setFullYear(dateMove.getFullYear()+1);
+        break;
+      case "Mensual":
+        dateMove.setMonth(dateMove.getMonth()+1);
+        break;
+      case "Semestral":
+        dateMove.setMonth(dateMove.getMonth()+6);
+        break;
+      case "Trimestral":
+        dateMove.setMonth(dateMove.getMonth()+3);
+        break;
+      default: break;
+    }
+  };
+
+  switch( periodicidad ) {
+    case "Anual": return listDate.slice(0,1);
+    case "Mensual": return listDate.slice(0,12);
+    case "Semestral": return listDate.slice(0,2);
+    case "Trimestral": return listDate.slice(0,4);
+    default: break;
+  };
+}
 
 export {
   inputParsers,
@@ -231,5 +295,10 @@ export {
   getDateFormated,
   getEstadoPolizaLabel,
   formatMoney,
-  listEstadoPoliza
+  listEstadoPoliza,
+  listFormasPago,
+  nowrapColumnAlignRight,
+  generarCuotas,
+  listadoSexos,
+  listadoEstadosCiviles
 }

@@ -103,10 +103,11 @@ const RegistrarPago = () => {
 
         fetchPolizas({
             aseguradora: datosPago.aseguradora,
+            fecha: datosPago.fechaPago,
             token: auth.tokenFirebase
         });
 
-    }, [auth.tokenFirebase, datosPago.aseguradora, fetchPolizas]);
+    }, [auth.tokenFirebase, datosPago.aseguradora, datosPago.fechaPago, fetchPolizas]);
 
     useEffect(() => {
         const totalMontoConciliado = polizas && polizas.length ?
@@ -119,8 +120,6 @@ const RegistrarPago = () => {
         setPolizaDraw(noPoliza);
         setOpen(true);
     }
-
-    
 
     return (
         <React.Fragment>
@@ -143,6 +142,7 @@ const RegistrarPago = () => {
             {fetchPolizasPending === false && loading === false && fetchPolizasPending === false && datosPago.aseguradora !== "" && modoEdicion === false ?
                 <RelacionPolizas key={`relacion_polizas_aseguradora_${datosPago.aseguradora}`}
                     aseguradora={datosPago.aseguradora}
+                    fechaPago={datosPago.fechaPago}
                     dropdownTipoPoliza={dropdownTipoPoliza}
                     listadoPolizas={polizas}
                     expanded={expanded}
@@ -153,7 +153,7 @@ const RegistrarPago = () => {
 
             {fetchPolizasPending === false && loading === false && fetchPolizasPending === false && datosPago.aseguradora !== "" && modoEdicion === false && listadoPolizas && listadoPolizas.length > 0 ?
                 <ResumenPago
-                    montoPago={datosPago.montoPago === "" ? 0 : datosPago.montoPago}
+                    montoPago={datosPago.montoPago === "" ? 0 : Number(datosPago.montoPago)}
                     montoConciliado={montoConciliado}
                     montoNoConciliado={montoNoConciliado}
                     polizas={polizas}

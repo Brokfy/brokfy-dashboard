@@ -40,3 +40,66 @@ export { fetchDetallePoliza, dismissFetchDetallePolizaError } from './fetchDetal
 export { fetchPolizas, dismissFetchPolizasError } from './fetchPolizas';
 export { changePoliza } from './changePoliza';
 export { insertPagos, dismissInsertPagosError } from './insertPagos';
+export { fetchListadoUsuario, dismissFetchListadoUsuarioError } from './fetchListadoUsuario';
+export { fetchDetalleUsuario, dismissFetchDetalleUsuarioError } from './fetchDetalleUsuario';
+export {
+  fetchPolizasPorConfirmar,
+  dismissFetchPolizasPorConfirmarError,
+} from './fetchPolizasPorConfirmar';
+export {
+  fetchPolizaPorConfirmar,
+  dismissFetchPolizaPorConfirmarError,
+} from './fetchPolizaPorConfirmar';
+export { fetchValorComision, dismissFetchValorComisionError } from './fetchValorComision';
+export { confirmarPoliza, dismissConfirmarPolizaError } from './confirmarPoliza';
+export {
+  insertPolizasComisiones,
+  dismissInsertPolizasComisionesError,
+} from './insertPolizasComisiones';
+export { fetchPolizasVida, dismissFetchPolizasVidaError } from './fetchPolizasVida';
+export { updatePolizasVida, dismissUpdatePolizasVidaError } from './updatePolizasVida';
+export { insertPolizasVida, dismissInsertPolizasVidaError } from './insertPolizasVida';
+export { deletePolizasVida, dismissDeletePolizasVidaError } from './deletePolizasVida';
+export {
+  fetchDropdownOcupaciones,
+  dismissFetchDropdownOcupacionesError,
+} from './fetchDropdownOcupaciones';
+export { insertPolizasMoto, dismissInsertPolizasMotoError } from './insertPolizasMoto';
+export { fetchPolizasMoto, dismissFetchPolizasMotoError } from './fetchPolizasMoto';
+export { updatePolizasMoto, dismissUpdatePolizasMotoError } from './updatePolizasMoto';
+export { deletePolizasMoto, dismissDeletePolizasMotoError } from './deletePolizasMoto';
+export { cancelarPoliza, dismissCancelarPolizaError } from './cancelarPoliza';
+export { cambioAgente, dismissCambioAgenteError } from './cambioAgente';
+export {
+  dashboardConsultaPoliza,
+  dismissDashboardConsultaPolizaError,
+} from './dashboardConsultaPoliza';
+export {
+  dashboardPolizaPorVencer,
+  dismissDashboardPolizaPorVencerError,
+} from './dashboardPolizaPorVencer';
+export { dashboardMisClientes, dismissDashboardMisClientesError } from './dashboardMisClientes';
+export { dashboardDescargas, dismissDashboardDescargasError } from './dashboardDescargas';
+export { dashboardGrafico, dismissDashboardGraficoError } from './dashboardGrafico';
+export { getDashboardInit, dismissGetDashboardInitError } from './getDashboardInit';
+export {
+  fetchDropdownParentesco,
+  dismissFetchDropdownParentescoError,
+} from './fetchDropdownParentesco';
+export { agregarBeneficiario } from './agregarBeneficiario';
+export { eliminarBeneficiario } from './eliminarBeneficiario';
+export { resetBeneficiarios } from './resetBeneficiarios';
+export { fetchListadoReportes, dismissFetchListadoReportesError } from './fetchListadoReportes';
+export { updateFiltrosReportes } from './updateFiltrosReportes';
+export {
+  fetchDataReporteFacturacionTotal,
+  dismissFetchDataReporteFacturacionTotalError,
+} from './fetchDataReporteFacturacionTotal';
+export {
+  fetchDataReporteComisionesRecibidas,
+  dismissFetchDataReporteComisionesRecibidasError,
+} from './fetchDataReporteComisionesRecibidas';
+export {
+  fetchDataReporteComisionesPendientes,
+  dismissFetchDataReporteComisionesPendientesError,
+} from './fetchDataReporteComisionesPendientes';

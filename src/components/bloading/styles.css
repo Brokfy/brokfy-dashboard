@@ -10,7 +10,12 @@
     width: 100%;
     opacity: 1;
     padding-top: calc(50vh - 220px);
+}
 
+.bloading-container-secundario {
+    position: relative;
+    opacity: 1;
+    padding-top: 40px;
 }
 
 .bloading-mensaje {
@@ -21,4 +26,17 @@
     font-size: 16px;
     font-weight: bold;
     color: #2e4f85;
+}
+
+.table-header-group {
+    border-top: 2px solid rgb(221, 221, 221) !important;
+    border-bottom: 2px solid rgb(221, 221, 221) !important;
+    background: #f0f0f0;
+    padding: 3px 8px !important;
+}
+
+.table-row {
+    border-top: 0px solid rgb(221, 221, 221) !important;
+    border-bottom: 1px solid rgb(221, 221, 221) !important;
+    padding: 3px 8px !important;
 }
