@@ -24,7 +24,7 @@ export function insertProducto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Productos`,
+        url: `https://apipruebas.brokfy.com:4300/api/Productos`,
         method: 'POST',
         data: args.data,
         headers: {

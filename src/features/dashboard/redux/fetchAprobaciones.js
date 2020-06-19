@@ -17,7 +17,7 @@ export function fetchAprobaciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/Aprobaciones`,
+        url: `https://apipruebas.brokfy.com:4300/api/Aprobaciones`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

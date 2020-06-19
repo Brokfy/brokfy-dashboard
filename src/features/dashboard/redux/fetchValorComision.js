@@ -16,7 +16,7 @@ export function fetchValorComision(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/ValorComision?idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}&fecha=${args.fecha.slice(0,10)}`,
+        url: `https://apipruebas.brokfy.com:4300/api/ValorComision?idAseguradora=${args.idAseguradora}&idTipoPoliza=${args.idTipoPoliza}&fecha=${args.fecha.slice(0,10)}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,

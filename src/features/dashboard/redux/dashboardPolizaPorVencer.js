@@ -16,7 +16,7 @@ export function dashboardPolizaPorVencer(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com:4300/api/DashboardPolizasPorVencer?tipoPoliza=${args.tipoPoliza}`,
+        url: `https://apipruebas.brokfy.com:4300/api/DashboardPolizasPorVencer?tipoPoliza=${args.tipoPoliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.tokenFirebase}`,
