@@ -62,8 +62,8 @@ const ConsultaPoliza = () => {
                     <Grid item lg={10} md={8}>
                         <InputBase
                             className="rbt-input"
-                            placeholder="Buscar poliza"
-                            inputProps={{ 'aria-label': 'Buscar poliza' }}
+                            placeholder="Buscar póliza"
+                            inputProps={{ 'aria-label': 'Buscar póliza' }}
                             onChange={(e) => setPoliza(e.target.value)}
                             onKeyPress={(e) => e.key === "Enter" ? buscarPoliza(e) : null}
                         />

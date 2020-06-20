@@ -180,7 +180,7 @@ const PolizasCliente = ({ polizas }) => {
                 </DialogActions>
             </Dialog>
             <div className="panel-body ">
-                <span className="titulo-panel">Lista de Polizas</span>
+                <span className="titulo-panel">Lista de Pólizas</span>
                 <br /><br />
                 <div className="lista-poliza">
                     {polizas.length <= 0 ? <Grid container spacing={3}>
@@ -211,13 +211,13 @@ const PolizasCliente = ({ polizas }) => {
                                 <ExpansionPanelDetails className={classes.details}>
                                     <table className="table table-hover" style={{ marginBottom: "0px" }}>
                                         <tbody>
-                                            <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
-                                            <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
-                                            <tr><td>FechaInicio</td><td>{format(new Date(p.fechaInicio), 'dd/MM/yyyy')}</td></tr>
-                                            <tr><td>FechaFin</td><td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td></tr>
+                                            <tr><td>Tipo Póliza</td><td>{p.tipoPoliza}</td></tr>
+                                            <tr><td>Forma de Pago</td><td>{p.formaPago}</td></tr>
+                                            <tr><td>Fecha Inicio</td><td>{format(new Date(p.fechaInicio), 'dd/MM/yyyy')}</td></tr>
+                                            <tr><td>Fecha Fin</td><td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td></tr>
                                             <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
                                             <tr><td>Producto</td><td>{p.producto}</td></tr>
-                                            <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
+                                            <tr><td>Póliza Propia</td><td>{p.polizaPropia}</td></tr>
                                         </tbody>
                                     </table>
 
