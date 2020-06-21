@@ -69,6 +69,8 @@ import { reducer as updateFiltrosReportesReducer } from './updateFiltrosReportes
 import { reducer as fetchDataReporteFacturacionTotalReducer } from './fetchDataReporteFacturacionTotal';
 import { reducer as fetchDataReporteComisionesRecibidasReducer } from './fetchDataReporteComisionesRecibidas';
 import { reducer as fetchDataReporteComisionesPendientesReducer } from './fetchDataReporteComisionesPendientes';
+import { reducer as fetchDataReportePolizasPorVencerReducer } from './fetchDataReportePolizasPorVencer';
+import { reducer as fetchDataReporteHistoricoComisionesReducer } from './fetchDataReporteHistoricoComisiones';
 
 const reducers = [
   fetchProductosReducer,
@@ -133,6 +135,8 @@ const reducers = [
   fetchDataReporteFacturacionTotalReducer,
   fetchDataReporteComisionesRecibidasReducer,
   fetchDataReporteComisionesPendientesReducer,
+  fetchDataReportePolizasPorVencerReducer,
+  fetchDataReporteHistoricoComisionesReducer,
 ];
 
 export default function reducer(state = initialState, action) {

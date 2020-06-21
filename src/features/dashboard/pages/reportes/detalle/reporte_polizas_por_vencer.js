@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import format from 'date-fns/format'
 import NumberFormat from 'react-number-format';
 
-const ReporteComisionesPendientes = ({data}) => {
+const ReportePolizasPorVencer = ({data}) => {
     return data && data.length > 0 ?
         data.map((item,index) => {
             if( item.tipoRegistro === 1 ) {
@@ -37,13 +37,10 @@ const ReporteComisionesPendientes = ({data}) => {
                         <table className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
                             <thead>
                                 <tr>
-                                    <th className={"table-header-group"} width="100">Fecha Pago<span className="footable-sort-indicator"></span></th>
                                     <th className={"table-header-group"} width="150" >Número Póliza<span className="footable-sort-indicator"></span></th>
                                     <th className={"table-header-group"} width="100">Usuario<span className="footable-sort-indicator"></span></th>
-                                    <th className={"table-header-group"} width="220">Nombre<span className="footable-sort-indicator"></span></th>
-                                    <th className={"table-header-group"} style={{ textAlign: "right" }} width="100">Comisión<span className="footable-sort-indicator"></span></th>
-                                    <th className={"table-header-group"} style={{ textAlign: "right" }} width="100">Pagado<span className="footable-sort-indicator"></span></th>
-                                    <th className={"table-header-group"} style={{ textAlign: "right" }} width="100">Pendiente<span className="footable-sort-indicator"></span></th>
+                                    <th className={"table-header-group"} width="520">Nombre<span className="footable-sort-indicator"></span></th>
+                                    <th className={"table-header-group"} width="120">Vencimiento<span className="footable-sort-indicator"></span></th>
                                 </tr>
                             </thead>
                         </table>
@@ -56,13 +53,10 @@ const ReporteComisionesPendientes = ({data}) => {
                     <table key={`report_row_${index}`} className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
                         <tbody>
                             <tr>
-                                <td className={"table-row"} width="100">{format(new Date(item.fechaPago), 'dd/MM/yyyy')}</td>
                                 <td className={"table-row"} width="150">{item.numeroPoliza}</td>
                                 <td className={"table-row"} width="100">{item.usuario}</td>
-                                <td className={"table-row"} width="220">{item.nombreUsuario}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.montoComision} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.montoPendiente} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</td>
+                                <td className={"table-row"} width="520">{item.nombreUsuario}</td>
+                                <td className={"table-row"} width="120">{format(new Date(item.fechaFin), 'dd/MM/yyyy')}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -75,10 +69,8 @@ const ReporteComisionesPendientes = ({data}) => {
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                             <tbody>
                                 <tr>
-                                    <td width="570" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total Tipo Póliza</b> &nbsp; {item.tipoPoliza}</td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoComision} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPendiente} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
+                                    <td width="770" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total Tipo Póliza</b> &nbsp; {item.tipoPoliza}</td>
+                                    <td width="120" align="left" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.totalizador} displayType={'text'} thousandSeparator={false} suffix={" uds"} />}</b></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -92,10 +84,8 @@ const ReporteComisionesPendientes = ({data}) => {
                     <table key={`report_row_${index}`} className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                         <tbody>
                             <tr>
-                                <td width="570" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total Aseguradora</b> &nbsp; {item.aseguradora}</td>
-                                <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoComision} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPendiente} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
+                                <td width="770" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total Aseguradora</b> &nbsp; {item.aseguradora}</td>
+                                <td width="120" align="left" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.totalizador} displayType={'text'} thousandSeparator={false} suffix={" uds"} />}</b></td>
                             </tr>
                         </tbody>
                     </table>
@@ -109,10 +99,8 @@ const ReporteComisionesPendientes = ({data}) => {
                         <table className="footable table table-stripped footable-loaded default" style={{ borderCollapse: "collapse", marginBottom: "0" }}>
                             <tbody>
                                 <tr>
-                                    <td width="570" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total General</b></td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoComision} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPagado} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
-                                    <td width="100" align="right" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.montoPendiente} displayType={'text'} thousandSeparator={true} prefix={'$'} />}</b></td>
+                                    <td width="770" align="left" style={{ border: "none", padding: "2px 8px" }}><b>Total General</b></td>
+                                    <td width="120" align="left" style={{ border: "none", padding: "2px 8px" }}><b>{<NumberFormat value={item.totalizador} displayType={'text'} thousandSeparator={false} suffix={" uds"} />}</b></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -123,4 +111,4 @@ const ReporteComisionesPendientes = ({data}) => {
     ) : null
 }
 
-export default ReporteComisionesPendientes;
+export default ReportePolizasPorVencer;

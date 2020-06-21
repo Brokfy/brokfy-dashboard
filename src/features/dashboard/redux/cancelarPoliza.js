@@ -24,7 +24,7 @@ export function cancelarPoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/CancelarPoliza/${args.noPoliza}`,
+        url: `https://localhost:44341/api/CancelarPoliza/${args.noPoliza}`,
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${args.token}`,

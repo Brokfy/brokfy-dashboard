@@ -141,7 +141,11 @@ const initialState = {
   fetchDataReporteComisionesRecibidasPending: false,
   fetchDataReporteComisionesRecibidasError: null,
   fetchDataReporteComisionesPendientesPending: false,
-  fetchDataReporteComisionesPendientesError: null
+  fetchDataReporteComisionesPendientesError: null,
+  fetchDataReportePolizasPorVencerPending: false,
+  fetchDataReportePolizasPorVencerError: null,
+  fetchDataReporteHistoricoComisionesPending: false,
+  fetchDataReporteHistoricoComisionesError: null
 };
 
 export default initialState;

@@ -8,10 +8,12 @@ const Breadcrumbs = () => {
   var titleOpt = path.slice(-1).length > 0 ? path.slice(-1)[0] : '';
   var title = titleOpt.replace("-", " ").split(" ").map(item => {
                 if( !item || item === '' ) item = 'Dashboard';
-                return item
+                return item.replace("-", " ")
                   .replace(/^./, item[0].toUpperCase())
                   .replace("Atencion", "Atención")
-                  .replace("Facturacion", "Facturación");
+                  .replace("Facturacion", "Facturación")
+                  .replace("Polizas", "Pólizas")
+                  .replace("Historico", "Histórico");
               }).join(" ");
 
   return (
@@ -26,10 +28,13 @@ const Breadcrumbs = () => {
                 path.map((item, index) => {
                   var activo = index === path.length - 1 ? "active" : "";
                   var opcion = item.replace("-", " ").split(" ").map(item => 
-                    item
+                    item.replace("-", " ")
                       .replace(/^./, item[0].toUpperCase())
                       .replace("Atencion", "Atención")
                       .replace("Facturacion", "Facturación")
+                      .replace("Polizas", "Pólizas")
+                      .replace("Por-vencer", "por Vencer")
+                      .replace("Historico", "Histórico")
                   ).join(" ");
                   var to = path.slice(0, index + 1).join("/");
 

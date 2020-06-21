@@ -103,3 +103,11 @@ export {
   fetchDataReporteComisionesPendientes,
   dismissFetchDataReporteComisionesPendientesError,
 } from './fetchDataReporteComisionesPendientes';
+export {
+  fetchDataReportePolizasPorVencer,
+  dismissFetchDataReportePolizasPorVencerError,
+} from './fetchDataReportePolizasPorVencer';
+export {
+  fetchDataReporteHistoricoComisiones,
+  dismissFetchDataReporteHistoricoComisionesError,
+} from './fetchDataReporteHistoricoComisiones';
