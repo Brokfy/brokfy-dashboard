@@ -45,7 +45,7 @@ const ReporteHistoricoComisiones = ({data}) => {
                     <table key={`report_row_${index}`} className="footable table table-stripped footable-loaded default" style={{ marginBottom: "0" }}>
                         <tbody>
                             <tr>
-                                <td className={"table-row"} width="200">{format(new Date(item.fechaCambio), 'dd/MM/yyyy HH:mm:ss')}</td>
+                                <td className={"table-row"} width="250">{format(new Date(item.fechaCambio), 'dd/MM/yyyy HH:mm:ss')}</td>
                                 <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.auto.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
                                 <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.moto.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
                                 <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.hogar.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
