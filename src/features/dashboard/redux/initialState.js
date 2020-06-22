@@ -145,7 +145,9 @@ const initialState = {
   fetchDataReportePolizasPorVencerPending: false,
   fetchDataReportePolizasPorVencerError: null,
   fetchDataReporteHistoricoComisionesPending: false,
-  fetchDataReporteHistoricoComisionesError: null
+  fetchDataReporteHistoricoComisionesError: null,
+  fetchDataReportePolizasBrokfyVsOtrasPending: false,
+  fetchDataReportePolizasBrokfyVsOtrasError: null
 };
 
 export default initialState;

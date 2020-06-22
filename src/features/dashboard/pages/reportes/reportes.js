@@ -18,6 +18,7 @@ import { useFetchDataReporteComisionesRecibidas } from '../../redux/fetchDataRep
 import { useFetchDataReporteComisionesPendientes } from '../../redux/fetchDataReporteComisionesPendientes';
 import { useFetchDataReportePolizasPorVencer } from '../../redux/fetchDataReportePolizasPorVencer';
 import { useFetchDataReporteHistoricoComisiones } from '../../redux/fetchDataReporteHistoricoComisiones';
+import { useFetchDataReportePolizasBrokfyVsOtras } from '../../redux/fetchDataReportePolizasBrokfyVsOtras';
 
 const Reportes = () => {
   let { reporte } = useParams();
@@ -42,6 +43,7 @@ const Reportes = () => {
   const { dataReporteComisionesPendientes, fetchDataReporteComisionesPendientes, fetchDataReporteComisionesPendientesPending } = useFetchDataReporteComisionesPendientes();
   const { dataReportePolizasPorVencer, fetchDataReportePolizasPorVencer, fetchDataReportePolizasPorVencerPending } = useFetchDataReportePolizasPorVencer();
   const { dataReporteHistoricoComisiones, fetchDataReporteHistoricoComisiones, fetchDataReporteHistoricoComisionesPending } = useFetchDataReporteHistoricoComisiones();
+  const { dataReportePolizasBrokfyVsOtras, fetchDataReportePolizasBrokfyVsOtras, fetchDataReportePolizasBrokfyVsOtrasPending } = useFetchDataReportePolizasBrokfyVsOtras();
   const { filtrosReportes, updateFiltrosReportes } = useUpdateFiltrosReportes();
   const [nombreReporte, setNombreReporte] = useState();
   const [dataReporte, setDataReporte] = useState([]);
@@ -56,7 +58,7 @@ const Reportes = () => {
       // fechaInicio: "2019-06-01",
       fechaInicio: new Date().toISOString().substring(0,10),
       fechaFin: new Date().toISOString().substring(0,10),
-      // fechaFin: "2020-10-11",
+      // fechaFin: "2021-10-11",
       aseguradora: 0,
       tipoPoliza: 0,
     });
@@ -78,6 +80,9 @@ const Reportes = () => {
         break;
       case "historico-comisiones": 
         setNombreReporte("HistoricoPorcentajeComisiones");
+        break;
+      case "polizas-propias-vs-otras": 
+        setNombreReporte("BrokfyVSOtras");
         break;
       default: 
         setNombreReporte("");
@@ -142,8 +147,10 @@ const Reportes = () => {
       setDataReporte(dataReportePolizasPorVencer);
     } else if( nombreReporte === "HistoricoPorcentajeComisiones" ) {
       setDataReporte(dataReporteHistoricoComisiones);
+    } else if( nombreReporte === "BrokfyVSOtras" ) {
+      setDataReporte(dataReportePolizasBrokfyVsOtras);
     }
-  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, dataReporteComisionesPendientes, dataReportePolizasPorVencer, dataReporteHistoricoComisiones, nombreReporte, setDataReporte]);
+  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, dataReporteComisionesPendientes, dataReportePolizasPorVencer, dataReporteHistoricoComisiones, dataReportePolizasBrokfyVsOtras, nombreReporte, setDataReporte]);
 
   const useStyles = makeStyles((theme) => ({
     iconButton: {
@@ -182,6 +189,8 @@ const Reportes = () => {
       fetchDataReportePolizasPorVencer(parametrosRequest)
     } else if ( nombreReporte === "HistoricoPorcentajeComisiones" ) {
       fetchDataReporteHistoricoComisiones(parametrosRequest)
+    } else if ( nombreReporte === "BrokfyVSOtras" ) {
+      fetchDataReportePolizasBrokfyVsOtras(parametrosRequest)
     }
 
     setShowReport(true);
@@ -301,12 +310,12 @@ const Reportes = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={8} md={6} lg={4}>
-                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteComisionesPendientesPending || fetchDataReporteHistoricoComisionesPending}>
+                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteComisionesPendientesPending || fetchDataReporteHistoricoComisionesPending || fetchDataReportePolizasBrokfyVsOtrasPending }>
                     <SearchSharp /> &nbsp; Buscar
                   </IconButton>
 
                   { 
-                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending && !fetchDataReporteComisionesPendientesPending && !fetchDataReportePolizasPorVencerPending && !fetchDataReporteHistoricoComisionesPending ?
+                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending && !fetchDataReporteComisionesPendientesPending && !fetchDataReportePolizasPorVencerPending && !fetchDataReporteHistoricoComisionesPending && !fetchDataReportePolizasBrokfyVsOtrasPending ?
                       <IconButton color="primary" component="span" className={classes.iconButton} onClick={() => window.print()}>
                         <PrintSharp /> &nbsp; Imprimir
                       </IconButton> : null
@@ -318,7 +327,7 @@ const Reportes = () => {
       </div>
 
       { showReport ? 
-          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteHistoricoComisionesPending ? 
+          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteHistoricoComisionesPending || fetchDataReportePolizasBrokfyVsOtrasPending ? 
             <BLoading mensaje="Generando..." secundario={true} /> :
             <ContenidoReporte nombreReporte={nombreReporte} data={dataReporte}/> : 
           null 

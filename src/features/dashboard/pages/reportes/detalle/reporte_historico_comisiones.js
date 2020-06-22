@@ -46,16 +46,16 @@ const ReporteHistoricoComisiones = ({data}) => {
                         <tbody>
                             <tr>
                                 <td className={"table-row"} width="200">{format(new Date(item.fechaCambio), 'dd/MM/yyyy HH:mm:ss')}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.auto} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.moto} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.hogar} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.salud} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.vida} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.gadget} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.mascota} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.viaje} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.retiro} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
-                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.pyme} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.auto.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.moto.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.hogar.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.salud.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.vida.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.gadget.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.mascota.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.viaje.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.retiro.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
+                                <td className={"table-row"} width="100" align="right">{<NumberFormat value={item.pyme.toFixed(2)} displayType={'text'} thousandSeparator={false} suffix={'%'} />}</td>
                             </tr>
                         </tbody>
                     </table>

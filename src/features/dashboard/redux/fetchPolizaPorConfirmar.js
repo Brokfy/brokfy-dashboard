@@ -16,7 +16,7 @@ export function fetchPolizaPorConfirmar(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/PolizasPorConfirmar/${args.no_poliza}`,
+        url: `https://apipruebas.brokfy.com:4300/api/PolizasPorConfirmar/${args.no_poliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,

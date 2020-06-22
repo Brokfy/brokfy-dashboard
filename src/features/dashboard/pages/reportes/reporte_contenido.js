@@ -4,6 +4,7 @@ import ReporteComisionesRecibidas from './detalle/reporte_comisiones_recibidas';
 import ReporteComisionesPendientes from './detalle/reporte_comisiones_pendientes';
 import ReportePolizasPorVencer from './detalle/reporte_polizas_por_vencer';
 import ReporteHistoricoComisiones from './detalle/reporte_historico_comisiones';
+import ReportePolizasBrokfyVsOtras from './detalle/reporte_polizas_brokfy_vs_otras';
 
 const ReporteContenido = ({nombreReporte, data}) => {
     
@@ -14,6 +15,7 @@ const ReporteContenido = ({nombreReporte, data}) => {
             case "ComisionesPendientes": return <ReporteComisionesPendientes data={data} />;
             case "PolizasPorVencer": return <ReportePolizasPorVencer data={data} />;
             case "HistoricoPorcentajeComisiones": return <ReporteHistoricoComisiones data={data} />;
+            case "BrokfyVSOtras": return <ReportePolizasBrokfyVsOtras data={data} />;
             default: return <></>;
         }
     }

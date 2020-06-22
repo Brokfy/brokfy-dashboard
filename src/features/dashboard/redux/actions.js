@@ -111,3 +111,7 @@ export {
   fetchDataReporteHistoricoComisiones,
   dismissFetchDataReporteHistoricoComisionesError,
 } from './fetchDataReporteHistoricoComisiones';
+export {
+  fetchDataReportePolizasBrokfyVsOtras,
+  dismissFetchDataReportePolizasBrokfyVsOtrasError,
+} from './fetchDataReportePolizasBrokfyVsOtras';

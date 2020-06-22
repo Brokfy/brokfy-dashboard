@@ -24,7 +24,7 @@ export function deletePolizasAuto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/PolizaAuto`,
+        url: `https://apipruebas.brokfy.com:4300/api/PolizaAuto`,
         method: 'DELETE',
         data: args.data,
         headers: {
