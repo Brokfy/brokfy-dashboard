@@ -35,51 +35,88 @@ const Descargas = () => {
                 <br /><br />
 
                 <div className="row">
-                    <div className="col-lg-6">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                Tópico #1
-                            </div>
-                            <div className="panel-body panel-body-alt">
-                                <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div className="col-lg-12">
+                        <div className="dashboard-panel-alt">
+                            <div className="panel-body-alt">
+                                <div className="descarga">
+                                    <div className="enlace-descarga"><span><i className="fa fa-book"></i></span></div>
+                                    <div className="enlace-descarga-info">
+                                        <h4>Tópico #1</h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div>
+                                    <hr className="MuiDivider-root-min" />
+                                </div>
 
-                    <div className="col-lg-6">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                Tópico #2
-                            </div>
-                            <div className="panel-body panel-body-alt">
-                                <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </div>
-                    </div>
+                                <div className="descarga">
+                                    <div className="enlace-descarga"><span><i className="fa fa-book"></i></span></div>
+                                    <div className="enlace-descarga-info">
+                                        <h4>Tópico #2</h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div>
+                                    <hr className="MuiDivider-root-min" />
+                                </div>
 
-                    <div className="col-lg-6">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                Tópico #3
-                            </div>
-                            <div className="panel-body panel-body-alt">
-                                <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </div>
-                    </div>
+                                <div className="descarga">
+                                    <div className="enlace-descarga"><span><i className="fa fa-book"></i></span></div>
+                                    <div className="enlace-descarga-info">
+                                        <h4>Tópico #3</h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div>
+                                    <hr className="MuiDivider-root-min" />
+                                </div>
 
-                    <div className="col-lg-6">
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                Tópico #4
+                                <div className="descarga">
+                                    <div className="enlace-descarga"><span><i className="fa fa-book"></i></span></div>
+                                    <div className="enlace-descarga-info">
+                                        <h4>Tópico #4</h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div>
+                                    <hr className="MuiDivider-root-min" />
+                                </div>
                             </div>
-                            <div className="panel-body panel-body-alt">
-                                <span><i className="fa fa-book"></i></span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
+
+                            {/* <table className="table table-bordered" style={{marginBottom: 0}}>
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tópico #1</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tópico #2</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tópico #3</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tópico #4</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>                                
+                                    <tr>
+                                        <td>Tópico #4</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Tópico #4</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Tópico #4</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>  
+                                    <tr>
+                                        <td>Tópico #4</td>
+                                        <td><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></td>
+                                    </tr>  
+                                </tbody>
+                            </table> */}
                         </div>
                     </div>
                 </div>

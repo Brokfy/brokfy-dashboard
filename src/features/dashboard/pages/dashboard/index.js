@@ -41,33 +41,36 @@ const Dashboard = () => {
             {loading === true ? <BLoading /> : null}
             {!datosCargados && loading ? null :
                 <div className={"inicioDashboard"}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={4} >
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} lg={6} xl={4}>
                             <ConsultaPoliza />
                         </Grid>
 
-                        <Grid item xs={4} >
+                        <Grid item xs={12} lg={6} xl={4}>
                             <PolizasPorVencer tipoPoliza={tipoPoliza} />
                         </Grid>
 
-                        <Grid item xs={4} >
+                        <Grid item xs={12} lg={6} xl={4}>
                             <MisClientes clientes={clientes} />
                         </Grid>
-                    </Grid>
-                    <Divider orientation={"horizontal"} />
-                    <br />
-                    <Grid container spacing={3}>
-                        <Grid item xs={4} >
+
+                        <Grid item xs={12} lg={6} xl={4}>
                             <Descargas />
                         </Grid>
 
-                        <Grid item xs={8} >
+                        <Grid item xs={12} lg={6} xl={4}>
                             {!dashboardInit ? "Cargando..." :
                                 <Grafico grafico={dashboardInit.grafico} />
                             }
                         </Grid>
-
                     </Grid>
+                    {/* <Divider orientation={"horizontal"} /> */}
+                    {/* <br />
+                    <Grid container spacing={3}>
+
+
+
+                    </Grid> */}
                 </div>}
         </div >
     );
