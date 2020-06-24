@@ -63,3 +63,4 @@ export { useFetchDataReporteComisionesPendientes } from './fetchDataReporteComis
 export { useFetchDataReportePolizasPorVencer } from './fetchDataReportePolizasPorVencer';
 export { useFetchDataReporteHistoricoComisiones } from './fetchDataReporteHistoricoComisiones';
 export { useFetchDataReportePolizasBrokfyVsOtras } from './fetchDataReportePolizasBrokfyVsOtras';
+export { useFetchRestricciones } from './fetchRestricciones';

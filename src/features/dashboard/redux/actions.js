@@ -115,3 +115,4 @@ export {
   fetchDataReportePolizasBrokfyVsOtras,
   dismissFetchDataReportePolizasBrokfyVsOtrasError,
 } from './fetchDataReportePolizasBrokfyVsOtras';
+export { fetchRestricciones, dismissFetchRestriccionesError } from './fetchRestricciones';

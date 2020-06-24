@@ -147,7 +147,9 @@ const initialState = {
   fetchDataReporteHistoricoComisionesPending: false,
   fetchDataReporteHistoricoComisionesError: null,
   fetchDataReportePolizasBrokfyVsOtrasPending: false,
-  fetchDataReportePolizasBrokfyVsOtrasError: null
+  fetchDataReportePolizasBrokfyVsOtrasError: null,
+  fetchRestriccionesPending: false,
+  fetchRestriccionesError: null
 };
 
 export default initialState;
