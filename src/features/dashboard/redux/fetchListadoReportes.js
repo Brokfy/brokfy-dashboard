@@ -16,7 +16,7 @@ export function fetchListadoReportes(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/infoReportes`,
+        url: `https://localhost:44341/api/infoReportes`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,
