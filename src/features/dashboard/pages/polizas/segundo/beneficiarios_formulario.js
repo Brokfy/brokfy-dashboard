@@ -32,7 +32,7 @@ const BeneficiariosFormulario = (props) => {
             padding: theme.spacing(4),
         },
         headerCell: {
-            background: "#dde4f0 !important",
+            background: "#e3e7ee !important",
             verticalAlign: "middle !important",
         },
         bodyCell: {
@@ -51,7 +51,7 @@ const BeneficiariosFormulario = (props) => {
         },
         registro: {
             "&:hover": {
-                background: "#dde4f0",
+                background: "#e3e7ee",
             }
         },
         selectIcon: {

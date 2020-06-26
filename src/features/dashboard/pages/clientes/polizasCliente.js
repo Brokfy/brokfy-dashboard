@@ -27,7 +27,11 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(14),
+    },
+    subtitle: {
+        fontSize: theme.typography.pxToRem(12),
+        color: "#aaaaaa",
     },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
@@ -58,12 +62,14 @@ const useStyles = makeStyles((theme) => ({
     redlarge: {
         width: theme.spacing(3),
         height: theme.spacing(3),
+        marginTop: theme.typography.pxToRem(8),
         color: theme.palette.getContrastText(red[500]),
         backgroundColor: red[500],
     },
     greenlarge: {
         width: theme.spacing(3),
         height: theme.spacing(3),
+        marginTop: theme.typography.pxToRem(8),
         color: theme.palette.getContrastText(green[500]),
         backgroundColor: green[500],
     },
@@ -197,14 +203,15 @@ const PolizasCliente = ({ polizas }) => {
                                     id={`panel_${p.noPoliza}`}
                                 >
                                     <Grid container spacing={3}>
-                                        <Grid item xs={1}>
+                                        <Grid item md={2} lg={1}>
                                             <Avatar className={p.estadoPoliza === "ACTIVA" ? classes.greenlarge :
                                                 p.estadoPoliza === "CANCELADA" ? classes.redlarge :
                                                     classes.yellowlarge
                                             }>{' '}</Avatar>
                                         </Grid>
-                                        <Grid item xs={11}>
-                                            <Typography className={classes.heading}>{`${p.noPoliza} (${p.tipoPoliza})`}</Typography>
+                                        <Grid item md={10} lg={11}>
+                                            <Typography className={classes.heading}>{`${p.noPoliza}`}</Typography>
+                                            <Typography className={classes.subtitle}>{`${p.tipoPoliza}`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </ExpansionPanelSummary>
