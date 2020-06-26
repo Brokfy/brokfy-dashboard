@@ -64,3 +64,5 @@ export { useFetchDataReportePolizasPorVencer } from './fetchDataReportePolizasPo
 export { useFetchDataReporteHistoricoComisiones } from './fetchDataReporteHistoricoComisiones';
 export { useFetchDataReportePolizasBrokfyVsOtras } from './fetchDataReportePolizasBrokfyVsOtras';
 export { useFetchRestricciones } from './fetchRestricciones';
+export { useFetchMenu } from './fetchMenu';
+export { useUpdateRestricciones } from './updateRestricciones';
