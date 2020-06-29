@@ -153,7 +153,9 @@ const initialState = {
   fetchMenuPending: false,
   fetchMenuError: null,
   updateRestriccionesPending: false,
-  updateRestriccionesError: null
+  updateRestriccionesError: null,
+  fetchRestriccionesEdicionPending: false,
+  fetchRestriccionesEdicionError: null
 };
 
 export default initialState;

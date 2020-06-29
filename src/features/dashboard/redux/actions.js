@@ -118,3 +118,7 @@ export {
 export { fetchRestricciones, dismissFetchRestriccionesError } from './fetchRestricciones';
 export { fetchMenu, dismissFetchMenuError } from './fetchMenu';
 export { updateRestricciones, dismissUpdateRestriccionesError } from './updateRestricciones';
+export {
+  fetchRestriccionesEdicion,
+  dismissFetchRestriccionesEdicionError,
+} from './fetchRestriccionesEdicion';

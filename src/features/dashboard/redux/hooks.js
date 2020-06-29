@@ -66,3 +66,4 @@ export { useFetchDataReportePolizasBrokfyVsOtras } from './fetchDataReportePoliz
 export { useFetchRestricciones } from './fetchRestricciones';
 export { useFetchMenu } from './fetchMenu';
 export { useUpdateRestricciones } from './updateRestricciones';
+export { useFetchRestriccionesEdicion } from './fetchRestriccionesEdicion';
