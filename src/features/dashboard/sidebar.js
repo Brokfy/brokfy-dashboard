@@ -17,8 +17,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (!auth || !auth.tokenFirebase || auth.tokenFirebase === "") return;
-
-    fetchRestricciones(auth.tokenFirebase);
+    fetchRestricciones({ dato: auth.tokenFirebase, campo: "token", token: auth.tokenFirebase });
     fetchListadoReportes(auth.tokenFirebase);
   }, [fetchListadoReportes, fetchRestricciones, auth]);
 

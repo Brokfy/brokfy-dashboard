@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux'
 import BLoading from '../../../components/bloading';
 import { useGetToken } from '../../common/redux/hooks';
 import { useFetchListadoUsuario } from '../redux/fetchListadoUsuario';
+import { useFetchMenu } from '../redux/fetchMenu';
+import { useFetchRestricciones } from '../redux/fetchRestricciones';
+
 import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button } from '@material-ui/core';
 
 import List from '@material-ui/core/List';
@@ -21,26 +24,31 @@ const Permisos = () => {
     const [loading, setLoading] = useState(true);
     const [datosCargados, setDatosCargados] = useState(false);
     const [inputBuscarCliente, setInputBuscarCliente] = useState('');
+    const [checked, setChecked] = useState([0]);
     const { auth } = useGetToken();
     const [listaLocal, setListaLocal] = useState([]);
 
     const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
+    const { menu, fetchMenu, fetchMenuPending } = useFetchMenu();
+    const { restricciones, fetchRestricciones, fetchRestriccionesPending } = useFetchRestricciones();
 
     useEffect(() => {
         if (auth.tokenFirebase === "") return;
         if (fetchListadoUsuarioPending) return;
+        if (fetchMenuPending) return;
 
         if (!datosCargados) {
             fetchListadoUsuario(auth.tokenFirebase);
+            fetchMenu(auth.tokenFirebase);
             setDatosCargados(true);
             return;
         }
 
-        if (listadoUsuarios && listadoUsuarios.length > 0)
+        if (listadoUsuarios && listadoUsuarios.length > 0 && menu)
             setListaLocal(listadoUsuarios);
 
         setLoading(false);
-    }, [auth.tokenFirebase, fetchListadoUsuarioPending, listadoUsuarios, datosCargados, fetchListadoUsuario]);
+    }, [auth.tokenFirebase, fetchListadoUsuarioPending, listadoUsuarios, datosCargados, fetchListadoUsuario, menu, fetchMenu, fetchMenuPending]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -61,7 +69,7 @@ const Permisos = () => {
     }));
     const classes = useStyles();
 
-    const [checked, setChecked] = React.useState([0]);
+
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -74,7 +82,7 @@ const Permisos = () => {
         }
 
         setChecked(value);
-        //fetchDetalleUsuario({ username: value, tokenFirebase: auth.tokenFirebase });
+        fetchRestricciones({ dato: value, campo: "username", token: auth.tokenFirebase });
     };
 
     const buscarClientes = (e) => {
@@ -86,6 +94,8 @@ const Permisos = () => {
             || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
 
+    console.log(restricciones);
+
 
     return (
         <div>
@@ -93,7 +103,7 @@ const Permisos = () => {
             {datosCargados && !loading ?
                 <div>
                     <Grid container spacing={3}>
-                        <Grid item xs={3} >
+                        <Grid item xs={6} >
                             <div className="panel panel-default" style={{ marginBottom: "20px" }}>
                                 <div className="panel-body">
 
@@ -141,15 +151,25 @@ const Permisos = () => {
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={9} >
-                            <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                        <Grid item xs={6} >
+                            {fetchMenuPending ? <BLoading display={true} /> :
+                                <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                    <div className="panel-body">
+                                        {!restricciones ?
+                                            <span className="titulo-panel">Seleccione un usuario</span>
+                                            : menu.map(m => {
+                                                return (<div>{m.nombre}{m.inverseIdMenuPadreNavigation.length <= 0 ? null :
+                                                    m.inverseIdMenuPadreNavigation.map(h => <div>{h.nombre}</div>)}</div>);
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            {/* <div className="panel panel-default" style={{ marginBottom: "0px" }}>
                                 <div className="panel-body">
-                                    <span className="titulo-panel">Seleccione un usuario</span>
-
-                                    
 
                                 </div>
-                            </div>
+                            </div> */}
                         </Grid>
                     </Grid>
                 </div>

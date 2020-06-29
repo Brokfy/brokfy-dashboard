@@ -16,10 +16,10 @@ export function fetchRestricciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Restricciones/${args}`,
+        url: `https://localhost:44341/api/Restricciones?dato=${args.dato}&campo=${args.campo}`,
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${args}`,
+          'Authorization': `Bearer ${args.token}`,
           'Content-Type': 'application/json',
         },
       };

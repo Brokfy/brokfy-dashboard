@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchMenu(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Menu`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissFetchMenuError() {
 }
 
 export function useFetchMenu() {
+  const menu = useSelector(state => state.dashboard.menu);
+
   const dispatch = useDispatch();
 
   const { fetchMenuPending, fetchMenuError } = useSelector(
@@ -64,6 +76,7 @@ export function useFetchMenu() {
   }, [dispatch]);
 
   return {
+    menu: menu,
     fetchMenu: boundAction,
     fetchMenuPending,
     fetchMenuError,
@@ -85,6 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        menu: action.data.data,
         fetchMenuPending: false,
         fetchMenuError: null,
       };
