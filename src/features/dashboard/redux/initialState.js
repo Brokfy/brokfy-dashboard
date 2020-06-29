@@ -149,7 +149,9 @@ const initialState = {
   fetchDataReportePolizasBrokfyVsOtrasPending: false,
   fetchDataReportePolizasBrokfyVsOtrasError: null,
   fetchRestriccionesPending: false,
-  fetchRestriccionesError: null
+  fetchRestriccionesError: null,
+  updateProfileItemsPending: false,
+  updateProfileItemsError: null
 };
 
 export default initialState;

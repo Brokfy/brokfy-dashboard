@@ -24,7 +24,7 @@ export function insertAseguradora(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/Aseguradoras`,
+        url: `https://localhost:44341/api/Aseguradoras`,
         method: 'POST',
         data: args.data,
         headers: {

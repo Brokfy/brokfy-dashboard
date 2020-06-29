@@ -116,3 +116,4 @@ export {
   dismissFetchDataReportePolizasBrokfyVsOtrasError,
 } from './fetchDataReportePolizasBrokfyVsOtras';
 export { fetchRestricciones, dismissFetchRestriccionesError } from './fetchRestricciones';
+export { updateProfileItems, dismissUpdateProfileItemsError } from './updateProfileItems';

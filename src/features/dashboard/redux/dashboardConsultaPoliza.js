@@ -16,7 +16,7 @@ export function dashboardConsultaPoliza(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/DashboardConsultaPoliza?noPoliza=${args.noPoliza}`,
+        url: `https://localhost:44341/api/DashboardConsultaPoliza?noPoliza=${args.noPoliza}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.tokenFirebase}`,
