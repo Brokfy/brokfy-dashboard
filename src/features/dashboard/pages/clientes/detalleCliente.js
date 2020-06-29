@@ -50,11 +50,10 @@ const DetalleCliente = ({detalleUsuario, checked, fetchDetalleUsuarioPending}) =
                         <ul className="tag-list" style={{padding: 0}}>
                           {detalleUsuario.detallePerfil.actividades.map((act, index) => {
                             if ( index % 2 === 0 ) {
-                              return <li><a href="#!"><i class="fa fa-check-circle"></i> {act.descripcion}</a></li>;
+                              return <li key={`list-act-item${index}`}><a href="#!"><i className="fa fa-check-circle"></i> {act.descripcion}</a></li>;
                             }
-                            return <li><a href="#!"><i class="fa fa-circle-o"></i> {act.descripcion}</a></li>;
+                            return <li key={`list-act-item${index}`}><a href="#!"><i className="fa fa-circle-o"></i> {act.descripcion}</a></li>;
                           })}
-                          
                         </ul>
                         <br />
                       </div>
@@ -71,11 +70,10 @@ const DetalleCliente = ({detalleUsuario, checked, fetchDetalleUsuarioPending}) =
                         <ul className="tag-list" style={{padding: 0}}>
                           {detalleUsuario.detallePerfil.gadgets.map((gad, index) => {
                             if ( index % 2 === 0 ) {
-                              return <li><a href="#!"><i class="fa fa-check-circle"></i> {gad.descripcion}</a></li>;
+                              return <li key={`list-gad-item${index}`}><a href="#!"><i className="fa fa-check-circle"></i> {gad.descripcion}</a></li>;
                             }
-                            return <li><a href="#!"><i class="fa fa-circle-o"></i> {gad.descripcion}</a></li>;
+                            return <li key={`list-gad-item${index}`}><a href="#!"><i className="fa fa-circle-o"></i> {gad.descripcion}</a></li>;
                           })}
-                          
                         </ul>
                         <br />
                       </div>
@@ -92,11 +90,10 @@ const DetalleCliente = ({detalleUsuario, checked, fetchDetalleUsuarioPending}) =
                         <ul className="tag-list" style={{padding: 0}}>
                           {detalleUsuario.detallePerfil.propiedades.map((pro, index) => {
                             if ( index % 2 === 0 ) {
-                              return <li><a href="#!"><i class="fa fa-check-circle"></i> {pro.descripcion}</a></li>;
+                              return <li key={`list-pro-item${index}`}><a href="#!"><i className="fa fa-check-circle"></i> {pro.descripcion}</a></li>;
                             }
-                            return <li><a href="#!"><i class="fa fa-circle-o"></i> {pro.descripcion}</a></li>;
+                            return <li key={`list-pro-item${index}`}><a href="#!"><i className="fa fa-circle-o"></i> {pro.descripcion}</a></li>;
                           })}
-                          
                         </ul>
                         <br />
                       </div>
@@ -113,11 +110,10 @@ const DetalleCliente = ({detalleUsuario, checked, fetchDetalleUsuarioPending}) =
                         <ul className="tag-list" style={{padding: 0}}>
                           {detalleUsuario.detallePerfil.salud.map((sal, index) => {
                             if ( index % 2 === 0 ) {
-                              return <li><a href="#!"><i class="fa fa-check-circle"></i> {sal.descripcion}</a></li>;
+                              return <li key={`list-sal-item${index}`}><a href="#!"><i className="fa fa-check-circle"></i> {sal.descripcion}</a></li>;
                             }
-                            return <li><a href="#!"><i class="fa fa-circle-o"></i> {sal.descripcion}</a></li>;
+                            return <li key={`list-sal-item${index}`}><a href="#!"><i className="fa fa-circle-o"></i> {sal.descripcion}</a></li>;
                           })}
-                          
                         </ul>
                         <br />
                       </div>
