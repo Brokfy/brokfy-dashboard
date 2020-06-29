@@ -80,6 +80,7 @@ const Sidebar = () => {
           { id: 75, to: "/aseguradoras/comisiones", label: "Comisiones" },
         ]
       },
+      { id: 76, icon: ReportProblemOutlined, to: "/permisos", label: "Permisos", protected: true, open: false, active: false },
     ]);
   }, [options, listadoReportes]);
 
@@ -102,7 +103,6 @@ const Sidebar = () => {
           {
             !restricciones ? null :
               menu
-                //.filter(item => !item.protected || isAuthenticated)
                 .filter(item => !item.protected || isAuthenticated)
                 .map(item => {
                   const Icon = item.icon;
