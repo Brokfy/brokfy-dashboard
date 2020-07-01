@@ -4,7 +4,7 @@ import BLoading from '../../../components/bloading';
 import { useGetToken } from '../../common/redux/hooks';
 import { useFetchListadoUsuario } from '../redux/fetchListadoUsuario';
 import { useFetchMenu } from '../redux/fetchMenu';
-import { useFetchRestricciones } from '../redux/fetchRestricciones';
+import { useFetchRestriccionesEdicion } from '../redux/fetchRestriccionesEdicion';
 
 import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button } from '@material-ui/core';
 
@@ -27,10 +27,11 @@ const Permisos = () => {
     const [checked, setChecked] = useState([0]);
     const { auth } = useGetToken();
     const [listaLocal, setListaLocal] = useState([]);
+    const [restriccionesLocales, setRestriccionesLocal] = useState(null);
 
     const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
     const { menu, fetchMenu, fetchMenuPending } = useFetchMenu();
-    const { restricciones, fetchRestricciones, fetchRestriccionesPending } = useFetchRestricciones();
+    const { restriccionesEdicion, fetchRestriccionesEdicion, fetchRestriccionesEdicionPending } = useFetchRestriccionesEdicion();
 
     useEffect(() => {
         if (auth.tokenFirebase === "") return;
@@ -82,7 +83,7 @@ const Permisos = () => {
         }
 
         setChecked(value);
-        fetchRestricciones({ dato: value, campo: "username", token: auth.tokenFirebase });
+        fetchRestriccionesEdicion({ dato: value, campo: "username", token: auth.tokenFirebase });
     };
 
     const buscarClientes = (e) => {
@@ -94,7 +95,7 @@ const Permisos = () => {
             || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
 
-    console.log(restricciones);
+    console.log(restriccionesEdicion);
 
 
     return (
@@ -155,13 +156,51 @@ const Permisos = () => {
                             {fetchMenuPending ? <BLoading display={true} /> :
                                 <div className="panel panel-default" style={{ marginBottom: "0px" }}>
                                     <div className="panel-body">
-                                        {!restricciones ?
-                                            <span className="titulo-panel">Seleccione un usuario</span>
-                                            : menu.map(m => {
-                                                return (<div>{m.nombre}{m.inverseIdMenuPadreNavigation.length <= 0 ? null :
-                                                    m.inverseIdMenuPadreNavigation.map(h => <div>{h.nombre}</div>)}</div>);
-                                            })
-                                        }
+                                        <span className="titulo-panel">
+                                            {!restriccionesEdicion ? "Seleccione un usuario" : checked}
+                                            <hr />
+                                        </span>
+                                        <div className="lista-poliza">
+
+
+                                            {!restriccionesEdicion ? null
+                                                : menu.map(m => {
+                                                    return (
+                                                        <table key={`padre_${m.idMenu}`} className="table table-hover table-">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="80%">{m.nombre}</th>
+                                                                    <th>
+                                                                        <Checkbox
+                                                                            edge="start"
+                                                                            checked={true}
+                                                                            tabIndex={-1}
+                                                                            disableRipple
+                                                                        />
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {m.inverseIdMenuPadreNavigation.length <= 0 ? null :
+                                                                    m.inverseIdMenuPadreNavigation.map(h =>
+                                                                        <tr key={`hijo_${h.idMenu}`}>
+                                                                            <td width="80%">{h.nombre}</td>
+                                                                            <td>
+                                                                                <Checkbox
+                                                                                    checked={true}
+                                                                                    tabIndex={-1}
+                                                                                    disableRipple
+                                                                                />
+                                                                            </td>
+                                                                        </tr>)
+                                                                }
+                                                            </tbody>
+
+                                                        </table>
+                                                    );
+                                                })
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             }

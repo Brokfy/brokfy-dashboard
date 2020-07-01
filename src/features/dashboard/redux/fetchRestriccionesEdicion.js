@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchRestriccionesEdicion(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Restricciones?dato=${args.dato}&campo=${args.campo}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,7 @@ export function dismissFetchRestriccionesEdicionError() {
 }
 
 export function useFetchRestriccionesEdicion() {
+  const restriccionesEdicion = useSelector(state => state.dashboard.restriccionesEdicion);
   const dispatch = useDispatch();
 
   const { fetchRestriccionesEdicionPending, fetchRestriccionesEdicionError } = useSelector(
@@ -64,6 +75,7 @@ export function useFetchRestriccionesEdicion() {
   }, [dispatch]);
 
   return {
+    restriccionesEdicion: restriccionesEdicion,
     fetchRestriccionesEdicion: boundAction,
     fetchRestriccionesEdicionPending,
     fetchRestriccionesEdicionError,
@@ -85,6 +97,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        restriccionesEdicion: action.data.data,
         fetchRestriccionesEdicionPending: false,
         fetchRestriccionesEdicionError: null,
       };
