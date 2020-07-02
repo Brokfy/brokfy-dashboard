@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -5,21 +6,39 @@ import {
   DASHBOARD_UPDATE_RESTRICCIONES_SUCCESS,
   DASHBOARD_UPDATE_RESTRICCIONES_FAILURE,
   DASHBOARD_UPDATE_RESTRICCIONES_DISMISS_ERROR,
+  DASHBOARD_UPDATE_RESTRICCIONES_DISMISS_SUCCESS,
 } from './constants';
 
 export function updateRestricciones(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
+    if (args.dismiss === true) {
+      dispatch({
+        type: DASHBOARD_UPDATE_RESTRICCIONES_DISMISS_SUCCESS,
+      });
+      return
+    }
+
     dispatch({
       type: DASHBOARD_UPDATE_RESTRICCIONES_BEGIN,
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Restricciones/${args.username}`,
+        method: 'PUT',
+        data: args.data,
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
             type: DASHBOARD_UPDATE_RESTRICCIONES_SUCCESS,
-            data: res,
+            data: args.data,
           });
           resolve(res);
         },
@@ -47,10 +66,11 @@ export function dismissUpdateRestriccionesError() {
 export function useUpdateRestricciones() {
   const dispatch = useDispatch();
 
-  const { updateRestriccionesPending, updateRestriccionesError } = useSelector(
+  const { updateRestriccionesPending, updateRestriccionesError, updateRestriccionesNotify } = useSelector(
     state => ({
       updateRestriccionesPending: state.dashboard.updateRestriccionesPending,
       updateRestriccionesError: state.dashboard.updateRestriccionesError,
+      updateRestriccionesNotify: state.dashboard.updateRestriccionesNotify,
     }),
     shallowEqual,
   );
@@ -65,6 +85,7 @@ export function useUpdateRestricciones() {
 
   return {
     updateRestricciones: boundAction,
+    updateRestriccionesNotify,
     updateRestriccionesPending,
     updateRestriccionesError,
     dismissUpdateRestriccionesError: boundDismissError,
@@ -77,6 +98,7 @@ export function reducer(state, action) {
       // Just after a request is sent
       return {
         ...state,
+        updateRestriccionesNotify: false,
         updateRestriccionesPending: true,
         updateRestriccionesError: null,
       };
@@ -85,6 +107,8 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        restriccionesEdicion: action.data,
+        updateRestriccionesNotify: true,
         updateRestriccionesPending: false,
         updateRestriccionesError: null,
       };
@@ -93,14 +117,16 @@ export function reducer(state, action) {
       // The request is failed
       return {
         ...state,
+        updateRestriccionesNotify: true,
         updateRestriccionesPending: false,
-        updateRestriccionesError: action.data.error,
+        updateRestriccionesError: "Ha ocurrido un error al actualizar los permisos.",
       };
 
     case DASHBOARD_UPDATE_RESTRICCIONES_DISMISS_ERROR:
       // Dismiss the request failure error
       return {
         ...state,
+        updateRestriccionesNotify: false,
         updateRestriccionesError: null,
       };
 

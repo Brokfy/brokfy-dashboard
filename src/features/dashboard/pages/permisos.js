@@ -5,33 +5,24 @@ import { useGetToken } from '../../common/redux/hooks';
 import { useFetchListadoUsuario } from '../redux/fetchListadoUsuario';
 import { useFetchMenu } from '../redux/fetchMenu';
 import { useFetchRestriccionesEdicion } from '../redux/fetchRestriccionesEdicion';
+import { useUpdateRestricciones } from '../redux/updateRestricciones';
 
-import { Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button } from '@material-ui/core';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
+import { Paper, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton, Collapse, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import MenuIcon from '@material-ui/icons/Menu';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const Permisos = () => {
 
     const [loading, setLoading] = useState(true);
     const [datosCargados, setDatosCargados] = useState(false);
-    const [inputBuscarCliente, setInputBuscarCliente] = useState('');
     const [checked, setChecked] = useState([0]);
     const { auth } = useGetToken();
     const [listaLocal, setListaLocal] = useState([]);
-    const [restriccionesLocales, setRestriccionesLocal] = useState(null);
-
     const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
     const { menu, fetchMenu, fetchMenuPending } = useFetchMenu();
     const { restriccionesEdicion, fetchRestriccionesEdicion, fetchRestriccionesEdicionPending } = useFetchRestriccionesEdicion();
+    const { updateRestricciones, updateRestriccionesPending, updateRestriccionesError, updateRestriccionesNotify } = useUpdateRestricciones();
 
     useEffect(() => {
         if (auth.tokenFirebase === "") return;
@@ -67,9 +58,13 @@ const Permisos = () => {
         iconButton: {
             padding: 5,
         },
+        nested: {
+            paddingLeft: theme.spacing(6),
+        },
     }));
     const classes = useStyles();
 
+    
 
 
     const handleToggle = (value) => () => {
@@ -104,7 +99,7 @@ const Permisos = () => {
             {datosCargados && !loading ?
                 <div>
                     <Grid container spacing={3}>
-                        <Grid item xs={6} >
+                        <Grid item xs={5} >
                             <div className="panel panel-default" style={{ marginBottom: "20px" }}>
                                 <div className="panel-body">
 
@@ -117,11 +112,6 @@ const Permisos = () => {
                                             placeholder="Buscar clientes"
                                             inputProps={{ 'aria-label': 'Buscar clientes' }}
                                             onChange={(event) => buscarClientes(event)}
-                                            /* onKeyPress={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    buscarClientes(e);
-                                                }
-                                            }} */
                                             onKeyPress={(event) => buscarClientes(event)}
                                         />
 
@@ -152,70 +142,64 @@ const Permisos = () => {
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={6} >
+                        <Grid item xs={7} >
                             {fetchMenuPending ? <BLoading display={true} /> :
-                                <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-                                    <div className="panel-body">
-                                        <span className="titulo-panel">
-                                            {!restriccionesEdicion ? "Seleccione un usuario" : checked}
-                                            <hr />
-                                        </span>
-                                        <div className="lista-poliza">
+                                <div>
+                                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                                        <div className="panel-body">
+                                            <span className="titulo-panel">
+                                                {!restriccionesEdicion ? "Seleccione un usuario." : "Presione la opcion que desee habilitar o deshabilitar."}
+                                            </span>
 
+                                            <div className="lista-poliza">
 
-                                            {!restriccionesEdicion ? null
-                                                : menu.map(m => {
-                                                    return (
-                                                        <table key={`padre_${m.idMenu}`} className="table table-hover table-">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th width="80%">{m.nombre}</th>
-                                                                    <th>
-                                                                        <Checkbox
-                                                                            edge="start"
-                                                                            checked={true}
-                                                                            tabIndex={-1}
-                                                                            disableRipple
-                                                                        />
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {m.inverseIdMenuPadreNavigation.length <= 0 ? null :
-                                                                    m.inverseIdMenuPadreNavigation.map(h =>
-                                                                        <tr key={`hijo_${h.idMenu}`}>
-                                                                            <td width="80%">{h.nombre}</td>
-                                                                            <td>
-                                                                                <Checkbox
-                                                                                    checked={true}
-                                                                                    tabIndex={-1}
-                                                                                    disableRipple
-                                                                                />
-                                                                            </td>
-                                                                        </tr>)
-                                                                }
-                                                            </tbody>
-
-                                                        </table>
-                                                    );
-                                                })
-                                            }
+                                                <List
+                                                    component="nav"
+                                                    aria-labelledby="nested-list-subheader"
+                                                    className={classes.root}
+                                                >
+                                                    {!restriccionesEdicion ? null
+                                                        : menu.map(m => {
+                                                            return (
+                                                                <>
+                                                                    <ListItem button>
+                                                                        <ListItemText primary={m.nombre} />
+                                                                        <ListItemIcon>
+                                                                            {restriccionesEdicion.filter(x => x.idMenu === m.idMenu).length <= 0 ?
+                                                                                <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                        </ListItemIcon>
+                                                                    </ListItem>
+                                                                    {m.inverseIdMenuPadreNavigation.length <= 0 ? null :
+                                                                        m.inverseIdMenuPadreNavigation.map(h =>
+                                                                            <Collapse in={true} key={`hijo_${h.idMenu}`}>
+                                                                                <List component="div" disablePadding>
+                                                                                    <ListItem button className={classes.nested}>
+                                                                                        <ListItemText primary={h.nombre} />
+                                                                                        <ListItemIcon>
+                                                                                            {restriccionesEdicion.filter(x => x.idMenu === h.idMenu).length <= 0 ?
+                                                                                                <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                                        </ListItemIcon>
+                                                                                    </ListItem>
+                                                                                </List>
+                                                                            </Collapse>)
+                                                                    }
+                                                                </>
+                                                            );
+                                                        })
+                                                    }
+                                                </List>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             }
-                            {/* <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-                                <div className="panel-body">
-
-                                </div>
-                            </div> */}
                         </Grid>
                     </Grid>
                 </div>
                 : null}
 
             <br /><br />
-        </div >
+        </div>
     );
 
 }
