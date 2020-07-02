@@ -67,7 +67,7 @@ const BStepper = (props) => {
   const StepContent = ({ step }) => {
     return (
       <div style={{ padding: '20px 40px', width: '100%' }}>
-        {props.stepContent[step].renderView}
+        { props.stepContent[step] ? props.stepContent[step].renderView : null }
       </div>
     );
   }

@@ -65,7 +65,7 @@ const useAseguradora = (dropdownAseguradoras = [], defaultAseguradora = null) =>
 
   const AseguradoraView = (props) => (
     <FormControl className={classes.formControl} error={props.error}>
-      <InputLabel id="poliza-aseguradora-label">Aseguradora</InputLabel>
+      <InputLabel id="poliza-aseguradora-label">Aseguradora *</InputLabel>
       <Select
         labelId="poliza-aseguradora-label"
         id="poliza-aseguradora"

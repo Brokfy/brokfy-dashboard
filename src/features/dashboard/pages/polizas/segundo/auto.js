@@ -61,6 +61,26 @@ const SegundoAuto = (props) => {
         }
     }, [auth, listadoMarcas.length]);
 
+    useEffect(() => {
+        setModelo('');
+        setListadoModelos([]);
+        setYear('');
+    }, [marca]);
+
+    useEffect(() => {
+        setModelo('');
+        setListadoModelos([]);
+    }, [year]);
+
+    useEffect(() => {
+        if( modelo !== "" ) {
+            const modeloInfo =  listadoModelos.filter(i => i.modelo === modelo);
+            if( modeloInfo && modeloInfo.length > 0 ) {
+                setClave(modeloInfo[0].clave);
+            }
+        }
+    }, [modelo, listadoModelos])
+
     const handleChangeMarca = (event) => {
         setMarca(event.target.value);
         setListadoModelos([]);
@@ -126,7 +146,7 @@ const SegundoAuto = (props) => {
                 <>
                     <Grid item xs={4} >
                         <FormControl className={classes.formControl} style={{ margin: '0' }} error={marca === ""}>
-                            <InputLabel id="marcaLabel">Marca</InputLabel>
+                            <InputLabel id="marcaLabel">Marca *</InputLabel>
                             <Select
                                 labelId="marcaLabel"
                                 id="marca"
@@ -145,7 +165,7 @@ const SegundoAuto = (props) => {
                     </Grid>
                     <Grid item xs={4} >
                         <FormControl className={classes.formControl} style={{ margin: '0' }} error={year===""} >
-                            <InputLabel id="yearLabel">Año</InputLabel>
+                            <InputLabel id="yearLabel">Año *</InputLabel>
                             <Select
                                 labelId="yearLabel"
                                 id="ano"
@@ -165,7 +185,7 @@ const SegundoAuto = (props) => {
                     </Grid>
                     <Grid item xs={4} >
                         <FormControl className={classes.formControl} style={{ margin: '0' }} error={modelo===""} >
-                            <InputLabel id="modeloLabel">Modelo</InputLabel>
+                            <InputLabel id="modeloLabel">Modelo *</InputLabel>
                             <Select
                                 labelId="modeloLabel"
                                 id="modelo"
@@ -184,13 +204,23 @@ const SegundoAuto = (props) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={4} >
-                        <TextField id="placa" name="placa" label="Placa" error={placa===""} helperText={placa==="" ? "El campo es requerido" : ''} onBlur={event => setPlaca(event.target.value)}/>
+                        <TextField id="placa" name="placa" label="Placa *" error={placa===""} helperText={placa==="" ? "El campo es requerido" : ''} onBlur={event => setPlaca(event.target.value)}/>
+                    </Grid>
+                    <Grid item xs={4} style={{ display: "none" }}>
+                        <TextField id="clave" name="clave" label="Clave" value={clave} error={clave===""} helperText={clave==="" ? "El campo es requerido" : ''} onBlur={event => setClave(event.target.value)}/>
                     </Grid>
                     <Grid item xs={4} >
-                        <TextField id="clave" name="clave" label="Clave" error={clave===""} helperText={clave==="" ? "El campo es requerido" : ''} onBlur={event => setClave(event.target.value)}/>
-                    </Grid>
-                    <Grid item xs={4} >
-                        <TextField id="codigoPostal" name="codigoPostal" label="Código Postal" error={codigoPostal===""} helperText={codigoPostal==="" ? "El campo es requerido" : ''} onBlur={event => setCodigoPostal(event.target.value)}/>
+                        <TextField 
+                            id="codigoPostal" 
+                            name="codigoPostal" 
+                            label="Código Postal *" 
+                            error={codigoPostal==="" || !/^[0-5][1-9]{3}[0-9]$/g.test(codigoPostal)} 
+                            helperText={
+                                codigoPostal==="" ? "El campo es requerido" : 
+                                !/^[0-5][1-9]{3}[0-9]$/g.test(codigoPostal) ? "Código inválido" : ""
+                            } 
+                            onBlur={event => setCodigoPostal(event.target.value)}
+                        />
                     </Grid>
                 </>
             }

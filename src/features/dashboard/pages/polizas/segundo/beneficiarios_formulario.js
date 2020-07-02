@@ -22,6 +22,8 @@ const BeneficiariosFormulario = (props) => {
     const porcentajeTotal = useSelector(state => state.dashboard.beneficiariosPctAsignado);
     const { agregarBeneficiario } = useAgregarBeneficiario();
     const { eliminarBeneficiario } = useEliminarBeneficiario();
+    const [ listadoValidaciones, setListadoValidaciones ] = useState([]);
+    const [ datosFormulario, setDatosFormulario ] = useState();
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -113,12 +115,24 @@ const BeneficiariosFormulario = (props) => {
         );
     }
 
+    //Función para validar una CURP
+    const curpValida = (curp) => {
+        var re = /^[a-zA-Z]{4}((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229)(H|M)(AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|SM|NE)([a-zA-Z]{3})([a-zA-Z0-9\s]{1})\d{1}$/;
+        // validado = curp.match(re);
+        
+        // if (!validado)  //Coincide con el formato general?
+        //     return false;
+        
+        return re.test(curp);
+    }
+
     // const eliminarBeneficiario = (item) => setBeneficiarios([...beneficiarios.filter(i => i.curp !== item.curp)]);
     const eliminarBeneficiarioDelListado = (item) => eliminarBeneficiario(item.curp);
         
     const agregarBeneficiarioAListado = () => {
         var parentesco = document.getElementById("idParentesco");
-        const parentescoValue = parentesco.textContent !== "" ? dropdownParentesco.filter(i => i.descripcion === parentesco.textContent)[0].id : null;
+        var parentesco1 = parentesco && parentesco.textContent !== "" ? dropdownParentesco.filter(i => i.descripcion === parentesco.textContent)[0] : null;
+        const parentescoValue = parentesco1 ? parentesco1.id : null;
 
         const datosNuevoBeneficiario = { 
             nombre: document.getElementById("nombre").value, 
@@ -130,11 +144,50 @@ const BeneficiariosFormulario = (props) => {
             pctAsignado: document.getElementById("pctAsignado").value,
         };
 
-        if( datosNuevoBeneficiario.nombre !== "" && datosNuevoBeneficiario.apellidoPaterno !== "" && datosNuevoBeneficiario.curp && (porcentajeTotal + parseFloat(datosNuevoBeneficiario.pctAsignado)) <= 100 ){
-            agregarBeneficiario(datosNuevoBeneficiario)
+        let validaciones = [];
+
+        if ( datosNuevoBeneficiario.nombre === "" ) {
+            validaciones = [...validaciones, { campo: "nombre", mensaje: "El nombre es requerido" }];
         }
 
+        if ( datosNuevoBeneficiario.apellidoPaterno === "" ) {
+            validaciones = [...validaciones, { campo: "apellidoPaterno", mensaje: "El apellido paterno es requerido" }];
+        }
 
+        if ( datosNuevoBeneficiario.curp === "" ) {
+            validaciones = [...validaciones, { campo: "curp", mensaje: "La clave única de registro de poblcación (CURP) es requerida." }];
+        }
+
+        if ( datosNuevoBeneficiario.curp !== "" && !curpValida(datosNuevoBeneficiario.curp) ) {
+            validaciones = [...validaciones, { campo: "curp", mensaje: "La clave única de registro de poblcación (CURP) es corresponde a un código válido." }];
+        }
+
+        if ( parentescoValue === null ) {
+            validaciones = [...validaciones, { campo: "parentesco", mensaje: "El parentesco es requerido." }];
+        }
+
+        if ( datosNuevoBeneficiario.pctAsignado === "" ) {
+            validaciones = [...validaciones, { campo: "porcentaje", mensaje: "El porcentaje es requerido." }];
+        } else {
+            if ( parseFloat(datosNuevoBeneficiario.pctAsignado) <= 0 ) {
+                validaciones = [...validaciones, { campo: "porcentaje", mensaje: "El porcentaje debe ser mayor a cero (0)." }];
+            }
+    
+            if ( parseFloat(datosNuevoBeneficiario.pctAsignado) > 100 ) {
+                validaciones = [...validaciones, { campo: "porcentaje", mensaje: "El porcentaje debe ser menor o igual a cien (100)." }];
+            }
+
+            if ( (porcentajeTotal + parseFloat(datosNuevoBeneficiario.pctAsignado)) > 100 ) {
+                validaciones = [...validaciones, { campo: "porcentajeTotal", mensaje: "El porcentaje ingresado hace que se exceda el 100% del porcentaje total." }];
+            }
+        }
+
+        if( validaciones.length === 0 ){
+            agregarBeneficiario(datosNuevoBeneficiario);
+        } else {
+            setDatosFormulario(datosNuevoBeneficiario);
+            setListadoValidaciones(validaciones);
+        }
     };
 
     const RegistroBeneficiario = () => {
@@ -180,6 +233,7 @@ const BeneficiariosFormulario = (props) => {
                                         labelId={element.name}
                                         id={element.name}
                                         name={element.name}
+                                        defaultValue={ datosFormulario ? datosFormulario[element.name] : '' }
                                         inputProps={{
                                             classes: {
                                                 icon: classes.selectIcon,
@@ -198,14 +252,13 @@ const BeneficiariosFormulario = (props) => {
                                         variant="outlined"
                                         id={element.name}
                                         name={element.name}
+                                        defaultValue={ datosFormulario ? datosFormulario[element.name] : '' }
                                         inputProps={{
                                             min: "0",
                                             max: "100",
                                             step: "1",
                                             autoComplete: 'off',
-                                            form: {
-                                                autoComplete: 'off',
-                                            },
+                                            pattern: (element.name === "curp" ? "([A-Z]{4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[A-Z]{3}[0-9A-Z]\\d)" : "*"),
                                         }}
                                     />
                                 </td>
@@ -213,6 +266,17 @@ const BeneficiariosFormulario = (props) => {
                         }) 
                     }
                 </tr>
+                {
+                    listadoValidaciones.length > 0 ? 
+                    <tr style={{ textAlign: "start", color: "red", fontSize: "smaller", background: "white" }}>
+                        <td colSpan="8">
+                            <ul>
+                                { listadoValidaciones.map((item, index) => <li key={`validaciones_${index.toString()}`}>{ item.mensaje }</li> ) }
+                            </ul>
+                        </td>
+                    </tr> : null
+                }
+                
             </tfoot>
         );
     }

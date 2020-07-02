@@ -61,7 +61,7 @@ const useProductos = (dropdownProductos = [], defaultAseguradora = null) => {
 
   const ProductosView = (props) => (
     <FormControl className={classes.formControl} error={props.error}>
-      <InputLabel id="poliza-Productos-label">Productos</InputLabel>
+      <InputLabel id="poliza-Productos-label">Productos *</InputLabel>
       <Select
         labelId="poliza-Productos-label"
         id="poliza-Productos"

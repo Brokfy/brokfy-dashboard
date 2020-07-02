@@ -74,7 +74,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
         parseFloat(formData["costoRecibosSubsecuentes"].toString() !== "" ? formData["costoRecibosSubsecuentes"].replace(/[\$,]/gi, '') : 0))
     });
     const primaTotal = parseFloat(formData["costo"].toString() !== "" ? formData["costo"].replace(/[\$,]/gi, '') : 0);
-    return total === primaTotal;
+    return Number((primaTotal - Number(total.toFixed(2))).toFixed(1)) === 0;
   }
 
 
@@ -163,6 +163,10 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
       if( `${formData[element]}` === "" ) {
         validacion = { ...validacion, [element]: requiredFieldText }
         pasaValidacion = false;
+      } else {
+        if ( element === "codigoPostal" && !/^[0-5][1-9]{3}[0-9]$/g.test(`${formData[element]}`) ) {
+          pasaValidacion = false;
+        }
       }
     });
 
