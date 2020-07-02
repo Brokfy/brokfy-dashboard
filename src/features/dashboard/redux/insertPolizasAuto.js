@@ -48,6 +48,7 @@ export function insertPolizasAuto(args = {}) {
         (res) => {
           axios({
             ...options,
+            url: `https://apipruebas.brokfy.com:4300/api/PolizaAuto?propia=Si`,
             method: "GET"
           }).then(
             (res) => {

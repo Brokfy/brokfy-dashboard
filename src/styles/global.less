@@ -116,15 +116,15 @@ ul.nav-second-level {
 }
 
 .lista-poliza {
-  min-height: 68vh;
-  max-height: 68vh;
+  // min-height: 82vh;
+  max-height: 74vh;
   overflow-y: auto;
   margin-top: 0.6rem;
 }
 
 .dashboard-panel {
-  min-height: 15vh !important;
-  max-height: 15vh !important;
+  // min-height: 15vh !important;
+  max-height: 194px !important;
   overflow-y: auto;
   margin-top: 0.5rem;
 
@@ -137,14 +137,35 @@ ul.nav-second-level {
   div.MuiAlert-filledInfo {
     background: #5281ae;
   }
+  
+  table.table-bordered, table.table-striped {
+    thead th {
+      // background: white;
+      position: sticky;
+      text-align: start;
+      top: 0px;
+    }
+    td, th {
+      padding: 0.22rem !important;
+    }
+  }
+
+  th {
+    text-align: right;
+    width: 25%;
+    background: #f4f4f4;
+    padding: 0.22rem !important;
+  }
+  td {
+    padding: 0.22rem !important;
+  }
 }
 
 .dashboard-panel-alt {
-  min-height: 15.6vh !important;
-  max-height: 15.6vh !important;
+  // min-height: 15.6vh !important;
+  max-height: 194px !important;
   overflow-y: auto;
-  margin-top: 0.52rem;
-  padding-top: 3px;
+  margin-top: 0.4rem;
 
   div.MuiPaper-root {
     margin: 0.5rem 0.5rem;
@@ -154,6 +175,19 @@ ul.nav-second-level {
 
   div.MuiAlert-filledInfo {
     background: #5281ae;
+  }
+
+  table.table-bordered, table.table-striped {
+    thead th {
+      // background: white;
+      position: sticky;
+      top: 0px;
+      text-align: start;
+      padding: 0.22rem !important;
+    }
+    td {
+      padding: 0.22rem !important;
+    }
   }
 }
 
@@ -179,14 +213,41 @@ ul.nav-second-level {
 }
 
 .panel-body-alt {
-  span {
+  // span {
+  //   text-align: center;
+  //   width: 100%;
+  //   display: inherit;
+  //   margin-bottom: 0.8rem;
+  // }
+  .enlace-descarga {
+    position: relative;
+    min-width: 100px;
+    width: 20%;
+    padding: 0.25rem 0.25rem;
     text-align: center;
-    width: 100%;
-    display: inherit;
-    margin-bottom: 0.8rem;
+    display: inline-block !important;
+
+    i {
+      font-size: 48px;
+    }
   }
-  i {
-    font-size: 48px;
+
+  .enlace-descarga-info {
+    position: relative;
+    display: inline-block !important;
+  }
+
+  .descarga {
+    .MuiDivider-root-min {
+      margin-bottom: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    &:last-child {
+      .MuiDivider-root-min {
+        display: none;
+      }
+    }
   }
 }
 
@@ -206,4 +267,36 @@ ul.nav-second-level {
     text-align: start;
     display: unset;
   }
+}
+
+#wrapper {
+  overflow-x: unset;
+}
+
+input[type="date"] {
+  position: relative;
+  padding: 4px 0px 8px 0px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: transparent;
+  background: none;
+  margin: 0 0 auto;
+  padding: 0 0;
+  z-index: 1;
+}
+
+input[type="date"]:before {
+  color: transparent;
+  background: none;
+  display: block;
+  font-family: 'FontAwesome';
+  content: '\f073';
+  /* This is the calendar icon in FontAwesome */
+  width: 15px;
+  height: 20px;
+  position: absolute;
+  // top: 12px;
+  right: 6px;
+  color: #999;
 }

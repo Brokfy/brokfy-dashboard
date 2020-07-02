@@ -27,7 +27,7 @@ export default {
     { path: '/aseguradoras/productos', component: Wrapper(CatalogoProductos) },
     { path: '/aseguradoras/comisiones', component: Wrapper(Comisiones) },
     { path: '/atencion-clientes', component: Wrapper(AtencionClientes) },
-    { path: '/clientes/', component: Wrapper(Clientes) },
+    { path: '/clientes/', component: Clientes },
     { path: '/pagos', component: Wrapper(Pagos) },
     { path: '/polizas', component: Wrapper(Polizas) },
     { path: '/polizas/:propia/:tipo', component: Wrapper(Polizas) },

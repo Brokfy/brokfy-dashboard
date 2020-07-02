@@ -76,24 +76,29 @@ const Grafico = ({ grafico }) => {
             <div className="panel-body">
                 <span className="titulo-panel">Número de pólizas por tipo</span>
                 <br /><br />
-                <Pie
-                    className={""}
-                    data={data}
-                    height="120"
-                    options={{
-                        tooltips: {
-                            callbacks: {
-                                label: (tooltipItem, data) => {
-                                    let value = data.datasets[0].data[tooltipItem.index];
-                                    return commaFormat(value);
-                                },
-                                title: (tooltipItem, data) => {
-                                    return data.labels[tooltipItem[0].index];
+                <div class="flot-chart">
+                    <div class="flot-chart-pie-content" id="flot-pie-chart">
+                        <Pie
+                            className={""}
+                            data={data}
+                            height="300"
+                            width="300"
+                            options={{
+                                tooltips: {
+                                    callbacks: {
+                                        label: (tooltipItem, data) => {
+                                            let value = data.datasets[0].data[tooltipItem.index];
+                                            return commaFormat(value);
+                                        },
+                                        title: (tooltipItem, data) => {
+                                            return data.labels[tooltipItem[0].index];
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }}
-                />
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -116,9 +116,13 @@ export {
   dismissFetchDataReportePolizasBrokfyVsOtrasError,
 } from './fetchDataReportePolizasBrokfyVsOtras';
 export { fetchRestricciones, dismissFetchRestriccionesError } from './fetchRestricciones';
+<<<<<<< HEAD
 export { fetchMenu, dismissFetchMenuError } from './fetchMenu';
 export { updateRestricciones, dismissUpdateRestriccionesError } from './updateRestricciones';
 export {
   fetchRestriccionesEdicion,
   dismissFetchRestriccionesEdicionError,
 } from './fetchRestriccionesEdicion';
+=======
+export { updateProfileItems, dismissUpdateProfileItemsError } from './updateProfileItems';
+>>>>>>> develop

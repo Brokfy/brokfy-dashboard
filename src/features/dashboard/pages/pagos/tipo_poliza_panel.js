@@ -92,6 +92,9 @@ const TipoPolizaPanel = ({ tipoPoliza: { id, tipo }, listadoPolizas, expanded, s
                                                 // inputComponent: NumberFormatCustom,
                                                 autoComplete: "off",
                                             }}
+                                            onFocus={(event) => {
+                                                event.target.select();
+                                            }}
                                             onBlur={(event) => {
                                                 try {
                                                     const field = event.target.value.replace("$", "").replace(",","");

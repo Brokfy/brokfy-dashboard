@@ -128,6 +128,16 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                     helperText={error === true ? errorMessage : ''}
                 />
             </MuiPickersUtilsProvider> */
+            // return <TextField
+            //     id={name}
+            //     name={name}
+            //     label={label}
+            //     type="date"
+            //     defaultValue={editValue !== null ? getDate(editValue) : setInputDate()}
+            //     disabled={options.display === false || options.disabled}
+            //     error={error === true}
+            //     helperText={error === true ? errorMessage : ''}
+            // />;
             return <TextField
                 id={name}
                 name={name}
@@ -135,6 +145,10 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 type="date"
                 defaultValue={editValue !== null ? getDate(editValue) : setInputDate()}
                 disabled={options.display === false || options.disabled}
+                className={classes.textField}
+                InputLabelProps={{
+                    shrink: true,
+                }}
                 error={error === true}
                 helperText={error === true ? errorMessage : ''}
             />;

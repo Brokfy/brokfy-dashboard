@@ -167,7 +167,9 @@ const Reportes = () => {
       fechaInicio: document.querySelector("#fechaInicio").value,
       fechaFin: document.querySelector("#fechaFin").value,
       idAseguradora: parseInt(document.querySelector("[name='aseguradora']").value),
-      idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").value),
+      aseguradora: document.querySelector("[id='aseguradora']").textContent,
+      idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").text),
+      tipoPoliza: document.querySelector("[id='tipoPoliza']").textContent,
     });
 
     const parametrosRequest = {
@@ -235,11 +237,11 @@ const Reportes = () => {
                 </tr>
                 <tr>
                   <td align="right"><b>Aseguradora &nbsp;:</b></td>
-                  <td>&nbsp;&nbsp;Todas</td>
+                  <td>&nbsp;&nbsp;{filtrosReportes.aseguradora}</td>
                 </tr>
                 <tr>
                   <td align="right"><b>Tipo Póliza &nbsp;:</b></td>
-                  <td>&nbsp;&nbsp;Todas</td>
+                  <td>&nbsp;&nbsp;{filtrosReportes.tipoPoliza}</td>
                 </tr>
               </tbody>
             </table>
