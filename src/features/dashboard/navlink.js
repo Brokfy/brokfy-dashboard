@@ -2,8 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link} from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
+import { useFetchRestricciones } from './redux/fetchRestricciones';
 
 const NavLink = (props) => {
+
+  const { restricciones, fetchRestricciones, fetchRestriccionesPending } = useFetchRestricciones();
+
+
   var location = useLocation();
   const isActive = location.pathname === props.data.to || props.data.active || (props.data.to === "/reportes" && /\/reportes\/(.*)/.test(location.pathname));
   const className = isActive ? 'active' : '';
@@ -39,13 +44,14 @@ const NavLink = (props) => {
           <ul className={`nav nav-second-level collapse ${props.data.active || className !== "" ? 'in' : ''}`} aria-expanded="true">
             {
               props.data.childrenRoutes.map((element, index) => {
-                return (
+                return restricciones.filter(res => res.idMenu === element.id).length > 0 ? null :
+                //return (
                   <li key={`subitem_${props.data.to}_${index}`}>
                     <Link className={className} to={element.to} onClick={(evt) => { activeLink(evt, false); }}>
                       {element.label}
                     </Link>
                   </li>
-                );
+                //);
               })
             }
           </ul> :

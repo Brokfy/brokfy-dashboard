@@ -24,9 +24,9 @@ export function updateRestricciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Restricciones/${args.username}`,
-        method: 'PUT',
-        data: args.data,
+        url: `https://localhost:44341/api/Restricciones`,
+        method: 'POST',
+        data: { username: args.username, idMenu: args.idMenu },
         headers: {
           'Authorization': `Bearer ${args.token}`,
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export function updateRestricciones(args = {}) {
         (res) => {
           dispatch({
             type: DASHBOARD_UPDATE_RESTRICCIONES_SUCCESS,
-            data: args.data,
+            data: res,
           });
           resolve(res);
         },
@@ -107,7 +107,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        restriccionesEdicion: action.data,
+        restriccionesEdicion: action.data.data.result,
         updateRestriccionesNotify: true,
         updateRestriccionesPending: false,
         updateRestriccionesError: null,

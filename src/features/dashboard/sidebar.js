@@ -6,6 +6,7 @@ import { useTipoPoliza } from './hooks';
 import { DashboardOutlined, AccountCircleOutlined, MobileFriendly, PolicyOutlined, AccountBalanceOutlined, VerifiedUserOutlined, MonetizationOnOutlined, RoomServiceOutlined, ReportProblemOutlined, InsertChartOutlined } from '@material-ui/icons';
 import { useFetchListadoReportes } from './redux/fetchListadoReportes';
 import { useFetchRestricciones } from './redux/fetchRestricciones';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const Sidebar = () => {
   const { isAuthenticated } = useIsAuthenticated();
@@ -79,12 +80,10 @@ const Sidebar = () => {
           { id: 75, to: "/aseguradoras/comisiones", label: "Comisiones" },
         ]
       },
-      { id: 76, icon: ReportProblemOutlined, to: "/permisos", label: "Permisos", protected: true, open: false, active: false },
+      { id: 77, icon: AssignmentIndIcon, to: "/permisos", label: "Permisos", protected: true, open: false, active: false },
     ]);
   }, [options, listadoReportes]);
 
-
-  console.log(restricciones)
 
   return (
     <nav className="navbar-default navbar-static-side" role="navigation">

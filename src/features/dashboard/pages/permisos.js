@@ -11,6 +11,7 @@ import { Paper, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton
 import SearchIcon from '@material-ui/icons/Search';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 const Permisos = () => {
 
@@ -18,6 +19,7 @@ const Permisos = () => {
     const [datosCargados, setDatosCargados] = useState(false);
     const [checked, setChecked] = useState([0]);
     const { auth } = useGetToken();
+    const [idMenuActual, setIdMenuActual] = useState(0);
     const [listaLocal, setListaLocal] = useState([]);
     const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
     const { menu, fetchMenu, fetchMenuPending } = useFetchMenu();
@@ -64,7 +66,11 @@ const Permisos = () => {
     }));
     const classes = useStyles();
 
-    
+
+    const actualizarRestriccion = (idMenu) => {
+        setIdMenuActual(idMenu);
+        updateRestricciones({ idMenu: idMenu, username: checked, token: auth.tokenFirebase })
+    }
 
 
     const handleToggle = (value) => () => {
@@ -89,9 +95,6 @@ const Permisos = () => {
             || us.apellidoMaterno.toUpperCase().includes(busqueda.toUpperCase())
             || us.username.toUpperCase().includes(busqueda.toUpperCase())))
     }
-
-    console.log(restriccionesEdicion);
-
 
     return (
         <div>
@@ -162,22 +165,24 @@ const Permisos = () => {
                                                         : menu.map(m => {
                                                             return (
                                                                 <>
-                                                                    <ListItem button>
+                                                                    <ListItem button onClick={() => actualizarRestriccion(m.idMenu)}>
                                                                         <ListItemText primary={m.nombre} />
                                                                         <ListItemIcon>
-                                                                            {restriccionesEdicion.filter(x => x.idMenu === m.idMenu).length <= 0 ?
-                                                                                <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                            {updateRestriccionesPending && idMenuActual === m.idMenu ? <HourglassEmptyIcon /> :
+                                                                                restriccionesEdicion.filter(x => x.idMenu === m.idMenu).length <= 0 ?
+                                                                                    <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
                                                                         </ListItemIcon>
                                                                     </ListItem>
                                                                     {m.inverseIdMenuPadreNavigation.length <= 0 ? null :
                                                                         m.inverseIdMenuPadreNavigation.map(h =>
                                                                             <Collapse in={true} key={`hijo_${h.idMenu}`}>
                                                                                 <List component="div" disablePadding>
-                                                                                    <ListItem button className={classes.nested}>
+                                                                                    <ListItem button className={classes.nested} onClick={() => actualizarRestriccion(h.idMenu)}>
                                                                                         <ListItemText primary={h.nombre} />
                                                                                         <ListItemIcon>
-                                                                                            {restriccionesEdicion.filter(x => x.idMenu === h.idMenu).length <= 0 ?
-                                                                                                <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                                            {updateRestriccionesPending && idMenuActual === h.idMenu ? <HourglassEmptyIcon /> :
+                                                                                                restriccionesEdicion.filter(x => x.idMenu === h.idMenu).length <= 0 ?
+                                                                                                    <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
                                                                                         </ListItemIcon>
                                                                                     </ListItem>
                                                                                 </List>
