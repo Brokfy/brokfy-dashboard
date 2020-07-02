@@ -17,7 +17,7 @@ export function cambioAgente(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/CambiarAgente/${args.noPoliza}`,
+        url: `https://apipruebas.brokfy.com:4300/api/CambiarAgente/${args.noPoliza}`,
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${args.token}`,

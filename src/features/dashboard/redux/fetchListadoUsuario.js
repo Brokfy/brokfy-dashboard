@@ -16,7 +16,7 @@ export function fetchListadoUsuario(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/ListaUsuarios`,
+        url: `https://apipruebas.brokfy.com:4300/api/ListaUsuarios`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,
