@@ -74,6 +74,11 @@ import { reducer as fetchDataReporteHistoricoComisionesReducer } from './fetchDa
 import { reducer as fetchDataReportePolizasBrokfyVsOtrasReducer } from './fetchDataReportePolizasBrokfyVsOtras';
 import { reducer as fetchRestriccionesReducer } from './fetchRestricciones';
 import { reducer as updateProfileItemsReducer } from './updateProfileItems';
+import { reducer as fetchEstadosSiniestroReducer } from './fetchEstadosSiniestro';
+import { reducer as fetchSiniestrosReducer } from './fetchSiniestros';
+import { reducer as fetchSiniestroTimelineReducer } from './fetchSiniestroTimeline';
+import { reducer as updateEstadosSiniestroReducer } from './updateEstadosSiniestro';
+import { reducer as updateComentariosSiniestroReducer } from './updateComentariosSiniestro';
 
 const reducers = [
   fetchProductosReducer,
@@ -143,6 +148,11 @@ const reducers = [
   fetchDataReportePolizasBrokfyVsOtrasReducer,
   fetchRestriccionesReducer,
   updateProfileItemsReducer,
+  fetchEstadosSiniestroReducer,
+  fetchSiniestrosReducer,
+  fetchSiniestroTimelineReducer,
+  updateEstadosSiniestroReducer,
+  updateComentariosSiniestroReducer,
 ];
 
 export default function reducer(state = initialState, action) {

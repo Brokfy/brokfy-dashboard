@@ -65,3 +65,8 @@ export { useFetchDataReporteHistoricoComisiones } from './fetchDataReporteHistor
 export { useFetchDataReportePolizasBrokfyVsOtras } from './fetchDataReportePolizasBrokfyVsOtras';
 export { useFetchRestricciones } from './fetchRestricciones';
 export { useUpdateProfileItems } from './updateProfileItems';
+export { useFetchEstadosSiniestro } from './fetchEstadosSiniestro';
+export { useFetchSiniestros } from './fetchSiniestros';
+export { useFetchSiniestroTimeline } from './fetchSiniestroTimeline';
+export { useUpdateEstadosSiniestro } from './updateEstadosSiniestro';
+export { useUpdateComentariosSiniestro } from './updateComentariosSiniestro';
