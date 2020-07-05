@@ -157,7 +157,17 @@ const initialState = {
   fetchRestriccionesEdicionPending: false,
   fetchRestriccionesEdicionError: null,
   updateProfileItemsPending: false,
-  updateProfileItemsError: null
+  updateProfileItemsError: null,
+  fetchEstadosSiniestroPending: false,
+  fetchEstadosSiniestroError: null,
+  fetchSiniestrosPending: false,
+  fetchSiniestrosError: null,
+  fetchSiniestroTimelinePending: false,
+  fetchSiniestroTimelineError: null,
+  updateEstadosSiniestroPending: false,
+  updateEstadosSiniestroError: null,
+  updateComentariosSiniestroPending: false,
+  updateComentariosSiniestroError: null
 };
 
 export default initialState;

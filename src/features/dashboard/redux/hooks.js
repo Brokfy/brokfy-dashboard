@@ -68,3 +68,8 @@ export { useFetchMenu } from './fetchMenu';
 export { useUpdateRestricciones } from './updateRestricciones';
 export { useFetchRestriccionesEdicion } from './fetchRestriccionesEdicion';
 export { useUpdateProfileItems } from './updateProfileItems';
+export { useFetchEstadosSiniestro } from './fetchEstadosSiniestro';
+export { useFetchSiniestros } from './fetchSiniestros';
+export { useFetchSiniestroTimeline } from './fetchSiniestroTimeline';
+export { useUpdateEstadosSiniestro } from './updateEstadosSiniestro';
+export { useUpdateComentariosSiniestro } from './updateComentariosSiniestro';

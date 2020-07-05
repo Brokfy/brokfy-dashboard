@@ -77,6 +77,11 @@ import { reducer as fetchMenuReducer } from './fetchMenu';
 import { reducer as updateRestriccionesReducer } from './updateRestricciones';
 import { reducer as fetchRestriccionesEdicionReducer } from './fetchRestriccionesEdicion';
 import { reducer as updateProfileItemsReducer } from './updateProfileItems';
+import { reducer as fetchEstadosSiniestroReducer } from './fetchEstadosSiniestro';
+import { reducer as fetchSiniestrosReducer } from './fetchSiniestros';
+import { reducer as fetchSiniestroTimelineReducer } from './fetchSiniestroTimeline';
+import { reducer as updateEstadosSiniestroReducer } from './updateEstadosSiniestro';
+import { reducer as updateComentariosSiniestroReducer } from './updateComentariosSiniestro';
 
 const reducers = [
   fetchProductosReducer,
@@ -149,6 +154,11 @@ const reducers = [
   updateRestriccionesReducer,
   fetchRestriccionesEdicionReducer,
   updateProfileItemsReducer,
+  fetchEstadosSiniestroReducer,
+  fetchSiniestrosReducer,
+  fetchSiniestroTimelineReducer,
+  updateEstadosSiniestroReducer,
+  updateComentariosSiniestroReducer,
 ];
 
 export default function reducer(state = initialState, action) {
