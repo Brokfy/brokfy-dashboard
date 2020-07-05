@@ -73,6 +73,9 @@ import { reducer as fetchDataReportePolizasPorVencerReducer } from './fetchDataR
 import { reducer as fetchDataReporteHistoricoComisionesReducer } from './fetchDataReporteHistoricoComisiones';
 import { reducer as fetchDataReportePolizasBrokfyVsOtrasReducer } from './fetchDataReportePolizasBrokfyVsOtras';
 import { reducer as fetchRestriccionesReducer } from './fetchRestricciones';
+import { reducer as fetchMenuReducer } from './fetchMenu';
+import { reducer as updateRestriccionesReducer } from './updateRestricciones';
+import { reducer as fetchRestriccionesEdicionReducer } from './fetchRestriccionesEdicion';
 import { reducer as updateProfileItemsReducer } from './updateProfileItems';
 import { reducer as fetchEstadosSiniestroReducer } from './fetchEstadosSiniestro';
 import { reducer as fetchSiniestrosReducer } from './fetchSiniestros';
@@ -147,6 +150,9 @@ const reducers = [
   fetchDataReporteHistoricoComisionesReducer,
   fetchDataReportePolizasBrokfyVsOtrasReducer,
   fetchRestriccionesReducer,
+  fetchMenuReducer,
+  updateRestriccionesReducer,
+  fetchRestriccionesEdicionReducer,
   updateProfileItemsReducer,
   fetchEstadosSiniestroReducer,
   fetchSiniestrosReducer,

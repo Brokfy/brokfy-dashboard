@@ -8,10 +8,11 @@ import Aseguradoras from './pages/aseguradoras/aseguradoras';
 import CatalogoProductos from './pages/aseguradoras/catalogo_productos';
 import AtencionClientes from './pages/atencion_clientes';
 import Clientes from './pages/clientes/';
+import Permisos from './pages/permisos';
 import Pagos from './pages/pagos';
 import Polizas from './pages/polizas/polizas';
 import Reportes from './pages/reportes/reportes';
-import Siniestros from './pages/siniestros';
+import Siniestros from './pages/siniestros/index';
 import Aprobar from './pages/polizas/aprobar';
 import Confirmar from './pages/polizas/confirmar';
 import RegistrarPago from './pages/pagos/registrarPago';
@@ -35,5 +36,6 @@ export default {
     { path: '/reportes/:reporte', component: Reportes },
     { path: '/siniestros', component: Wrapper(Siniestros) },
     { path: '/pagos/registrar', component: Wrapper(RegistrarPago) },
+    { path: '/permisos', component: Wrapper(Permisos) },
   ],
 };

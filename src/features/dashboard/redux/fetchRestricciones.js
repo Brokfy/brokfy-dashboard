@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchRestricciones(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Restricciones?dato=${args.dato}&campo=${args.campo}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissFetchRestriccionesError() {
 }
 
 export function useFetchRestricciones() {
+  const restricciones = useSelector(state => state.dashboard.restricciones);
+
   const dispatch = useDispatch();
 
   const { fetchRestriccionesPending, fetchRestriccionesError } = useSelector(
@@ -64,6 +76,7 @@ export function useFetchRestricciones() {
   }, [dispatch]);
 
   return {
+    restricciones: restricciones,
     fetchRestricciones: boundAction,
     fetchRestriccionesPending,
     fetchRestriccionesError,
@@ -85,6 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        restricciones: action.data.data,
         fetchRestriccionesPending: false,
         fetchRestriccionesError: null,
       };
