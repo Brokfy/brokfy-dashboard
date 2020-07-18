@@ -24,7 +24,7 @@ export function insertPolizasAuto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/PolizaAuto`,
+        url: `https://localhost:44341/api/PolizaAuto`,
         method: 'POST',
         data: {
           ...args.data,
@@ -48,7 +48,7 @@ export function insertPolizasAuto(args = {}) {
         (res) => {
           axios({
             ...options,
-            url: `https://apipruebas.brokfy.com:4300/api/PolizaAuto?propia=Si`,
+            url: `https://localhost:44341/api/PolizaAuto?propia=Si`,
             method: "GET"
           }).then(
             (res) => {

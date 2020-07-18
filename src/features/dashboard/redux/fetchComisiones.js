@@ -16,7 +16,7 @@ export function fetchComisiones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/Comisiones`,
+        url: `https://localhost:44341/api/Comisiones`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

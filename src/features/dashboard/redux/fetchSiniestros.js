@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchSiniestros(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Siniestros?activo=${args.activo}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+    
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,7 @@ export function dismissFetchSiniestrosError() {
 }
 
 export function useFetchSiniestros() {
+  const siniestros = useSelector(state => state.dashboard.siniestros);
   const dispatch = useDispatch();
 
   const { fetchSiniestrosPending, fetchSiniestrosError } = useSelector(
@@ -64,6 +75,7 @@ export function useFetchSiniestros() {
   }, [dispatch]);
 
   return {
+    siniestros: siniestros,
     fetchSiniestros: boundAction,
     fetchSiniestrosPending,
     fetchSiniestrosError,
@@ -85,6 +97,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        siniestros: action.data.data,
         fetchSiniestrosPending: false,
         fetchSiniestrosError: null,
       };

@@ -39,7 +39,7 @@ const SegundoMoto = (props) => {
             const CancelToken = axios.CancelToken;
             const source = CancelToken.source();
             const options = {
-                url: `https://apipruebas.brokfy.com:4300/api/MarcaMoto`,
+                url: `https://localhost:44341/api/MarcaMoto`,
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -87,7 +87,7 @@ const SegundoMoto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://apipruebas.brokfy.com:4300/api/YearMoto?Marca=${event.target.value}`,
+            url: `https://localhost:44341/api/YearMoto?Marca=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -114,7 +114,7 @@ const SegundoMoto = (props) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const options = {
-            url: `https://apipruebas.brokfy.com:4300/api/ModeloMoto?Marca=${marca}&Year=${event.target.value}`,
+            url: `https://localhost:44341/api/ModeloMoto?Marca=${marca}&Year=${event.target.value}`,
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${auth.tokenFirebase}`,
