@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchSiniestroTimeline(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Siniestros/${args.idPolizaSiniestro}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.tokenFirebase}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,9 @@ export function dismissFetchSiniestroTimelineError() {
 }
 
 export function useFetchSiniestroTimeline() {
+
+  const siniestroTimeline = useSelector(state => state.dashboard.siniestroTimeline);
+
   const dispatch = useDispatch();
 
   const { fetchSiniestroTimelinePending, fetchSiniestroTimelineError } = useSelector(
@@ -64,6 +77,7 @@ export function useFetchSiniestroTimeline() {
   }, [dispatch]);
 
   return {
+    siniestroTimeline: siniestroTimeline,
     fetchSiniestroTimeline: boundAction,
     fetchSiniestroTimelinePending,
     fetchSiniestroTimelineError,
@@ -85,6 +99,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        siniestroTimeline: action.data.data,
         fetchSiniestroTimelinePending: false,
         fetchSiniestroTimelineError: null,
       };

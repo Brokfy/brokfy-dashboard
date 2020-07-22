@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchEstadosSiniestro(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Dropdown/estadosiniestro`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissFetchEstadosSiniestroError() {
 }
 
 export function useFetchEstadosSiniestro() {
+  const estadoSiniestro = useSelector(state => state.dashboard.estadoSiniestro);
+
   const dispatch = useDispatch();
 
   const { fetchEstadosSiniestroPending, fetchEstadosSiniestroError } = useSelector(
@@ -64,6 +76,7 @@ export function useFetchEstadosSiniestro() {
   }, [dispatch]);
 
   return {
+    estadoSiniestro: estadoSiniestro,
     fetchEstadosSiniestro: boundAction,
     fetchEstadosSiniestroPending,
     fetchEstadosSiniestroError,
@@ -85,6 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        estadoSiniestro: action.data.data,
         fetchEstadosSiniestroPending: false,
         fetchEstadosSiniestroError: null,
       };

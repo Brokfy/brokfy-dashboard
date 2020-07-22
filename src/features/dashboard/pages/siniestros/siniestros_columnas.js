@@ -25,6 +25,17 @@ export default (listadoAseguradoras, listadoProductos, listadoTipoPoliza) => {
 
     return [
         {
+            name: "idPolizaSiniestro",
+            label: "Id",
+            type: "number",
+            defaultValue: "",
+            options: {
+                filter: true,
+                sort: true,
+                
+            }
+        },
+        {
             name: "noPoliza",
             label: "No Poliza",
             type: "string",
