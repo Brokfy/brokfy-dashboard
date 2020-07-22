@@ -68,15 +68,19 @@ const MisClientes = ({ clientes }) => {
                 <span className="titulo-panel">Mis Clientes</span>
                 <Grid container spacing={1}>
                     <Grid item xs={10}>
-                        <Typeahead
-                            labelKey={"nombre"}
-                            key={"username"}
-                            filterBy={filterBy}
-                            id="toggle-example"
-                            options={clientes}
-                            onChange={(e) => e.length <= 0 || e.length > 1 ? null : setSelectedCliente(e[0].username)}
-                            placeholder="Buscar cliente">
-                        </Typeahead>
+                        { 
+                            clientes ? 
+                                <Typeahead
+                                    labelKey={"nombre"}
+                                    key={"username"}
+                                    filterBy={filterBy}
+                                    id="toggle-example"
+                                    options={clientes}
+                                    onChange={(e) => e.length <= 0 || e.length > 1 ? null : setSelectedCliente(e[0].username)}
+                                    placeholder="Buscar cliente">
+                                </Typeahead> :
+                                null
+                        }
                     </Grid>
                     <Grid item xs={2}>
                         <Button color="primary" onClick={buscarPolizas} disabled={selectedClient === ""}>

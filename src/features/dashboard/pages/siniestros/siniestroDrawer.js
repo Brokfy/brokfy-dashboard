@@ -58,7 +58,7 @@ function a11yProps(index) {
     };
 }
 
-//Material Styles
+// //Material Styles
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
 const SiniestroDrawer = (props) => {
     const { polizaDraw, open } = props;
     const [loading, setLoading] = useState(true);
-    const [ultimoEstado, setUltimoEstado] = (null);
+    const [ultimoEstado, setUltimoEstado] = useState();
     const [value, setValue] = useState(0);
     const [datosCargados, setDatosCargados] = useState(false);
     const { siniestroTimeline, fetchSiniestroTimeline, fetchSiniestroTimelinePending } = useFetchSiniestroTimeline();
@@ -148,14 +148,13 @@ const SiniestroDrawer = (props) => {
 
         if (siniestroTimeline.length > 0) {
             setUltimoEstado(siniestroTimeline[0]);
-
         }
 
         if (!open)
             setDatosCargados(false);
 
         setLoading(false);
-    }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, fetchSiniestroTimeline, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
+    }, [ auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, fetchSiniestroTimeline, polizaDraw, open, loading, fetchEstadosSiniestroPending ]);
 
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :

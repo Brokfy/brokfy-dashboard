@@ -27,7 +27,7 @@ export default (listadoAseguradoras, listadoProductos, listadoTipoPoliza) => {
         {
             name: "idPolizaSiniestro",
             label: "Id",
-            type: "number",
+            type: "int",
             defaultValue: "",
             options: {
                 filter: true,
