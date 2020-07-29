@@ -3,9 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
 import { useFetchSiniestroTimeline } from '../../redux/fetchSiniestroTimeline';
 import { useFetchEstadosSiniestro } from '../../redux/fetchEstadosSiniestro';
+import { useUpdateEstadosSiniestro } from '../../redux/updateEstadosSiniestro';
 import BLoading from '../../../../components/bloading';
 import { getCRUDConfig } from '../../../../common/utils';
 import format from 'date-fns/format';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import es from 'date-fns/locale/es'
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, Select, FormControl, TextField, AppBar, Typography, Button, Grid, MenuItem } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
@@ -123,8 +126,12 @@ const SiniestroDrawer = (props) => {
     const [ultimoEstado, setUltimoEstado] = useState();
     const [value, setValue] = useState(0);
     const [datosCargados, setDatosCargados] = useState(false);
+    const [cambioEstatus, setCambioEstatus] = useState(false);
+    const [cambioComentario, setCambioComentario] = useState("");
     const { siniestroTimeline, fetchSiniestroTimeline, fetchSiniestroTimelinePending } = useFetchSiniestroTimeline();
     const { estadoSiniestro, fetchEstadosSiniestro, fetchEstadosSiniestroPending } = useFetchEstadosSiniestro();
+    const { updateEstadosSiniestro, updateEstadosSiniestroPending, updateEstadosSiniestroError } = useUpdateEstadosSiniestro();
+
     const { auth } = useGetToken();
     const classes = useStyles();
 
@@ -141,21 +148,24 @@ const SiniestroDrawer = (props) => {
 
         if (!datosCargados && open) {
             setLoading(true);
+            fetchEstadosSiniestro(auth.tokenFirebase);
             fetchSiniestroTimeline({ idPolizaSiniestro: polizaDraw, tokenFirebase: auth.tokenFirebase });
             setDatosCargados(true);
             return;
         }
 
-        if (siniestroTimeline.length > 0) {
-            setUltimoEstado(siniestroTimeline[0]);
+        if (siniestroTimeline.length > 0 && estadoSiniestro.length > 0) {
+            setCambioEstatus(siniestroTimeline[0].idEstadoSiniestro);
         }
 
         if (!open)
             setDatosCargados(false);
 
         setLoading(false);
-    }, [ auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, fetchSiniestroTimeline, polizaDraw, open, loading, fetchEstadosSiniestroPending ]);
+    }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
+
+    console.log(siniestroTimeline);
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
         <Drawer
@@ -172,70 +182,70 @@ const SiniestroDrawer = (props) => {
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-                                <div className="panel-heading">
-                                    Estatus Actual
+                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                        <div className="panel-heading">
+                            Estatus Actual
                                 </div>
-                                <div className="panel-body">
-                                    {ultimoEstado == null || !estadoSiniestro ? null : estadoSiniestro.filter(x => x.idEstadoSiniestro == ultimoEstado.idEstadoSiniestro)[0].Nombre}
+                        <div className="panel-body">
+                            {siniestroTimeline[0] == null || !estadoSiniestro ? null : estadoSiniestro.filter(x => x.idEstadoSiniestro === siniestroTimeline[0].idEstadoSiniestro)[0].nombre}
+                        </div>
+                    </div>
+                    <br />
+                    <div className="panel panel-default" style={{ marginBottom: "0px" }}>
+                        <div className="panel-heading">
+                            Cambiar Estatus
                                 </div>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <div className="panel panel-default" style={{ marginBottom: "0px" }}>
-                                <div className="panel-heading">
-                                    Cambiar Estatus
-                                </div>
-                                <div className="panel-body">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-simple-select-label">Estatus</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            value={2}
-                                        >
-                                            {!estadoSiniestro || estadoSiniestro.length <= 0 ? null
-                                                : estadoSiniestro.map(x => <MenuItem value={x.idEstadoSiniestro}>{x.Nombre}</MenuItem>)}
-                                        </Select>
-                                    </FormControl>
-                                    <br /><br />
-                                    <TextField
-                                        id="standard-multiline-static"
-                                        label="Comentario"
-                                        multiline
-                                        rows={4}
-                                        defaultValue=""
-                                    />
-                                    <br /><br />
-                                    <Button color="primary">Guardar</Button>
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
+                        <div className="panel-body">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Estatus</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    value={cambioEstatus}
+                                    onChange={(e) => setCambioEstatus(e.target.value)}
+                                >
+                                    {!estadoSiniestro || estadoSiniestro.length <= 0 ? null
+                                        : estadoSiniestro.map(x => <MenuItem value={x.idEstadoSiniestro}>{x.nombre}</MenuItem>)}
+                                </Select>
+                            </FormControl>
+                            <br /><br />
+                            <TextField
+                                id="standard-multiline-static"
+                                label="Comentario"
+                                multiline
+                                rows={4}
+                                defaultValue={cambioComentario}
+                                onChange={(e) => setCambioComentario(e.target.value)}
+                            />
+                            <br /><br />
+                            <Button onClick={() => updateEstadosSiniestro({ data: { idPolizaSiniestro: siniestroTimeline[0].idPolizaSiniestro, fecha: new Date(), idEstadoSiniestro: cambioEstatus, comentario: cambioComentario, username: auth.username }, token: auth.tokenFirebase })} disabled={updateEstadosSiniestroPending} color="primary">
+                                {updateEstadosSiniestroPending ? "Cargando..." : "Guardar"}
+                            </Button>
+                        </div>
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <div className="ibox-content inspinia-timeline">
+                        {!estadoSiniestro || !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
+                            siniestroTimeline.map(s => {
+                                return (
+                                    <div className="timeline-item">
+                                        <div className="row">
+                                            <div className="col-3 date">
+                                                <i className="fa fa-clock-o"></i>
+                                                {format(new Date(s.fecha), 'dd/MM/yyyy')}
+                                                <br />
+                                                <small className="text-navy">Hace {formatDistanceToNow(new Date(s.fecha), { locale: es })}</small>
+                                            </div>
+                                            <div className="col-7 content no-top-border">
+                                                <p className="m-b-xs"><strong>{estadoSiniestro.filter(x => x.idEstadoSiniestro === s.idEstadoSiniestro)[0].nombre}</strong></p>
+                                                <p>{s.comentario}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
 
-                        <div className="timeline-item">
-                            <div className="row">
-                                <div className="col-3 date">
-                                    <i className="fa fa-briefcase"></i>
-                                    6:00 am
-                                    <br />
-                                    <small className="text-navy">2 hour ago</small>
-                                </div>
-                                <div className="col-7 content no-top-border">
-                                    <p className="m-b-xs"><strong>Meeting</strong></p>
-
-                                    <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the
-                sale.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
+                        }
 
                     </div>
                 </TabPanel>

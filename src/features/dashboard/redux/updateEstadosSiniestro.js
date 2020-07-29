@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,17 @@ export function updateEstadosSiniestro(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Siniestros`,
+        method: 'POST',
+        data: args.data,
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({

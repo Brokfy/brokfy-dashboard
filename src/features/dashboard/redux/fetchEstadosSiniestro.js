@@ -98,7 +98,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        estadoSiniestro: action.data.data,
+        estadoSiniestro: action.data.data[0].data,
         fetchEstadosSiniestroPending: false,
         fetchEstadosSiniestroError: null,
       };

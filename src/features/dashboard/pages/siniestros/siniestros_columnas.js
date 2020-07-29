@@ -82,7 +82,7 @@ export default (listadoAseguradoras, listadoProductos, listadoTipoPoliza) => {
         {
             name: "fechaSiniestro",
             label: "Fecha Siniestro",
-            type: "string",
+            type: "date",
             defaultValue: "",
             options: {
                 filter: true,
