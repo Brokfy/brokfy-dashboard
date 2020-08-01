@@ -66,6 +66,8 @@ export function useUpdateEstadosSiniestro() {
     shallowEqual,
   );
 
+
+
   const boundAction = useCallback((...args) => {
     return dispatch(updateEstadosSiniestro(...args));
   }, [dispatch]);
@@ -73,6 +75,8 @@ export function useUpdateEstadosSiniestro() {
   const boundDismissError = useCallback(() => {
     return dispatch(dismissUpdateEstadosSiniestroError());
   }, [dispatch]);
+
+
 
   return {
     updateEstadosSiniestro: boundAction,
@@ -94,10 +98,15 @@ export function reducer(state, action) {
 
     case DASHBOARD_UPDATE_ESTADOS_SINIESTRO_SUCCESS:
       // The request is success
-      console.log(action);
+
       return {
         ...state,
-        siniestroTimeline: action.result,
+        siniestroTimeline: action.data.data.result,
+        siniestros: [
+          ...state.siniestros.map(s => {
+            return s.idPolizaSiniestro !== action.data.data.result[0].idPolizaSiniestro ? s : { ...s, idEstadoSiniestro: action.data.data.result[0].idEstadoSiniestro, estatusSiniestro: state.estadoSiniestro.filter(ed => ed.idEstadoSiniestro === action.data.data.result[0].idEstadoSiniestro)[0].nombre };
+          })
+        ],
         updateEstadosSiniestroPending: false,
         updateEstadosSiniestroError: null,
       };

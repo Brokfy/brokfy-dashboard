@@ -83,11 +83,12 @@ export default (listadoAseguradoras, listadoProductos, listadoTipoPoliza) => {
             name: "fechaSiniestro",
             label: "Fecha Siniestro",
             type: "date",
+            required: true,
             defaultValue: "",
             options: {
                 filter: true,
                 sort: true,
-                
+                ...nowrapColumn
             }
         },
         {

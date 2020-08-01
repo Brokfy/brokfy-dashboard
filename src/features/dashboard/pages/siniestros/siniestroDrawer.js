@@ -4,10 +4,12 @@ import { useGetToken } from '../../../common/redux/hooks';
 import { useFetchSiniestroTimeline } from '../../redux/fetchSiniestroTimeline';
 import { useFetchEstadosSiniestro } from '../../redux/fetchEstadosSiniestro';
 import { useUpdateEstadosSiniestro } from '../../redux/updateEstadosSiniestro';
+import { useFetchSiniestros } from '../../redux/fetchSiniestros';
+
 import BLoading from '../../../../components/bloading';
 import { getCRUDConfig } from '../../../../common/utils';
 import format from 'date-fns/format';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import formatRelative from 'date-fns/formatRelative';
 import es from 'date-fns/locale/es'
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, Select, FormControl, TextField, AppBar, Typography, Button, Grid, MenuItem } from '@material-ui/core';
@@ -131,6 +133,7 @@ const SiniestroDrawer = (props) => {
     const { siniestroTimeline, fetchSiniestroTimeline, fetchSiniestroTimelinePending } = useFetchSiniestroTimeline();
     const { estadoSiniestro, fetchEstadosSiniestro, fetchEstadosSiniestroPending } = useFetchEstadosSiniestro();
     const { updateEstadosSiniestro, updateEstadosSiniestroPending, updateEstadosSiniestroError } = useUpdateEstadosSiniestro();
+    const { siniestros, fetchSiniestros, fetchSiniestrosPending } = useFetchSiniestros();
 
     const { auth } = useGetToken();
     const classes = useStyles();
@@ -164,8 +167,11 @@ const SiniestroDrawer = (props) => {
         setLoading(false);
     }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
+    const finalizarSiniestro = () => {
+        
+    }
 
-    console.log(siniestroTimeline);
+    //console.log(siniestroTimeline);
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
         <Drawer
@@ -188,6 +194,8 @@ const SiniestroDrawer = (props) => {
                                 </div>
                         <div className="panel-body">
                             {siniestroTimeline[0] == null || !estadoSiniestro ? null : estadoSiniestro.filter(x => x.idEstadoSiniestro === siniestroTimeline[0].idEstadoSiniestro)[0].nombre}
+                            <hr />
+                            <Button onClick={finalizarSiniestro} color="primary">{"Finalizar Siniestro"}</Button>
                         </div>
                     </div>
                     <br />
@@ -220,6 +228,7 @@ const SiniestroDrawer = (props) => {
                             <Button onClick={() => {
                                 updateEstadosSiniestro({ data: { idPolizaSiniestro: siniestroTimeline[0].idPolizaSiniestro, fecha: new Date(), idEstadoSiniestro: cambioEstatus, comentario: cambioComentario, username: auth.username }, token: auth.tokenFirebase });
                                 //fetchSiniestroTimeline({ idPolizaSiniestro: polizaDraw, tokenFirebase: auth.tokenFirebase });
+
                             }} disabled={updateEstadosSiniestroPending} color="primary">
                                 {updateEstadosSiniestroPending ? "Cargando..." : "Guardar"}
                             </Button>
@@ -233,18 +242,20 @@ const SiniestroDrawer = (props) => {
                                 return (
                                     <div className="timeline-item">
                                         <div className="row">
-                                            <div className="col-3 date">
+                                            <div className="col-4 date">
                                                 <i className="fa fa-clock-o"></i>
                                                 {format(new Date(s.fecha), 'dd/MM/yyyy')}
                                                 <br />
-                                                <small className="text-navy">Hace {formatDistanceToNow(new Date(s.fecha), { locale: es })}</small>
+                                                <small className="text-navy">{formatRelative(new Date(s.fecha), new Date(), { locale: es })}</small>
                                             </div>
-                                            <div className="col-7 content no-top-border">
+                                            <div className="col-8 content no-top-border">
                                                 <p className="m-b-xs"><strong>{estadoSiniestro.filter(x => x.idEstadoSiniestro === s.idEstadoSiniestro)[0].nombre}</strong></p>
                                                 <p>{s.comentario}</p>
                                             </div>
                                         </div>
+                                        <hr />
                                     </div>
+
                                 )
                             })}
                     </div>
