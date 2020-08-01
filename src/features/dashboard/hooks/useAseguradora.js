@@ -65,13 +65,16 @@ const useAseguradora = (dropdownAseguradoras = [], defaultAseguradora = null) =>
 
   const AseguradoraView = (props) => (
     <FormControl className={classes.formControl} error={props.error}>
-      <InputLabel id="poliza-aseguradora-label">Aseguradora *</InputLabel>
+      <InputLabel id="poliza-aseguradora-label">* Aseguradora</InputLabel>
       <Select
         labelId="poliza-aseguradora-label"
         id="poliza-aseguradora"
         name="aseguradora"
         value={idAseguradora}
         onChange={event => {
+          if( props.onChange && typeof props.onChange === 'function' ) {
+            props.onChange();
+          }
           event.preventDefault();
           setIdAseguradora(event.target.value);
         }}

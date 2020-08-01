@@ -21,6 +21,7 @@ export default () => {
             type: "string",
             required: true,
             defaultValue: "",
+            visible: true,
             options: {
               filter: true,
               sort: true,
@@ -30,15 +31,14 @@ export default () => {
           },
           {
             name: "telefono",
-            label: "Telefono",
-            type: "string",
+            label: "Teléfono",
+            type: "tel",
             required: true,
             visible: true,
             defaultValue: "",
             options: {
               filter: true,
               sort: true,
-              visible: false,
               ...nowrapColumn
             }
           },
@@ -61,7 +61,7 @@ export default () => {
           {
             name: "cveCopsis",
             label: "CveCopsis",
-            type: "string",
+            type: "int",
             required: true,
             visible: true,
             defaultValue: "",

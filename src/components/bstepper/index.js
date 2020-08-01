@@ -26,7 +26,7 @@ const style = makeStyles(theme => ({
     boxShadow: "2px 2px 5px 0px rgba(205,205,205,0.75)",
   },
   stepper: {
-      height: "calc(10vh - 0px)",
+      // height: "calc(10vh - 0px)",
       minHeight: "55px"
   },
   button: {
@@ -56,7 +56,7 @@ const BStepper = (props) => {
 
   const getForm = () => form.current;
 
-  const handleNext = (evt) => {
+  const handleNext = () => {
     const response = props.stepContent[props.activeStep].handleSubmit(getForm());
     if( response ) {
       props.setActiveStep(props.activeStep + 1)

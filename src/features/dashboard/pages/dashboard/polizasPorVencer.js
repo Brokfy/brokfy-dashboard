@@ -52,6 +52,18 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
         },
     }));
     const classes = useStyles();
+
+    const NoHayRegistros = () => {
+        return (
+            <div className="ibox-content ibox-heading" style={{ textAlign: "center" }}>
+                <h3>No se encontraron pólizas por vencer</h3>
+                <small style={{fontSize: "inherit"}}>
+                    El período consultado es el comprendido entre el <b>{format(new Date(), 'dd/MM/yyyy')}</b> al <b>{format(new Date((new Date()).setDate((new Date().getDate()) + 7)), 'dd/MM/yyyy')}</b>.
+                </small>
+            </div>
+        );
+    }
+
     return (
         <div className="panel panel-default">
             <div className="panel-body panel-body-alt-2">
@@ -81,7 +93,8 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
                 <div className="dashboard-panel-alt">
                         {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert>}
                         <div>
-                            {!polizasPorVencer || polizasPorVencer.length <= 0 || !busco ? null :
+                            {!busco ? null :
+                                ( !polizasPorVencer || polizasPorVencer.length <= 0 ) ? <NoHayRegistros /> :
                                 <table className="table table-bordered" style={{marginBottom: 0}}>
                                     <thead>
                                         <tr>

@@ -53,6 +53,14 @@ const ConsultaPoliza = () => {
         dashboardConsultaPoliza({ tokenFirebase: auth.tokenFirebase, noPoliza: poliza });
     }
 
+    const NoHayRegistros = () => {
+        return (
+            <div className="ibox-content ibox-heading"  style={{ textAlign: "center" }}>
+                <h3>No se encontró la póliza indicada</h3>
+            </div>
+        );
+    }
+
 
     return (
         <div className="panel panel-default">
@@ -78,7 +86,8 @@ const ConsultaPoliza = () => {
                 <div className="dashboard-panel">
                     {busco ? null :
                         <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba el número de póliza y presione Enter</MuiAlert>}
-                    {!consultaPoliza || !busco ? null :
+                    {!busco ? null :
+                        ( !consultaPoliza ) ? <NoHayRegistros /> :
                         <div>
                             <table className="table table-hover" style={{ marginBottom: "0px" }}>
                                 <tr>
