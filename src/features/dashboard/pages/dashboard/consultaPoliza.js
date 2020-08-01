@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
 import { useDashboardConsultaPoliza } from '../../redux/dashboardConsultaPoliza';
 import PolizaDrawer from '../polizas/polizaDrawer';
-import BLoading from '../../../../components/bloading';
-import { FormControl, Link, Paper, InputBase, Divider, InputAdornment, Grid, TextField, MenuItem, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
+import { Link, InputBase, Grid, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import MenuIcon from '@material-ui/icons/Menu';
-import { NumberFormatCustom } from '../../../../common/utils';
 import format from 'date-fns/format';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -21,27 +16,6 @@ const ConsultaPoliza = () => {
     const [busco, setBusco] = useState(false);
 
     const [open, setOpen] = useState(false);
-
-    const useStyles = makeStyles((theme) => ({
-        paper: {
-            padding: theme.spacing(2),
-            color: theme.palette.text.secondary,
-        },
-        secondaryHeadingWhite: {
-            fontSize: theme.typography.pxToRem(20),
-            color: 'white',
-            margin: theme.spacing(2, 0)
-        },
-        input: {
-            marginLeft: theme.spacing(1),
-        },
-        iconButton: {
-            padding: 5,
-        },
-    }));
-    const classes = useStyles();
-
-
 
     const buscarPoliza = (e) => {
         e.preventDefault();

@@ -1,16 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useGetToken } from '../../../common/redux/hooks';
 import { useDashboardMisClientes } from '../../redux/dashboardMisClientes';
 import PolizaDrawer from '../polizas/polizaDrawer';
-import BLoading from '../../../../components/bloading';
-import { Link, Paper, InputBase, Divider, InputAdornment, Grid, TextField, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
+import { Link, Grid, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import MenuIcon from '@material-ui/icons/Menu';
-import { NumberFormatCustom } from '../../../../common/utils';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import options from './data';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function filterBy(option, state) {
@@ -28,7 +22,7 @@ const MisClientes = ({ clientes }) => {
     const { polizasCliente, dashboardMisClientes, dashboardMisClientesPending } = useDashboardMisClientes();
     const { auth } = useGetToken();
     const [poliza, setPoliza] = useState("");
-    const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
+    // const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
     const [open, setOpen] = useState(false);
     const [busco, setBusco] = useState(false);
 
@@ -42,25 +36,6 @@ const MisClientes = ({ clientes }) => {
         if (selectedClient !== '')
             dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });
     }
-
-    const useStyles = makeStyles((theme) => ({
-        paper: {
-            padding: theme.spacing(2),
-            color: theme.palette.text.secondary,
-        },
-        secondaryHeadingWhite: {
-            fontSize: theme.typography.pxToRem(20),
-            color: 'white',
-            margin: theme.spacing(2, 0)
-        },
-        input: {
-            marginLeft: theme.spacing(1),
-        },
-        iconButton: {
-            padding: 5,
-        },
-    }));
-    const classes = useStyles();
 
     const NoHayRegistros = () => {
         return (
