@@ -73,3 +73,4 @@ export { useFetchSiniestros } from './fetchSiniestros';
 export { useFetchSiniestroTimeline } from './fetchSiniestroTimeline';
 export { useUpdateEstadosSiniestro } from './updateEstadosSiniestro';
 export { useUpdateComentariosSiniestro } from './updateComentariosSiniestro';
+export { useUpdateSiniestroActivo } from './updateSiniestroActivo';

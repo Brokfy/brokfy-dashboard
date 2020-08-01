@@ -137,3 +137,4 @@ export {
   updateComentariosSiniestro,
   dismissUpdateComentariosSiniestroError,
 } from './updateComentariosSiniestro';
+export { updateSiniestroActivo, dismissUpdateSiniestroActivoError } from './updateSiniestroActivo';
