@@ -16,7 +16,7 @@ export function fetchSiniestros(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Siniestros?activo=${args.activo}`,
+        url: `https://apipruebas.brokfy.com:4300/api/Siniestros?activo=${args.activo}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,
