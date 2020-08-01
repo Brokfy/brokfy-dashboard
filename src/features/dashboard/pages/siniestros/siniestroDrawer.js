@@ -217,7 +217,10 @@ const SiniestroDrawer = (props) => {
                                 onChange={(e) => setCambioComentario(e.target.value)}
                             />
                             <br /><br />
-                            <Button onClick={() => updateEstadosSiniestro({ data: { idPolizaSiniestro: siniestroTimeline[0].idPolizaSiniestro, fecha: new Date(), idEstadoSiniestro: cambioEstatus, comentario: cambioComentario, username: auth.username }, token: auth.tokenFirebase })} disabled={updateEstadosSiniestroPending} color="primary">
+                            <Button onClick={() => {
+                                updateEstadosSiniestro({ data: { idPolizaSiniestro: siniestroTimeline[0].idPolizaSiniestro, fecha: new Date(), idEstadoSiniestro: cambioEstatus, comentario: cambioComentario, username: auth.username }, token: auth.tokenFirebase });
+                                //fetchSiniestroTimeline({ idPolizaSiniestro: polizaDraw, tokenFirebase: auth.tokenFirebase });
+                            }} disabled={updateEstadosSiniestroPending} color="primary">
                                 {updateEstadosSiniestroPending ? "Cargando..." : "Guardar"}
                             </Button>
                         </div>
@@ -243,10 +246,7 @@ const SiniestroDrawer = (props) => {
                                         </div>
                                     </div>
                                 )
-                            })
-
-                        }
-
+                            })}
                     </div>
                 </TabPanel>
             </div>

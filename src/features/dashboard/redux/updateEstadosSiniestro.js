@@ -94,8 +94,10 @@ export function reducer(state, action) {
 
     case DASHBOARD_UPDATE_ESTADOS_SINIESTRO_SUCCESS:
       // The request is success
+      console.log(action);
       return {
         ...state,
+        siniestroTimeline: action.result,
         updateEstadosSiniestroPending: false,
         updateEstadosSiniestroError: null,
       };
