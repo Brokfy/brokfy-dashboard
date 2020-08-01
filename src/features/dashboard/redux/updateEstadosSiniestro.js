@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,17 @@ export function updateEstadosSiniestro(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Siniestros`,
+        method: 'POST',
+        data: args.data,
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -55,6 +66,8 @@ export function useUpdateEstadosSiniestro() {
     shallowEqual,
   );
 
+
+
   const boundAction = useCallback((...args) => {
     return dispatch(updateEstadosSiniestro(...args));
   }, [dispatch]);
@@ -62,6 +75,8 @@ export function useUpdateEstadosSiniestro() {
   const boundDismissError = useCallback(() => {
     return dispatch(dismissUpdateEstadosSiniestroError());
   }, [dispatch]);
+
+
 
   return {
     updateEstadosSiniestro: boundAction,
@@ -83,8 +98,15 @@ export function reducer(state, action) {
 
     case DASHBOARD_UPDATE_ESTADOS_SINIESTRO_SUCCESS:
       // The request is success
+
       return {
         ...state,
+        siniestroTimeline: action.data.data.result,
+        siniestros: [
+          ...state.siniestros.map(s => {
+            return s.idPolizaSiniestro !== action.data.data.result[0].idPolizaSiniestro ? s : { ...s, idEstadoSiniestro: action.data.data.result[0].idEstadoSiniestro, estatusSiniestro: state.estadoSiniestro.filter(ed => ed.idEstadoSiniestro === action.data.data.result[0].idEstadoSiniestro)[0].nombre };
+          })
+        ],
         updateEstadosSiniestroPending: false,
         updateEstadosSiniestroError: null,
       };

@@ -24,7 +24,7 @@ export function updatePolizasMoto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/PolizaMoto`,
+        url: `https://localhost:44341/api/PolizaMoto`,
         method: 'PUT',
         data: args.data,
         headers: {

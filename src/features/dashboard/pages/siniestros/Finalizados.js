@@ -75,7 +75,7 @@ const SiniestrosActivos = () => {
 
         if (!datosCargados.siniestros) {
             setColumns(getColumnsSiniestros(listadoAseguradora, listadoProducto, listadoTipoPoliza));
-            fetchSiniestros({ token: auth.tokenFirebase, activo: 1 });
+            fetchSiniestros({ token: auth.tokenFirebase, activo: 0 });
             setDatosCargados({
                 ...datosCargados,
                 siniestros: true,
@@ -110,18 +110,6 @@ const SiniestrosActivos = () => {
             hideEdit: true,
             hideDelete: true,
             customButtons: [
-                /* {
-                    title: "Cambiar estado",
-                    multiple: false,
-                    icon: <AssignmentTurnedInIcon />,
-                    action: (selectedRows, displayData, setSelectedRows) => updateSelected(selectedRows, displayData, setSelectedRows, 1, history)
-                },
-                {
-                    title: "Comentario",
-                    multiple: false,
-                    icon: <CommentIcon />,
-                    action: (selectedRows, displayData, setSelectedRows) => updateSelected(selectedRows, displayData, setSelectedRows, 1, history)
-                }, */
                 {
                     title: "Ver historial",
                     multiple: false,

@@ -167,7 +167,9 @@ const initialState = {
   updateEstadosSiniestroPending: false,
   updateEstadosSiniestroError: null,
   updateComentariosSiniestroPending: false,
-  updateComentariosSiniestroError: null
+  updateComentariosSiniestroError: null,
+  updateSiniestroActivoPending: false,
+  updateSiniestroActivoError: null
 };
 
 export default initialState;

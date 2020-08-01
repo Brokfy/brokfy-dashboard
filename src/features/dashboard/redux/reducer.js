@@ -82,6 +82,7 @@ import { reducer as fetchSiniestrosReducer } from './fetchSiniestros';
 import { reducer as fetchSiniestroTimelineReducer } from './fetchSiniestroTimeline';
 import { reducer as updateEstadosSiniestroReducer } from './updateEstadosSiniestro';
 import { reducer as updateComentariosSiniestroReducer } from './updateComentariosSiniestro';
+import { reducer as updateSiniestroActivoReducer } from './updateSiniestroActivo';
 
 const reducers = [
   fetchProductosReducer,
@@ -159,6 +160,7 @@ const reducers = [
   fetchSiniestroTimelineReducer,
   updateEstadosSiniestroReducer,
   updateComentariosSiniestroReducer,
+  updateSiniestroActivoReducer,
 ];
 
 export default function reducer(state = initialState, action) {
