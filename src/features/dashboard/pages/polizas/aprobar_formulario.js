@@ -37,10 +37,23 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
   const { resetBeneficiarios } = useResetBeneficiarios();
 
   useEffect(() => {
+    if ( tipoPoliza === null || tipoPoliza === "" ) {
+      setTipoPoliza(datos.tipo);
+    } else {
+      if( datos.tipo !== tipoPoliza ) {
+        setDatos({...datos, tipo: tipoPoliza});
+      }
+    }
+  }, [tipoPoliza, datos, setTipoPoliza]);
+
+  useEffect(() => {
     if( !auth.tokenFirebase ) return;
 
     setColumns(getColumnsAprobarFormulario(datos, dropdownTipoPoliza, dropdownAseguradoras, dropdownProductos, listadoFormaPago))
     filtroProductosXidAseguradora(idAseguradora);
+    if( datos.producto && datos.producto ) {
+      setDatos({...datos, producto: ''});
+    }
 
   }, [dropdownTipoPoliza, dropdownAseguradoras, dropdownProductos, listadoFormaPago, auth, filtroProductosXidAseguradora, idAseguradora, firstPage, datos]);
 
@@ -74,7 +87,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
         parseFloat(formData["costoRecibosSubsecuentes"].toString() !== "" ? formData["costoRecibosSubsecuentes"].replace(/[\$,]/gi, '') : 0))
     });
     const primaTotal = parseFloat(formData["costo"].toString() !== "" ? formData["costo"].replace(/[\$,]/gi, '') : 0);
-    return total === primaTotal;
+    return Number((primaTotal - Number(total.toFixed(2)))/*.toFixed(1)*/) < 1;
   }
 
 
@@ -91,7 +104,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
       if( element.required && (element.options.display === null || element.options.display !== false )) {
         if( element.type === "currency" ) {
           if( parseFloat(formData[element.name].toString() !== "" ? formData[element.name].replace(/[\$,]/gi, '') : 0) === 0 ) {
-            if( !(formData["formaPago"] === "Anual" && element.name === "costoRecibosSubsecuentes") ) {
+            if( (formData["formaPago"] === "Anual" && !(element.name === "costoRecibosSubsecuentes" || element.name === "costoPrimerRecibo")) || formData["formaPago"] !== "Anual" ) {
               validacion = { ...validacion, [element.name]: requiredGreaterThanZeroText };
               pasaValidacion = false;
             }
@@ -102,6 +115,13 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
             if( parseFloat(formData[element.name].toString() !== "" ? formData[element.name].replace(/[\$,]/gi, '') : 0) > parseFloat(formData["costo"].toString() !== "" ? formData["costo"].replace(/[\$,]/gi, '') : 0) ) {
               validacion = { ...validacion, [element.name]: "Valor no puede ser mayor a la prima total" };
               pasaValidacion = false;
+            }
+          } else if ( element.name === "costoPrimerRecibo" ) {
+            if( formData["formaPago"] === "Anual" ) {
+              if( parseFloat(formData[element.name].toString() !== "" ? formData[element.name].replace(/[\$,]/gi, '') : 0) !== parseFloat(formData["costo"].toString() !== "" ? formData["costo"].replace(/[\$,]/gi, '') : 0) ) {
+                validacion = { ...validacion, [element.name]: "Valor debe ser igual a la prima total" };
+                pasaValidacion = false;
+              }
             }
           }
         } else if( element.type === "long" ) {
@@ -163,20 +183,23 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
       if( `${formData[element]}` === "" ) {
         validacion = { ...validacion, [element]: requiredFieldText }
         pasaValidacion = false;
+      } else {
+        if ( element === "codigoPostal" && !/^[0-9]{5}$/g.test(`${formData[element]}`) ) {
+          pasaValidacion = false;
+        }
       }
     });
 
     if( pasaValidacion ) {
-      // setValidacionFormulario({});
       const reqData = {
         data: Object.assign({}, firstPage, getFormData(event)),
         token: auth.tokenFirebase
       };
       
       if( activeStep === getSteps().length - 1 ) {
-        if( datos.tipo === "1" ) insertPolizasAuto(reqData); // AUTO
-        if( datos.tipo === "2" ) insertPolizasMoto(reqData); // MOTO
-        if( datos.tipo === "5" ) insertPolizasVida(reqData); // VIDA
+        if( `${parseInt(datos.tipo)}` === "1" ) insertPolizasAuto(reqData); // AUTO
+        if( `${parseInt(datos.tipo)}` === "2" ) insertPolizasMoto(reqData); // MOTO
+        if( `${parseInt(datos.tipo)}` === "5" ) insertPolizasVida(reqData); // VIDA
       }
 
       setDatos({
@@ -185,6 +208,10 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
       });
 
     } else {
+      setDatos({
+        ...datos, 
+        ...formData,
+      });
       setValidacionFormulario(validacion);
     }
 
@@ -203,6 +230,96 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
     
   }
 
+  const guardarFormulario = () => {
+    const noAsegurado = document.querySelector("#noAsegurado").value;
+    const username = document.querySelector("#username").value;
+    const noPoliza = document.querySelector("#noPoliza").value;
+    const formaPago = document.querySelector('input[name="formaPago"]').value;
+    const costo = document.querySelector("#costo").value.replace('$', '');
+    const primaNeta = document.querySelector("#primaNeta").value.replace('$', '');
+    const costoPrimerRecibo = document.querySelector("#costoPrimerRecibo").value.replace('$', '');
+    const costoRecibosSubsecuentes = document.querySelector("#costoRecibosSubsecuentes").value.replace('$', '');
+
+    let bl_actualizar = false;
+    let snapshot = { ...datos }
+
+    if( noAsegurado !== datos.noAsegurado ) {
+      snapshot = {
+        ...snapshot,
+        noAsegurado: noAsegurado !== snapshot.noAsegurado ? noAsegurado : snapshot.noAsegurado,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( username !== datos.username ) {
+      snapshot = {
+        ...snapshot,
+        username: username !== snapshot.username ? username : snapshot.username,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( noPoliza !== datos.noPoliza ) {
+      snapshot = {
+        ...snapshot,
+        noPoliza: noPoliza !== snapshot.noPoliza ? noPoliza : snapshot.noPoliza,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( formaPago !== datos.formaPago ) {
+      snapshot = {
+        ...snapshot,
+        formaPago: formaPago !== snapshot.formaPago ? formaPago : snapshot.formaPago,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( costo !== datos.costo ) {
+      snapshot = {
+        ...snapshot,
+        costo: costo !== snapshot.costo ? costo : snapshot.costo,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( primaNeta !== datos.primaNeta ) {
+      snapshot = {
+        ...snapshot,
+        primaNeta: primaNeta !== snapshot.primaNeta ? primaNeta : snapshot.primaNeta,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( costoPrimerRecibo !== datos.costoPrimerRecibo ) {
+      snapshot = {
+        ...snapshot,
+        costoPrimerRecibo: costoPrimerRecibo !== snapshot.costoPrimerRecibo ? costoPrimerRecibo : snapshot.costoPrimerRecibo,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( costoRecibosSubsecuentes !== datos.costoRecibosSubsecuentes ) {
+      snapshot = {
+        ...snapshot,
+        costoRecibosSubsecuentes: costoRecibosSubsecuentes !== snapshot.costoRecibosSubsecuentes ? costoRecibosSubsecuentes : snapshot.costoRecibosSubsecuentes,
+      };
+
+      bl_actualizar = true;
+    }
+
+    if( bl_actualizar ) {
+      setDatos(snapshot);
+    }
+  }
+
   const getSteps = () => {
     let steps = [
       {
@@ -211,7 +328,7 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
         renderView: !data ? "Loading" :
           <div>
             <Grid container spacing={3}>
-              <Grid item xs={12} style={{ marginBottom: "1rem", borderBottomStyle: "inset" }}>
+              <Grid item xs={12} style={{ marginBottom: "1rem", borderBottomStyle: "inset", borderBottomWidth: "3px", borderBottomColor: "#e7e7ec" }}>
                 <Typography variant="h6">Información General</Typography>
               </Grid>
               {!columns || columns.length <= 0 || data.length <= 0 ?
@@ -219,11 +336,13 @@ const AprobarFormulario = ({ data, dropdownAseguradoras, dropdownTipoPoliza, dro
                   return col.options.hasOwnProperty("display") && !col.options.display ? null :
                     <Grid key={`grid_${index}_${col.name}`} item xs={4} >
                       {
+                        col.name === "tipo" ?
+                        <TipoPolizaView error={validacionFormulario.hasOwnProperty(col.name)} {...col} errorMessage={validacionFormulario[col.name]} editValue={col.defaultValue === "" ? null : col.defaultValue} onChange={guardarFormulario} /> :
                         col.name === "aseguradora" ?
-                        <AseguradoraView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
+                        <AseguradoraView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} onChange={guardarFormulario}/> :
                         col.name === "producto" ?
-                        <ProductosView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} /> :
-                        <BInput key={`col_${index}_${col.name}`} {...col} editValue={col.defaultValue === "" ? null : col.defaultValue} error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} />
+                        <ProductosView error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} onChange={guardarFormulario} /> :
+                        <BInput key={`col_${index}_${col.name}`} {...col} editValue={col.defaultValue === "" ? null : col.defaultValue} error={validacionFormulario.hasOwnProperty(col.name)} errorMessage={validacionFormulario[col.name]} onChange={guardarFormulario}/>
                       }                          
                     </Grid>
                 }

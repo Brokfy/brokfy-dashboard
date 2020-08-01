@@ -17,7 +17,7 @@ export function fetchPolizasPorConfirmar(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://3.136.94.107:4300/api/PolizasPorConfirmar`,
+        url: `https://localhost:44341/api/PolizasPorConfirmar`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

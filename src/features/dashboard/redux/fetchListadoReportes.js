@@ -16,7 +16,7 @@ export function fetchListadoReportes(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://3.136.94.107:4300/api/Aseguradoras`,
+        url: `https://localhost:44341/api/infoReportes`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,
@@ -29,26 +29,7 @@ export function fetchListadoReportes(args = {}) {
         (res) => {
           dispatch({
             type: DASHBOARD_FETCH_LISTADO_REPORTES_SUCCESS,
-            data: { data: [
-              {
-                idReporte: 1,
-                nombre: "Facturación Total",
-                descripcion: "Este informe lista las nuevas pólizas brokfy para el rango de fechas definido.",
-                path: "/reportes/facturacion-total"
-              },
-              {
-                idReporte: 2,
-                nombre: "Comisiones Recibidas",
-                descripcion: "Este informe detalla las comisiones recibidas para el rango de fechas definido.",
-                path: "/reportes/comisiones-recibidas"
-              },
-              {
-                idReporte: 3,
-                nombre: "Comisiones Pendientes",
-                descripcion: "Este informe detalla las comisiones que a la fecha debiesen haber sido recibidas pero no registran pago y aquellas próximas a recibir según la fecha indicada.",
-                path: "/reportes/comisiones-pendientes"
-              },
-            ]},
+            data: { data: res.data },
           });
           resolve(res);
         },

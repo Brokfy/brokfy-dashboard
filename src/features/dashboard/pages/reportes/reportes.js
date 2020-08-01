@@ -16,6 +16,9 @@ import { useFetchDataReporteFacturacionTotal } from '../../redux/fetchDataReport
 import { FoldingCube } from 'styled-spinkit';
 import { useFetchDataReporteComisionesRecibidas } from '../../redux/fetchDataReporteComisionesRecibidas';
 import { useFetchDataReporteComisionesPendientes } from '../../redux/fetchDataReporteComisionesPendientes';
+import { useFetchDataReportePolizasPorVencer } from '../../redux/fetchDataReportePolizasPorVencer';
+import { useFetchDataReporteHistoricoComisiones } from '../../redux/fetchDataReporteHistoricoComisiones';
+import { useFetchDataReportePolizasBrokfyVsOtras } from '../../redux/fetchDataReportePolizasBrokfyVsOtras';
 
 const Reportes = () => {
   let { reporte } = useParams();
@@ -38,6 +41,9 @@ const Reportes = () => {
   const { dataReporteFacturacionTotal, fetchDataReporteFacturacionTotal, fetchDataReporteFacturacionTotalPending } = useFetchDataReporteFacturacionTotal();
   const { dataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidas, fetchDataReporteComisionesRecibidasPending } = useFetchDataReporteComisionesRecibidas();
   const { dataReporteComisionesPendientes, fetchDataReporteComisionesPendientes, fetchDataReporteComisionesPendientesPending } = useFetchDataReporteComisionesPendientes();
+  const { dataReportePolizasPorVencer, fetchDataReportePolizasPorVencer, fetchDataReportePolizasPorVencerPending } = useFetchDataReportePolizasPorVencer();
+  const { dataReporteHistoricoComisiones, fetchDataReporteHistoricoComisiones, fetchDataReporteHistoricoComisionesPending } = useFetchDataReporteHistoricoComisiones();
+  const { dataReportePolizasBrokfyVsOtras, fetchDataReportePolizasBrokfyVsOtras, fetchDataReportePolizasBrokfyVsOtrasPending } = useFetchDataReportePolizasBrokfyVsOtras();
   const { filtrosReportes, updateFiltrosReportes } = useUpdateFiltrosReportes();
   const [nombreReporte, setNombreReporte] = useState();
   const [dataReporte, setDataReporte] = useState([]);
@@ -49,10 +55,10 @@ const Reportes = () => {
     setLoading(true);
     setShowReport(false);
     updateFiltrosReportes({
-      fechaInicio: "2019-06-01",
-      // new Date().toISOString().substring(0,10),
-      // fechaFin: new Date().toISOString().substring(0,10),
-      fechaFin: "2020-10-11",
+      // fechaInicio: "2019-06-01",
+      fechaInicio: new Date().toISOString().substring(0,10),
+      fechaFin: new Date().toISOString().substring(0,10),
+      // fechaFin: "2021-10-11",
       aseguradora: 0,
       tipoPoliza: 0,
     });
@@ -68,6 +74,15 @@ const Reportes = () => {
         break;
       case "comisiones-pendientes": 
         setNombreReporte("ComisionesPendientes");
+        break;
+      case "polizas-por-vencer": 
+        setNombreReporte("PolizasPorVencer");
+        break;
+      case "historico-comisiones": 
+        setNombreReporte("HistoricoPorcentajeComisiones");
+        break;
+      case "polizas-propias-vs-otras": 
+        setNombreReporte("BrokfyVSOtras");
         break;
       default: 
         setNombreReporte("");
@@ -128,8 +143,14 @@ const Reportes = () => {
       setDataReporte(dataReporteComisionesRecibidas);
     } else if( nombreReporte === "ComisionesPendientes" ) {
       setDataReporte(dataReporteComisionesPendientes);
+    } else if( nombreReporte === "PolizasPorVencer" ) {
+      setDataReporte(dataReportePolizasPorVencer);
+    } else if( nombreReporte === "HistoricoPorcentajeComisiones" ) {
+      setDataReporte(dataReporteHistoricoComisiones);
+    } else if( nombreReporte === "BrokfyVSOtras" ) {
+      setDataReporte(dataReportePolizasBrokfyVsOtras);
     }
-  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, dataReporteComisionesPendientes, nombreReporte, setDataReporte]);
+  }, [dataReporteFacturacionTotal, dataReporteComisionesRecibidas, dataReporteComisionesPendientes, dataReportePolizasPorVencer, dataReporteHistoricoComisiones, dataReportePolizasBrokfyVsOtras, nombreReporte, setDataReporte]);
 
   const useStyles = makeStyles((theme) => ({
     iconButton: {
@@ -146,7 +167,9 @@ const Reportes = () => {
       fechaInicio: document.querySelector("#fechaInicio").value,
       fechaFin: document.querySelector("#fechaFin").value,
       idAseguradora: parseInt(document.querySelector("[name='aseguradora']").value),
-      idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").value),
+      aseguradora: document.querySelector("[id='aseguradora']").textContent,
+      idTipoPoliza: parseInt(document.querySelector("[name='tipoPoliza']").text),
+      tipoPoliza: document.querySelector("[id='tipoPoliza']").textContent,
     });
 
     const parametrosRequest = {
@@ -164,6 +187,12 @@ const Reportes = () => {
       fetchDataReporteComisionesRecibidas(parametrosRequest);
     } else if ( nombreReporte === "ComisionesPendientes" ) {
       fetchDataReporteComisionesPendientes(parametrosRequest)
+    } else if ( nombreReporte === "PolizasPorVencer" ) {
+      fetchDataReportePolizasPorVencer(parametrosRequest)
+    } else if ( nombreReporte === "HistoricoPorcentajeComisiones" ) {
+      fetchDataReporteHistoricoComisiones(parametrosRequest)
+    } else if ( nombreReporte === "BrokfyVSOtras" ) {
+      fetchDataReportePolizasBrokfyVsOtras(parametrosRequest)
     }
 
     setShowReport(true);
@@ -208,11 +237,11 @@ const Reportes = () => {
                 </tr>
                 <tr>
                   <td align="right"><b>Aseguradora &nbsp;:</b></td>
-                  <td>&nbsp;&nbsp;Todas</td>
+                  <td>&nbsp;&nbsp;{filtrosReportes.aseguradora}</td>
                 </tr>
                 <tr>
                   <td align="right"><b>Tipo Póliza &nbsp;:</b></td>
-                  <td>&nbsp;&nbsp;Todas</td>
+                  <td>&nbsp;&nbsp;{filtrosReportes.tipoPoliza}</td>
                 </tr>
               </tbody>
             </table>
@@ -283,12 +312,12 @@ const Reportes = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={8} md={6} lg={4}>
-                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending}>
+                  <IconButton color="primary" component="span" className={classes.iconButton} onClick={buscar} disabled={fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteComisionesPendientesPending || fetchDataReporteHistoricoComisionesPending || fetchDataReportePolizasBrokfyVsOtrasPending }>
                     <SearchSharp /> &nbsp; Buscar
                   </IconButton>
 
                   { 
-                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending && !fetchDataReporteComisionesPendientesPending ?
+                    showReport && !fetchDataReporteFacturacionTotalPending && !fetchDataReporteComisionesRecibidasPending && !fetchDataReporteComisionesPendientesPending && !fetchDataReportePolizasPorVencerPending && !fetchDataReporteHistoricoComisionesPending && !fetchDataReportePolizasBrokfyVsOtrasPending ?
                       <IconButton color="primary" component="span" className={classes.iconButton} onClick={() => window.print()}>
                         <PrintSharp /> &nbsp; Imprimir
                       </IconButton> : null
@@ -300,7 +329,7 @@ const Reportes = () => {
       </div>
 
       { showReport ? 
-          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending ? 
+          fetchDataReporteFacturacionTotalPending || fetchDataReporteComisionesRecibidasPending || fetchDataReporteComisionesPendientesPending || fetchDataReportePolizasPorVencerPending || fetchDataReporteHistoricoComisionesPending || fetchDataReportePolizasBrokfyVsOtrasPending ? 
             <BLoading mensaje="Generando..." secundario={true} /> :
             <ContenidoReporte nombreReporte={nombreReporte} data={dataReporte}/> : 
           null 

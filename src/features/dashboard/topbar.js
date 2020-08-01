@@ -29,7 +29,7 @@ const Topbar = () => {
             null
           }
 
-          { isAuthenticated ? <Notificaciones /> : null }
+          {/* { isAuthenticated ? <Notificaciones /> : null } */}
           <li>
             <a href="#!" onClick={logout}>
               <i className="fa fa-sign-out"></i> { isAuthenticated ? "Cerrar Sesión" : "Iniciar Sesión" }

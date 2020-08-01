@@ -30,7 +30,7 @@ const useProductosBrokfy = () => {
     
     if( auth && auth.tokenFirebase ) {
       const options = {
-        url: `https://3.136.94.107:4300/api/Dropdown/productos_brokfy`,
+        url: `https://localhost:44341/api/Dropdown/productos_brokfy`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${auth.tokenFirebase}`,

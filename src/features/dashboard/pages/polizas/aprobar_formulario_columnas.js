@@ -1,10 +1,10 @@
-import format from 'date-fns/format'
+import format from 'date-fns/format';
 
 export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, listadoFormaPago) => {
     return [
         {
             name: "noPoliza",
-            label: "Nro Póliza",
+            label: "* Nro Póliza",
             type: "string",
             required: true,
             defaultValue: data.noPoliza,
@@ -15,7 +15,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "tipo",
-            label: "Tipo Póliza",
+            label: "* Tipo Póliza",
             type: "list",
             data: [...listadoTipoPoliza.map(item => { return { text: item.tipo, value: item.id }; })],
             required: true,
@@ -27,7 +27,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "aseguradora",
-            label: "Aseguradora",
+            label: "* Aseguradora",
             type: "list",
             data: [...listadoAseguradora.map(item => { return { text: item.nombre, value: item.idAseguradora }; })],
             required: true,
@@ -39,7 +39,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "producto",
-            label: "Producto",
+            label: "* Producto",
             type: "list",
             data: [...listadoProductos.map(item => { return { text: item.producto, value: item.id }; })],
             required: true,
@@ -51,7 +51,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "username",
-            label: "Username",
+            label: "* Username",
             type: "string",
             required: true,
             defaultValue: data.username,
@@ -64,7 +64,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
             name: "noAsegurado",
             label: "Nro Asegurado",
             type: "string",
-            required: true,
+            required: false,
             defaultValue: data.noAsegurado,
             options: {
                 filter: true,
@@ -73,7 +73,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "formaPago",
-            label: "Forma Pago",
+            label: "* Forma Pago",
             type: "list",
             data: [...listadoFormaPago.map(item => { return { text: item.value, value: item.value }; })],
             required: true,
@@ -87,7 +87,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "costo",
-            label: "Prima Total",
+            label: "* Prima Total",
             type: "currency",
             required: true,
             defaultValue: data.hasOwnProperty("costo") ? data.costo : 0,
@@ -98,7 +98,7 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "primaNeta",
-            label: "Prima Neta",
+            label: "* Prima Neta",
             type: "currency",
             required: true,
             defaultValue: data.hasOwnProperty("primaNeta") ? data.primaNeta : 0,
@@ -109,10 +109,10 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "costoPrimerRecibo",
-            label: "Primer Recibo",
+            label: "* Primer Recibo",
             type: "currency",
             required: true,
-            defaultValue: data.costoPrimerRecibo,
+            defaultValue: data.hasOwnProperty("costoPrimerRecibo") ? data.costoPrimerRecibo : 0,
             options: {
                 filter: true,
                 sort: true,
@@ -120,10 +120,10 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "costoRecibosSubsecuentes",
-            label: "Recibos Subsecuentes",
+            label: "* Subsecuentes",
             type: "currency",
             required: true,
-            defaultValue: data.costoRecibosSubsecuentes,
+            defaultValue: data.hasOwnProperty("costoRecibosSubsecuentes") ? data.costoRecibosSubsecuentes : 0,
             options: {
                 filter: true,
                 sort: true,
@@ -131,10 +131,10 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "proximoPago",
-            label: "Próximo Pago",
+            label: "* Próximo Pago",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("proximoPago") ? format(new Date(data.proximoPago), 'dd/MM/yyyy') : "",
+            defaultValue: data.hasOwnProperty("proximoPago") ? data.proximoPago !== "" ? format(new Date(data.proximoPago), 'dd/MM/yyyy') : "" : "",
             onChange: () => { },
             options: {
                 filter: true,
@@ -143,10 +143,10 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "fechaInicio",
-            label: "Fecha Inicio",
+            label: "* Fecha Inicio",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("fechaInicio") ? format(new Date(data.fechaInicio), 'dd/MM/yyyy') : "",
+            defaultValue: data.hasOwnProperty("fechaInicio") ? data.fechaInicio !== "" ? format(new Date(data.fechaInicio), 'dd/MM/yyyy') : "" : "",
             onChange: () => { },
             options: {
                 filter: true,
@@ -155,10 +155,10 @@ export default (data, listadoTipoPoliza, listadoAseguradora, listadoProductos, l
         },
         {
             name: "fechaFin",
-            label: "Fecha Fin",
+            label: "* Fecha Fin",
             type: "date",
             required: true,
-            defaultValue: data.hasOwnProperty("fechaFin") ? format(new Date(data.fechaFin), 'dd/MM/yyyy') : "",
+            defaultValue: data.hasOwnProperty("fechaFin") ? data.fechaFin !== "" ? format(new Date(data.fechaFin), 'dd/MM/yyyy') : format(new Date((new Date()).setDate((new Date().getDate()) + 365)), 'dd/MM/yyyy') : format(new Date((new Date()).setDate((new Date().getDate()) + 365)), 'dd/MM/yyyy'),
             onChange: () => { },
             options: {
                 filter: true,

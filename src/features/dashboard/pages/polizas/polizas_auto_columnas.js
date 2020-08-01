@@ -42,6 +42,7 @@ export default (listadoAseguradoras, listadoProductos) => {
                 { text: "Mensual", value: "Mensual" }
             ],
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -54,6 +55,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Próximo Pago",
             type: "date",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -66,6 +68,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Fecha Inicio",
             type: "date",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -78,6 +81,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Fecha Fin",
             type: "date",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -91,6 +95,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             type: "list",
             data: [...arrayAseguradoras.map(item => { return { text: item.nombre, value: item.idAseguradora }; })],
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -103,6 +108,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Prima Total",
             type: "currency",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -115,6 +121,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Prima Neta",
             type: "currency",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -128,6 +135,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             type: "list",
             data: [...listEstadoPoliza],
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -141,6 +149,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Usuario",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -154,6 +163,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             type: "list",
             data: [...arrayProductos.map(item => { return { text: item.producto, value: item.id }; })],
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -182,6 +192,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Nro Asegurado",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -195,6 +206,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             type: "list",
             data: [{text: "Si", value: "Si"},{text: "No", value: "No"}],
             required: false,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -248,6 +260,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Primer Recibo",
             type: "currency",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -260,6 +273,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Recibos Subsecuentes",
             type: "currency",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -272,6 +286,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Marca",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -284,6 +299,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Modelo",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -296,6 +312,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Año",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -308,6 +325,7 @@ export default (listadoAseguradoras, listadoProductos) => {
             label: "Placa",
             type: "string",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,
@@ -330,8 +348,9 @@ export default (listadoAseguradoras, listadoProductos) => {
         {
             name: "codigoPostal",
             label: "Código Postal",
-            type: "string",
+            type: "tel",
             required: true,
+            visible: true,
             defaultValue: "",
             options: {
                 filter: true,

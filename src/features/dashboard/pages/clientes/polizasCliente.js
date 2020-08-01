@@ -27,7 +27,11 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(14),
+    },
+    subtitle: {
+        fontSize: theme.typography.pxToRem(12),
+        color: "#aaaaaa",
     },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
@@ -58,12 +62,14 @@ const useStyles = makeStyles((theme) => ({
     redlarge: {
         width: theme.spacing(3),
         height: theme.spacing(3),
+        marginTop: theme.typography.pxToRem(8),
         color: theme.palette.getContrastText(red[500]),
         backgroundColor: red[500],
     },
     greenlarge: {
         width: theme.spacing(3),
         height: theme.spacing(3),
+        marginTop: theme.typography.pxToRem(8),
         color: theme.palette.getContrastText(green[500]),
         backgroundColor: green[500],
     },
@@ -180,7 +186,7 @@ const PolizasCliente = ({ polizas }) => {
                 </DialogActions>
             </Dialog>
             <div className="panel-body ">
-                <span className="titulo-panel">Lista de Polizas</span>
+                <span className="titulo-panel">Lista de Pólizas</span>
                 <br /><br />
                 <div className="lista-poliza">
                     {polizas.length <= 0 ? <Grid container spacing={3}>
@@ -197,27 +203,28 @@ const PolizasCliente = ({ polizas }) => {
                                     id={`panel_${p.noPoliza}`}
                                 >
                                     <Grid container spacing={3}>
-                                        <Grid item xs={1}>
+                                        <Grid item md={2} lg={1}>
                                             <Avatar className={p.estadoPoliza === "ACTIVA" ? classes.greenlarge :
                                                 p.estadoPoliza === "CANCELADA" ? classes.redlarge :
                                                     classes.yellowlarge
                                             }>{' '}</Avatar>
                                         </Grid>
-                                        <Grid item xs={11}>
-                                            <Typography className={classes.heading}>{`${p.noPoliza} (${p.tipoPoliza})`}</Typography>
+                                        <Grid item md={10} lg={11}>
+                                            <Typography className={classes.heading}>{`${p.noPoliza}`}</Typography>
+                                            <Typography className={classes.subtitle}>{`${p.tipoPoliza}`}</Typography>
                                         </Grid>
                                     </Grid>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails className={classes.details}>
                                     <table className="table table-hover" style={{ marginBottom: "0px" }}>
                                         <tbody>
-                                            <tr><td>Tipo</td><td>{p.tipoPoliza}</td></tr>
-                                            <tr><td>FormaPago</td><td>{p.formaPago}</td></tr>
-                                            <tr><td>FechaInicio</td><td>{format(new Date(p.fechaInicio), 'dd/MM/yyyy')}</td></tr>
-                                            <tr><td>FechaFin</td><td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td></tr>
+                                            <tr><td>Tipo Póliza</td><td>{p.tipoPoliza}</td></tr>
+                                            <tr><td>Forma de Pago</td><td>{p.formaPago}</td></tr>
+                                            <tr><td>Fecha Inicio</td><td>{format(new Date(p.fechaInicio), 'dd/MM/yyyy')}</td></tr>
+                                            <tr><td>Fecha Fin</td><td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td></tr>
                                             <tr><td>Aseguradora</td><td>{p.aseguradora}</td></tr>
                                             <tr><td>Producto</td><td>{p.producto}</td></tr>
-                                            <tr><td>PolizaPropia</td><td>{p.polizaPropia}</td></tr>
+                                            <tr><td>Póliza Propia</td><td>{p.polizaPropia}</td></tr>
                                         </tbody>
                                     </table>
 

@@ -62,42 +62,65 @@ const MisClientes = ({ clientes }) => {
     }));
     const classes = useStyles();
 
+    const NoHayRegistros = () => {
+        return (
+            <div className="ibox-content ibox-heading" style={{ textAlign: "center" }}>
+                <h3>No se encontraron pólizas para el cliente seleccionado</h3>
+            </div>
+        );
+    }
+
     return (
-        <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-            <div className="panel-body">
+        <div className="panel panel-default">
+            <div className="panel-body panel-body-alt-2">
                 <span className="titulo-panel">Mis Clientes</span>
                 <Grid container spacing={1}>
-                    <Grid item lg={10} md={8}>
-                        <Typeahead
-                            labelKey={"nombre"}
-                            key={"username"}
-                            filterBy={filterBy}
-                            id="toggle-example"
-                            options={clientes}
-                            onChange={(e) => e.length <= 0 || e.length > 1 ? null : setSelectedCliente(e[0].username)}
-                            placeholder="Buscar cliente">
-                        </Typeahead>
+                    <Grid item xs={10}>
+                        { 
+                            clientes ? 
+                                <Typeahead
+                                    labelKey={"nombre"}
+                                    key={"username"}
+                                    filterBy={filterBy}
+                                    id="toggle-example"
+                                    options={clientes}
+                                    onChange={(e) => e.length <= 0 || e.length > 1 ? null : setSelectedCliente(e[0].username)}
+                                    placeholder="Buscar cliente">
+                                </Typeahead> :
+                                null
+                        }
                     </Grid>
-                    <Grid item lg={2} md={4}>
-                        <Button color="primary" onClick={buscarPolizas}>
+                    <Grid item xs={2}>
+                        <Button color="primary" onClick={buscarPolizas} disabled={selectedClient === ""}>
                             <SearchIcon />
                         </Button>
                     </Grid>
                 </Grid>
                 <div className="dashboard-panel">
                     {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
-                    <table className="table table-hover" style={{ marginBottom: "0px" }}>
-                        <tbody>
-                            {!polizasCliente || polizasCliente.length <= 0 ? null :
-                                polizasCliente.map(p => <tr>
-                                    <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
-                                    <td width="25%">{p.tipoPoliza}</td>
-                                    <td width="25%">{p.aseguradora}</td>
-                                    <td width="25%">{p.estadoPoliza}</td>
-                                </tr>)
-                            }
-                        </tbody>
-                    </table>
+                    {!busco ? null :
+                        ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :
+                        <table className="table table-bordered" style={{marginBottom: 0}}>
+                            <thead>
+                                <tr>
+                                    <th>Póliza</th>
+                                    <th>Tipo</th>
+                                    <th>Aseguradora</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    polizasCliente.map((p, i) => <tr key={`misClientes_${i.toString()}`}>
+                                        <td><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
+                                        <td>{p.tipoPoliza}</td>
+                                        <td>{p.aseguradora}</td>
+                                        <td>{p.estadoPoliza}</td>
+                                    </tr>)
+                                }
+                            </tbody>
+                        </table>
+                    }
                     <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
                 </div>
             </div>

@@ -69,6 +69,20 @@ import { reducer as updateFiltrosReportesReducer } from './updateFiltrosReportes
 import { reducer as fetchDataReporteFacturacionTotalReducer } from './fetchDataReporteFacturacionTotal';
 import { reducer as fetchDataReporteComisionesRecibidasReducer } from './fetchDataReporteComisionesRecibidas';
 import { reducer as fetchDataReporteComisionesPendientesReducer } from './fetchDataReporteComisionesPendientes';
+import { reducer as fetchDataReportePolizasPorVencerReducer } from './fetchDataReportePolizasPorVencer';
+import { reducer as fetchDataReporteHistoricoComisionesReducer } from './fetchDataReporteHistoricoComisiones';
+import { reducer as fetchDataReportePolizasBrokfyVsOtrasReducer } from './fetchDataReportePolizasBrokfyVsOtras';
+import { reducer as fetchRestriccionesReducer } from './fetchRestricciones';
+import { reducer as fetchMenuReducer } from './fetchMenu';
+import { reducer as updateRestriccionesReducer } from './updateRestricciones';
+import { reducer as fetchRestriccionesEdicionReducer } from './fetchRestriccionesEdicion';
+import { reducer as updateProfileItemsReducer } from './updateProfileItems';
+import { reducer as fetchEstadosSiniestroReducer } from './fetchEstadosSiniestro';
+import { reducer as fetchSiniestrosReducer } from './fetchSiniestros';
+import { reducer as fetchSiniestroTimelineReducer } from './fetchSiniestroTimeline';
+import { reducer as updateEstadosSiniestroReducer } from './updateEstadosSiniestro';
+import { reducer as updateComentariosSiniestroReducer } from './updateComentariosSiniestro';
+import { reducer as updateSiniestroActivoReducer } from './updateSiniestroActivo';
 
 const reducers = [
   fetchProductosReducer,
@@ -133,6 +147,20 @@ const reducers = [
   fetchDataReporteFacturacionTotalReducer,
   fetchDataReporteComisionesRecibidasReducer,
   fetchDataReporteComisionesPendientesReducer,
+  fetchDataReportePolizasPorVencerReducer,
+  fetchDataReporteHistoricoComisionesReducer,
+  fetchDataReportePolizasBrokfyVsOtrasReducer,
+  fetchRestriccionesReducer,
+  fetchMenuReducer,
+  updateRestriccionesReducer,
+  fetchRestriccionesEdicionReducer,
+  updateProfileItemsReducer,
+  fetchEstadosSiniestroReducer,
+  fetchSiniestrosReducer,
+  fetchSiniestroTimelineReducer,
+  updateEstadosSiniestroReducer,
+  updateComentariosSiniestroReducer,
+  updateSiniestroActivoReducer,
 ];
 
 export default function reducer(state = initialState, action) {

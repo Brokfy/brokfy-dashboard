@@ -63,7 +63,7 @@ const SegundoVida = (props) => {
 
             <Grid item xs={4} >
                 <FormControl className={classes.formControl} style={{ margin: '0' }} error={idSexo === ""}>
-                    <InputLabel id="sexoLabel">Sexo</InputLabel>
+                    <InputLabel id="sexoLabel">Sexo *</InputLabel>
                     <Select
                         labelId="sexoLabel"
                         id="idSexo"
@@ -85,7 +85,7 @@ const SegundoVida = (props) => {
                 <TextField
                     id={"estatura"}
                     name={"estatura"}
-                    label={"Estatura"}
+                    label={"Estatura *"}
                     type="number"
                     InputProps={{
                         endAdornment: <InputAdornment position="end">cm</InputAdornment>,
@@ -101,7 +101,7 @@ const SegundoVida = (props) => {
                 <TextField
                     id={"peso"}
                     name={"peso"}
-                    label={"Peso"}
+                    label={"Peso *"}
                     type="number"
                     InputProps={{
                         endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
@@ -115,7 +115,7 @@ const SegundoVida = (props) => {
 
             <Grid item xs={4} >
                 <FormControl className={classes.formControl} style={{ margin: '0' }} error={idEstadoCivil === ""}>
-                    <InputLabel id="estadoCivilLabel">Estado Civil</InputLabel>
+                    <InputLabel id="estadoCivilLabel">Estado Civil *</InputLabel>
                     <Select
                         labelId="estadoCivilLabel"
                         id="idEstadoCivil"
@@ -135,7 +135,7 @@ const SegundoVida = (props) => {
 
             <Grid item xs={4} >
                 <FormControl className={classes.formControl} style={{ margin: '0' }} error={idOcupacion === ""}>
-                    <InputLabel id="ocupacionLabel">Ocupación</InputLabel>
+                    <InputLabel id="ocupacionLabel">Ocupación *</InputLabel>
                     <Select
                         labelId="ocupacionLabel"
                         id="idOcupacion"
@@ -159,7 +159,7 @@ const SegundoVida = (props) => {
                 <TextField
                     id={"ingresos"}
                     name={"ingresos"}
-                    label={"Ingresos (opcional)"}
+                    label={"Ingresos"}
                     type="number"
                     defaultValue={ingresos}
                     // error={ingresos === ""}
@@ -170,7 +170,7 @@ const SegundoVida = (props) => {
 
             <Grid item xs={4} >
                 <FormControl className={classes.formControl} style={{ margin: '0' }} error={fumador === ""}>
-                    <InputLabel id="fumadorLabel">Fumador</InputLabel>
+                    <InputLabel id="fumadorLabel">Fumador *</InputLabel>
                     <Select
                         labelId="fumadorLabel"
                         id="fumador"

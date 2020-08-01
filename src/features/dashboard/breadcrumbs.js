@@ -6,14 +6,16 @@ const Breadcrumbs = () => {
 
   var path = location.pathname.split("/").filter(item => item !== "");
   var titleOpt = path.slice(-1).length > 0 ? path.slice(-1)[0] : '';
-  var title = titleOpt.replace("-", " ").split(" ").map(item => {
+  var title = titleOpt.split("-").map(item => {
                 if( !item || item === '' ) item = 'Dashboard';
                 return item
                   .replace(/^./, item[0].toUpperCase())
                   .replace("Atencion", "Atención")
-                  .replace("Facturacion", "Facturación");
+                  .replace("Facturacion", "Facturación")
+                  .replace("Polizas", "Pólizas")
+                  .replace("Historico", "Histórico");
               }).join(" ");
-
+  
   return (
     <div className="row wrapper border-bottom white-bg">
       <div className="breadcrumb-container">
@@ -25,11 +27,14 @@ const Breadcrumbs = () => {
               {
                 path.map((item, index) => {
                   var activo = index === path.length - 1 ? "active" : "";
-                  var opcion = item.replace("-", " ").split(" ").map(item => 
+                  var opcion = item.split("-").map(item => 
                     item
                       .replace(/^./, item[0].toUpperCase())
                       .replace("Atencion", "Atención")
                       .replace("Facturacion", "Facturación")
+                      .replace("Polizas", "Pólizas")
+                      .replace("Por-vencer", "por Vencer")
+                      .replace("Historico", "Histórico")
                   ).join(" ");
                   var to = path.slice(0, index + 1).join("/");
 

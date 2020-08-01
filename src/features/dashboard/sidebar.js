@@ -5,71 +5,88 @@ import { useIsAuthenticated, useGetToken } from '../common/redux/hooks';
 import { useTipoPoliza } from './hooks';
 import { DashboardOutlined, AccountCircleOutlined, MobileFriendly, PolicyOutlined, AccountBalanceOutlined, VerifiedUserOutlined, MonetizationOnOutlined, RoomServiceOutlined, ReportProblemOutlined, InsertChartOutlined } from '@material-ui/icons';
 import { useFetchListadoReportes } from './redux/fetchListadoReportes';
+import { useFetchRestricciones } from './redux/fetchRestricciones';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const Sidebar = () => {
   const { isAuthenticated } = useIsAuthenticated();
   const [menu, setMenu] = useState([]);
   const [tipoPoliza, TipoPolizaView, setInitialValue, options] = useTipoPoliza();
   const { listadoReportes, fetchListadoReportes, fetchListadoReportesPending } = useFetchListadoReportes();
-  const { auth } = useGetToken();  
-  
+  const { restricciones, fetchRestricciones, fetchRestriccionesPending } = useFetchRestricciones();
+  const { auth } = useGetToken();
+
   useEffect(() => {
-    if( !auth || !auth.tokenFirebase || auth.tokenFirebase === "" ) return;
+    if (!auth || !auth.tokenFirebase || auth.tokenFirebase === "") return;
+    fetchRestricciones({ dato: auth.tokenFirebase, campo: "token", token: auth.tokenFirebase });
     fetchListadoReportes(auth.tokenFirebase);
-  }, [fetchListadoReportes, auth]);
+  }, [fetchListadoReportes, fetchRestricciones, auth]);
 
   useEffect(() => {
     setMenu([
-      { icon: DashboardOutlined, to: "/", label: "Dashboard", protected: false, open: false, active: false },
-      { icon: AccountCircleOutlined, to: "/clientes", label: "Clientes", protected: true, open: false, active: false },
-      { icon: MobileFriendly, to: "/polizas/todas/aprobaciones", label: "Aprobaciones", protected: true, childrenRoutes:
-        [
-          { to: "/polizas/todas/aprobaciones", label: "Aprobar" },
-          { to: "/polizas/todas/confirmaciones", label: "Confirmar" },
-        ]
+      { id: 9, icon: DashboardOutlined, to: "/", label: "Dashboard", protected: false, open: false, active: false },
+      { id: 10, icon: AccountCircleOutlined, to: "/clientes", label: "Clientes", protected: true, open: false, active: false },
+      {
+        id: 11, icon: MobileFriendly, to: "/polizas/todas/aprobaciones", label: "Aprobaciones", protected: true, childrenRoutes:
+          [
+            { id: 57, to: "/polizas/todas/aprobaciones", label: "Aprobar" },
+            { id: 58, to: "/polizas/todas/confirmaciones", label: "Confirmar" },
+          ]
       },
       {
+        id: 12,
         icon: VerifiedUserOutlined, to: "/polizas/brokfy", label: "Polizas Brokfy", protected: true, childrenRoutes: [
-          { to: "/polizas/brokfy/carta-nombramiento", label: "Carta Nombramiento" },
-          ...options.filter(item => 
-            item.tipo === "Auto" || 
-            item.tipo === "Vida" || 
-            item.tipo === "Moto"
-          ).map(item => { return { to: `/polizas/brokfy/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+          { id: 59, to: "/polizas/brokfy/carta-nombramiento", label: "Carta Nombramiento" },
+          { id: 60, to: `/polizas/brokfy/auto`, label: `Auto` },
+          { id: 61, to: `/polizas/brokfy/vida`, label: `Vida` },
+          { id: 62, to: `/polizas/brokfy/moto`, label: `Moto` }
         ]
       },
       {
+        id: 13,
         icon: PolicyOutlined, to: "/polizas/otras", label: "Polizas Otras", protected: true, childrenRoutes: [
-          ...options.filter(item => 
-            item.tipo === "Auto" || 
-            item.tipo === "Vida" ||
-            item.tipo === "Moto"
-          ).map(item => { return { to: `/polizas/otras/${item.tipo.toLowerCase()}`, label: item.tipo }; })
+          { id: 63, to: `/polizas/otras/auto`, label: `Auto` },
+          { id: 64, to: `/polizas/otras/vida`, label: `Vida` },
+          { id: 65, to: `/polizas/otras/moto`, label: `Moto` }
         ]
       },
 
       {
+        id: 14,
         icon: MonetizationOnOutlined, to: "/pagos", label: "Pagos", protected: true, childrenRoutes:
           [
-            { to: "/pagos/registrar", label: "Registrar Pago" },
+            { id: 66, to: "/pagos/registrar", label: "Registrar Pago" },
           ]
       },
 
-      { icon: RoomServiceOutlined, to: "/atencion-clientes", label: "Atención Clientes", protected: true, open: false, active: false },
-      { icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, open: false, active: false },
-      { icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, childrenRoutes: [
-          ...listadoReportes.map(item => { return { to: item.path.toLowerCase(), label: item.nombre }; })
+      { id: 15, icon: RoomServiceOutlined, to: "/atencion-clientes", label: "Atención Clientes", protected: true, open: false, active: false },
+      { id: 76, icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, childrenRoutes: [
+        { id: 78, to: "/siniestros/activos", label: "Activos" },
+        { id: 79, to: "/siniestros/finalizados", label: "Finalizados" }
+      ] },
+      {
+        id: 17,
+        icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, childrenRoutes: [
+          { id: 67, to: "/reportes/facturacion-total", label: "Facturación Total" },
+          { id: 68, to: "/reportes/comisiones-recibidas", label: "Comisiones Recibidas" },
+          { id: 69, to: "/reportes/comisiones-pendientes", label: "Comisiones Pendientes" },
+          { id: 70, to: "/reportes/polizas-por-vencer", label: "Pólizas por Vencer" },
+          { id: 71, to: "/reportes/historico-comisiones", label: "Histórico Comisiones" },
+          { id: 72, to: "/reportes/polizas-propias-vs-otras", label: "Pólizas Propias vs Otras" },
         ]
       },
       {
+        id: 16,
         icon: AccountBalanceOutlined, to: "/aseguradoras", label: "Aseguradoras", protected: true, childrenRoutes: [
-          { to: "/aseguradoras", label: "Aseguradoras" },
-          { to: "/aseguradoras/productos", label: "Productos" },
-          { to: "/aseguradoras/comisiones", label: "Comisiones" },
+          { id: 73, to: "/aseguradoras", label: "Aseguradoras" },
+          { id: 74, to: "/aseguradoras/productos", label: "Productos" },
+          { id: 75, to: "/aseguradoras/comisiones", label: "Comisiones" },
         ]
       },
+      { id: 77, icon: AssignmentIndIcon, to: "/permisos", label: "Permisos", protected: true, open: false, active: false },
     ]);
   }, [options, listadoReportes]);
+
 
   return (
     <nav className="navbar-default navbar-static-side" role="navigation">
@@ -85,16 +102,17 @@ const Sidebar = () => {
           </li>
 
           {
-            menu
-              .filter(item => !item.protected || isAuthenticated)
-              .map(item => {
-                const Icon = item.icon;
-                return (
-                  <NavLink key={item.label} menu={menu} setMenu={setMenu} data={item}>
-                    <Icon /> <span className="nav-label">{item.label}</span>
-                  </NavLink>
-                );
-              })
+            !restricciones ? null :
+              menu
+                .filter(item => !item.protected || isAuthenticated)
+                .map(item => {
+                  const Icon = item.icon;
+                  return restricciones.filter(res => res.idMenu === item.id).length > 0 ? null : (
+                    <NavLink key={item.label} menu={menu} setMenu={setMenu} data={item}>
+                      <Icon /> <span className="nav-label">{item.label}</span>
+                    </NavLink>
+                  );
+                })
           }
         </ul>
 

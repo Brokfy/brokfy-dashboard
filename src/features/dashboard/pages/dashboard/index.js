@@ -22,44 +22,55 @@ const Dashboard = () => {
     const { auth } = useGetToken();
     const { dashboardInit, getDashboardInit, getDashboardInitPending } = useGetDashboardInit();
 
+    const [tipoPoliza, setTipoPoliza] = useState();
+    const [clientes, setClientes] = useState();
+
     useEffect(() => {
         getDashboardInit({ tokenFirebase: auth.tokenFirebase });
-    }
-        , [getDashboardInit, auth.tokenFirebase]);
+    }, [getDashboardInit, auth.tokenFirebase]);
 
-    console.log(dashboardInit);
+    useEffect(() => {
+        if( dashboardInit ) {
+            setTipoPoliza(dashboardInit.tipoPoliza);
+            setClientes(dashboardInit.clientes);
+        }        
+    }, [dashboardInit]);
+    
     return (
         <div>
             {loading === true ? <BLoading /> : null}
             {!datosCargados && loading ? null :
-                <div>
-                    <Grid container spacing={3}>
-                        <Grid item xs={4} >
+                <div className={"inicioDashboard"}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} lg={6} xl={4}>
                             <ConsultaPoliza />
                         </Grid>
 
-                        <Grid item xs={4} >
-                            {!dashboardInit ? "Cargando..." :
-                                <PolizasPorVencer tipoPoliza={dashboardInit.tipoPoliza} />}
+                        <Grid item xs={12} lg={6} xl={4}>
+                            <PolizasPorVencer tipoPoliza={tipoPoliza} />
                         </Grid>
 
-                        <Grid item xs={4} >
-                            {!dashboardInit ? "Cargando..." :
-                                <MisClientes clientes={dashboardInit.clientes} />}
+                        <Grid item xs={12} lg={6} xl={4}>
+                            <MisClientes clientes={clientes} />
                         </Grid>
-                    </Grid>
-                    <Divider orientation={"horizontal"} />
-                    <br />
-                    <Grid container spacing={3}>
-                        <Grid item xs={4} >
+
+                        <Grid item xs={12} lg={6} xl={4}>
                             <Descargas />
                         </Grid>
 
-                        <Grid item xs={8} >
-                            <Grafico />
+                        <Grid item xs={12} lg={6} xl={4}>
+                            {!dashboardInit ? "Cargando..." :
+                                <Grafico grafico={dashboardInit.grafico} />
+                            }
                         </Grid>
-
                     </Grid>
+                    {/* <Divider orientation={"horizontal"} /> */}
+                    {/* <br />
+                    <Grid container spacing={3}>
+
+
+
+                    </Grid> */}
                 </div>}
         </div >
     );

@@ -24,7 +24,7 @@ export function insertPolizasAuto(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://3.136.94.107:4300/api/PolizaAuto`,
+        url: `https://localhost:44341/api/PolizaAuto`,
         method: 'POST',
         data: {
           ...args.data,
@@ -48,6 +48,7 @@ export function insertPolizasAuto(args = {}) {
         (res) => {
           axios({
             ...options,
+            url: `https://localhost:44341/api/PolizaAuto?propia=Si`,
             method: "GET"
           }).then(
             (res) => {

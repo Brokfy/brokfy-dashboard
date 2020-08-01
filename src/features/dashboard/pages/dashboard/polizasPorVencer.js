@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { NumberFormatCustom } from '../../../../common/utils';
 import format from 'date-fns/format';
 import MuiAlert from '@material-ui/lab/Alert';
+import { FolderOutlined } from '@material-ui/icons';
 
 const PolizasPorVencer = ({ tipoPoliza }) => {
 
@@ -19,6 +20,7 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
     const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
     const [open, setOpen] = useState(false);
     const { polizasPorVencer, dashboardPolizaPorVencer, dashboardPolizaPorVencerPending } = useDashboardPolizaPorVencer();
+    const [busco, setBusco] = useState(false);
 
     const seleccionarPoliza = (noPoliza) => {
         setPoliza(noPoliza);
@@ -50,45 +52,72 @@ const PolizasPorVencer = ({ tipoPoliza }) => {
         },
     }));
     const classes = useStyles();
+
+    const NoHayRegistros = () => {
+        return (
+            <div className="ibox-content ibox-heading" style={{ textAlign: "center" }}>
+                <h3>No se encontraron pólizas por vencer</h3>
+                <small style={{fontSize: "inherit"}}>
+                    El período consultado es el comprendido entre el <b>{format(new Date(), 'dd/MM/yyyy')}</b> al <b>{format(new Date((new Date()).setDate((new Date().getDate()) + 7)), 'dd/MM/yyyy')}</b>.
+                </small>
+            </div>
+        );
+    }
+
     return (
-        <div className="panel panel-default" style={{ marginBottom: "20px" }}>
-            <div className="panel-body">
-                <span className="titulo-panel">Pólizas por vencer</span>
+        <div className="panel panel-default">
+            <div className="panel-body panel-body-alt-2">
+                <span className="titulo-panel">Pólizas por Vencer</span>
                 <Grid container spacing={1}>
-                    <Grid item lg={10} md={8}>
+                    <Grid item xs={10}>
                         <FormControl style={{ margin: '0' }}>
                             <Select
                                 onChange={(event) => setSelectedTipoPoliza(event.target.value)}
                             >
                                 {!tipoPoliza || tipoPoliza.length <= 0 ? null :
-                                    tipoPoliza.map(x => <MenuItem key={`menuItem${x.id}`} value={x.id}>{x.tipo}</MenuItem>)}
+                                    tipoPoliza.map(x => 
+                                    <MenuItem key={`menuItem${x.id}`} value={x.id}>{x.tipo}</MenuItem>
+                                    )}
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item lg={2} md={4}>
-                        <Button size="small" onClick={() => dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza })} color="primary">
+                    <Grid item xs={2}>
+                        <Button size="small" onClick={() => {
+                            dashboardPolizaPorVencer({ tokenFirebase: auth.tokenFirebase, tipoPoliza: selectedTipoPoliza });
+                            setBusco(true);
+                        }} color="primary" disabled={selectedTipoPoliza===0}>
                             <SearchIcon />
                         </Button>
                     </Grid>
                 </Grid>
                 <div className="dashboard-panel-alt">
-                    {!polizasPorVencer || polizasPorVencer.lenght <= 0 ?
-                        <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert> :
+                        {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Seleccione el tipo de póliza</MuiAlert>}
                         <div>
-                            <table className="table table-hover " style={{ marginBottom: "0px" }}>
-                                <tbody>
-                                    {polizasPorVencer.map(p => <tr>
-                                        <td width="25%"><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
-                                        <td width="25%">{p.tipoPoliza}</td>
-                                        <td width="25%">{p.aseguradora}</td>
-                                        <td width="25%">{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td>
-                                    </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                            {!busco ? null :
+                                ( !polizasPorVencer || polizasPorVencer.length <= 0 ) ? <NoHayRegistros /> :
+                                <table className="table table-bordered" style={{marginBottom: 0}}>
+                                    <thead>
+                                        <tr>
+                                            <th>Póliza</th>
+                                            <th>Tipo</th>
+                                            <th>Aseguradora</th>
+                                            <th>Vencimiento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            polizasPorVencer.map((p, i) => <tr key={`misClientes_${i.toString()}`}>
+                                                <td><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
+                                                <td>{p.tipoPoliza}</td>
+                                                <td>{p.aseguradora}</td>
+                                                <td>{format(new Date(p.fechaFin), 'dd/MM/yyyy')}</td>
+                                            </tr>)
+                                        }
+                                    </tbody>
+                                </table>
+                            }
                             <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
                         </div>
-                    }
                 </div>
             </div>
         </div>

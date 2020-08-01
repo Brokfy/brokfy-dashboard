@@ -21,7 +21,7 @@ export function getToken(args = {}) {
           formData.append(k, args[k]);
       }
       
-      const doRequest = axios.post('https://ec2-3-136-94-107.us-east-2.compute.amazonaws.com/api/security/oauth/token', formData, {
+      const doRequest = axios.post('https://apipruebas.brokfy.com/api/security/oauth/token', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },

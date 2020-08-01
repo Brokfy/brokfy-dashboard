@@ -25,6 +25,10 @@ const useProductos = (dropdownProductos = [], defaultAseguradora = null) => {
   const { auth } = useGetToken();
 
   useEffect(() => {
+    setProductos('');
+  }, [aseguradora])
+
+  useEffect(() => {
     if( options.length > 0 ) return;
 
     const CancelToken = axios.CancelToken;
@@ -32,7 +36,7 @@ const useProductos = (dropdownProductos = [], defaultAseguradora = null) => {
 
     if( auth && auth.tokenFirebase ) {
       const options = {
-        url: `https://3.136.94.107:4300/api/Dropdown/productos`,
+        url: `https://localhost:44341/api/Dropdown/productos`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${auth.tokenFirebase}`,
@@ -59,20 +63,27 @@ const useProductos = (dropdownProductos = [], defaultAseguradora = null) => {
     }
   }, [auth, options.length]);
 
+  const opciones = options.filter(item => ((item.aseguradora === aseguradora && aseguradora !== null) || aseguradora === null));
+
   const ProductosView = (props) => (
     <FormControl className={classes.formControl} error={props.error}>
-      <InputLabel id="poliza-Productos-label">Productos</InputLabel>
+      <InputLabel id="poliza-Productos-label">* Productos</InputLabel>
       <Select
         labelId="poliza-Productos-label"
         id="poliza-Productos"
         name="producto"
         value={productos}
-        onChange={event => setProductos(event.target.value)}
+        onChange={event => {
+          if( props.onChange && typeof props.onChange === 'function' ) {
+            props.onChange();
+          }
+          setProductos(event.target.value);
+        }}
       >
         {
-          options
-            .filter(item => ((item.aseguradora === aseguradora && aseguradora !== null) || aseguradora === null))
-            .map((item, index) => <MenuItem key={`Productos-${index}`} value={item.id}>{item.producto}</MenuItem>)
+          opciones && opciones.length > 0 ?
+            opciones.map((item, index) => <MenuItem key={`Productos-${index}`} value={item.id}>{item.producto}</MenuItem>) :
+            <MenuItem key={`Productos-0`} value={''}>No hay productos registrados</MenuItem>
         }
       </Select>
       <FormHelperText>{props.errorMessage}</FormHelperText>

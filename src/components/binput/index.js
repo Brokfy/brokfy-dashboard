@@ -9,6 +9,7 @@ import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider } from 
 import { NumberFormatCustom, getDateFormated } from '../../common/utils';
 
 const BInput = ({ name, label, type, required, defaultValue, options, editValue, data, onChange, error, errorMessage }) => {
+
     const useStyles = makeStyles((theme) => ({
         formControl: {
             margin: theme.spacing(1),
@@ -34,6 +35,24 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
         var today = year + "-" + month + "-" + day;
         
         return today;
+    }
+
+    const validarTel = (evt) => {
+        var theEvent = evt || window.event;
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = theEvent.clipboardData.getData('text/plain');
+        } else {
+        // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+
+        var regex = /^\d+$/;
+        if( !regex.test(key) ) {
+          theEvent.returnValue = false;
+          if(theEvent.preventDefault) theEvent.preventDefault();
+        }
     }
 
     const getDate = (fecha) => {
@@ -83,6 +102,19 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 error={error === true}
                 helperText={error === true ? errorMessage : ''}
             />;
+        case "tel":
+            return <TextField
+                id={name}
+                name={name}
+                label={label}
+                type="tel"
+                onPaste={validarTel}
+                onKeyPress={validarTel}
+                defaultValue={editObjectValue !== null ? editObjectValue : !defaultValue ? defaultValues[type] : defaultValue}
+                disabled={options.display === false || options.disabled }
+                error={error === true}
+                helperText={error === true ? errorMessage : ''}
+            />;
         case "int":
         case "long":
             return <TextField
@@ -90,6 +122,8 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 name={name}
                 label={label}
                 type="number"
+                onPaste={validarTel}
+                onKeyPress={validarTel}
                 defaultValue={editObjectValue !== null ? editObjectValue : !defaultValue ? defaultValues[type] : defaultValue}
                 disabled={options.display === false || options.disabled}
                 error={error === true}
@@ -112,6 +146,7 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 disabled={options.display === false || options.disabled}
                 error={error === true}
                 helperText={error === true ? errorMessage : ''}
+                onFocus={(evt) => evt.target.select()}
             />;
         case "date":
             /* return <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -128,6 +163,16 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                     helperText={error === true ? errorMessage : ''}
                 />
             </MuiPickersUtilsProvider> */
+            // return <TextField
+            //     id={name}
+            //     name={name}
+            //     label={label}
+            //     type="date"
+            //     defaultValue={editValue !== null ? getDate(editValue) : setInputDate()}
+            //     disabled={options.display === false || options.disabled}
+            //     error={error === true}
+            //     helperText={error === true ? errorMessage : ''}
+            // />;
             return <TextField
                 id={name}
                 name={name}
@@ -135,6 +180,10 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
                 type="date"
                 defaultValue={editValue !== null ? getDate(editValue) : setInputDate()}
                 disabled={options.display === false || options.disabled}
+                className={classes.textField}
+                InputLabelProps={{
+                    shrink: true,
+                }}
                 error={error === true}
                 helperText={error === true ? errorMessage : ''}
             />;
@@ -191,7 +240,7 @@ const BInput = ({ name, label, type, required, defaultValue, options, editValue,
 BInput.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'bool', 'list', 'currency']).isRequired,
+    type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'bool', 'list', 'currency', "tel"]).isRequired,
     required: PropTypes.bool,
     defaultValue: PropTypes.any,
     options: PropTypes.shape({
