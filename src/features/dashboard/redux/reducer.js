@@ -83,6 +83,8 @@ import { reducer as fetchSiniestroTimelineReducer } from './fetchSiniestroTimeli
 import { reducer as updateEstadosSiniestroReducer } from './updateEstadosSiniestro';
 import { reducer as updateComentariosSiniestroReducer } from './updateComentariosSiniestro';
 import { reducer as updateSiniestroActivoReducer } from './updateSiniestroActivo';
+import { reducer as updateFinalizarSiniestroReducer } from './updateFinalizarSiniestro';
+import { reducer as fetchListadoUsuarioPorTipoReducer } from './fetchListadoUsuarioPorTipo';
 
 const reducers = [
   fetchProductosReducer,
@@ -161,6 +163,8 @@ const reducers = [
   updateEstadosSiniestroReducer,
   updateComentariosSiniestroReducer,
   updateSiniestroActivoReducer,
+  updateFinalizarSiniestroReducer,
+  fetchListadoUsuarioPorTipoReducer,
 ];
 
 export default function reducer(state = initialState, action) {
