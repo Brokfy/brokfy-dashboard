@@ -4,6 +4,7 @@ import { useGetToken } from '../../../common/redux/hooks';
 import { useFetchSiniestroTimeline } from '../../redux/fetchSiniestroTimeline';
 import { useFetchEstadosSiniestro } from '../../redux/fetchEstadosSiniestro';
 import { useUpdateEstadosSiniestro } from '../../redux/updateEstadosSiniestro';
+import { useUpdateFinalizarSiniestro } from '../../redux/updateFinalizarSiniestro';
 import { useFetchSiniestros } from '../../redux/fetchSiniestros';
 
 import BLoading from '../../../../components/bloading';
@@ -133,6 +134,7 @@ const SiniestroDrawer = (props) => {
     const { siniestroTimeline, fetchSiniestroTimeline, fetchSiniestroTimelinePending } = useFetchSiniestroTimeline();
     const { estadoSiniestro, fetchEstadosSiniestro, fetchEstadosSiniestroPending } = useFetchEstadosSiniestro();
     const { updateEstadosSiniestro, updateEstadosSiniestroPending, updateEstadosSiniestroError } = useUpdateEstadosSiniestro();
+    const { updateFinalizarSiniestro, updateFinalizarSiniestroPending, updateFinalizarSiniestroError } = useUpdateFinalizarSiniestro();
     const { siniestros, fetchSiniestros, fetchSiniestrosPending } = useFetchSiniestros();
 
     const { auth } = useGetToken();
@@ -168,7 +170,7 @@ const SiniestroDrawer = (props) => {
     }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
     const finalizarSiniestro = () => {
-
+        updateFinalizarSiniestro({ idPolizaSiniestro: polizaDraw, token: auth.tokenFirebase });
     }
 
     //console.log(siniestroTimeline);
@@ -257,7 +259,6 @@ const SiniestroDrawer = (props) => {
                                         </div>
                                         <hr />
                                     </div>
-
                                 )
                             })}
                     </div>
