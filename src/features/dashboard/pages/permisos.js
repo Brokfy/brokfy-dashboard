@@ -112,8 +112,8 @@ const Permisos = () => {
                                         </IconButton>
                                         <InputBase
                                             className={classes.input}
-                                            placeholder="Buscar clientes"
-                                            inputProps={{ 'aria-label': 'Buscar clientes' }}
+                                            placeholder="Buscar administradores"
+                                            inputProps={{ 'aria-label': 'Buscar administradores' }}
                                             onChange={(event) => buscarClientes(event)}
                                             onKeyPress={(event) => buscarClientes(event)}
                                         />
