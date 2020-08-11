@@ -169,7 +169,11 @@ const initialState = {
   updateComentariosSiniestroPending: false,
   updateComentariosSiniestroError: null,
   updateSiniestroActivoPending: false,
-  updateSiniestroActivoError: null
+  updateSiniestroActivoError: null,
+  updateFinalizarSiniestroPending: false,
+  updateFinalizarSiniestroError: null,
+  fetchListadoUsuarioPorTipoPending: false,
+  fetchListadoUsuarioPorTipoError: null
 };
 
 export default initialState;
