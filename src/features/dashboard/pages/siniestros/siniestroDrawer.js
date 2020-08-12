@@ -8,6 +8,7 @@ import { useUpdateFinalizarSiniestro } from '../../redux/updateFinalizarSiniestr
 import { useFetchSiniestros } from '../../redux/fetchSiniestros';
 
 import BLoading from '../../../../components/bloading';
+import BConfirm from '../../../../components/bconfirm';
 import { getCRUDConfig } from '../../../../common/utils';
 import format from 'date-fns/format';
 import formatRelative from 'date-fns/formatRelative';
@@ -126,6 +127,7 @@ const useStyles = makeStyles((theme) => ({
 const SiniestroDrawer = (props) => {
     const { polizaDraw, open, estatusPolizaDraw } = props;
     const [loading, setLoading] = useState(true);
+    const [confirmOpen, setConfirmOpen] = useState(false);
     const [ultimoEstado, setUltimoEstado] = useState();
     const [value, setValue] = useState(0);
     const [datosCargados, setDatosCargados] = useState(false);
@@ -169,11 +171,11 @@ const SiniestroDrawer = (props) => {
         setLoading(false);
     }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
-    const finalizarSiniestro = () => {
+    const confirmDelete = (args) => {
+        setConfirmOpen(false);
         updateFinalizarSiniestro({ idPolizaSiniestro: polizaDraw, token: auth.tokenFirebase });
+        props.setOpen(false);
     }
-
-    //console.log(siniestroTimeline);
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
         <Drawer
@@ -197,7 +199,7 @@ const SiniestroDrawer = (props) => {
                         <div className="panel-body">
                             {siniestroTimeline[0] == null || !estadoSiniestro ? null : estadoSiniestro.filter(x => x.idEstadoSiniestro === siniestroTimeline[0].idEstadoSiniestro)[0].nombre}
                             <hr />
-                            <Button onClick={finalizarSiniestro} disabled={estatusPolizaDraw == 1 ? false : true} color="primary">{"Finalizar Siniestro"}</Button>
+                            <Button onClick={() => setConfirmOpen(true)} disabled={estatusPolizaDraw == 1 ? false : true} color="primary">{"Finalizar Siniestro"}</Button>
                         </div>
                     </div>
                     <br />
@@ -264,7 +266,7 @@ const SiniestroDrawer = (props) => {
                     </div>
                 </TabPanel>
             </div>
-
+            <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete} title="Desea continuar?" body="Esta apunto de finalizar el siniestro y reactivar la poliza, esta seguro?" />
         </Drawer>
 }
 

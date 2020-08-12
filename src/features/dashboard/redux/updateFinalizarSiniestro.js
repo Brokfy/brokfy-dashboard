@@ -31,7 +31,7 @@ export function updateFinalizarSiniestro(args = {}) {
         (res) => {
           dispatch({
             type: DASHBOARD_UPDATE_FINALIZAR_SINIESTRO_SUCCESS,
-            data: args.data,
+            data: args,
           });
           resolve(res);
         },
@@ -98,8 +98,10 @@ export function reducer(state, action) {
 
     case DASHBOARD_UPDATE_FINALIZAR_SINIESTRO_SUCCESS:
       // The request is success
+      
       return {
         ...state,
+        siniestros: state.siniestros.filter(x => x.idPolizaSiniestro != action.data.idPolizaSiniestro),
         updateFinalizarSiniestroNotify: true,
         updateFinalizarSiniestroPending: false,
         updateFinalizarSiniestroError: null,
