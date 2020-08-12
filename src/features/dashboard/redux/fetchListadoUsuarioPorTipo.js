@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
@@ -14,7 +15,16 @@ export function fetchListadoUsuarioPorTipo(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const options = {
+        url: `https://localhost:44341/api/Operadores?tipo=${args.tipo}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${args.token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const doRequest = axios(options);
       doRequest.then(
         (res) => {
           dispatch({
@@ -45,6 +55,8 @@ export function dismissFetchListadoUsuarioPorTipoError() {
 }
 
 export function useFetchListadoUsuarioPorTipo() {
+  const operadores = useSelector(state => state.dashboard.operadores);
+
   const dispatch = useDispatch();
 
   const { fetchListadoUsuarioPorTipoPending, fetchListadoUsuarioPorTipoError } = useSelector(
@@ -64,6 +76,7 @@ export function useFetchListadoUsuarioPorTipo() {
   }, [dispatch]);
 
   return {
+    operadores: operadores,
     fetchListadoUsuarioPorTipo: boundAction,
     fetchListadoUsuarioPorTipoPending,
     fetchListadoUsuarioPorTipoError,
@@ -85,6 +98,17 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
+        operadores: action.data.data.map(item => {
+          return {
+            nombre: item.nombre,
+            apellidoPaterno: item.apellidoPaterno,
+            apellidoMaterno: item.apellidoMaterno,
+            fechaNacimiento: item.fechaNacimiento,
+            sexo: item.sexo,
+            email: item.email,
+            username: item.username,
+          };
+        }),
         fetchListadoUsuarioPorTipoPending: false,
         fetchListadoUsuarioPorTipoError: null,
       };

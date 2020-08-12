@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import BLoading from '../../../components/bloading';
 import { useGetToken } from '../../common/redux/hooks';
-import { useFetchListadoUsuario } from '../redux/fetchListadoUsuario';
+//import { useFetchListadoUsuario } from '../redux/fetchListadoUsuario';
+import { useFetchListadoUsuarioPorTipo } from '../redux/fetchListadoUsuarioPorTipo';
 import { useFetchMenu } from '../redux/fetchMenu';
 import { useFetchRestriccionesEdicion } from '../redux/fetchRestriccionesEdicion';
 import { useUpdateRestricciones } from '../redux/updateRestricciones';
@@ -21,28 +22,28 @@ const Permisos = () => {
     const { auth } = useGetToken();
     const [idMenuActual, setIdMenuActual] = useState(0);
     const [listaLocal, setListaLocal] = useState([]);
-    const { listadoUsuarios, fetchListadoUsuario, fetchListadoUsuarioPending } = useFetchListadoUsuario();
+    const { operadores, fetchListadoUsuarioPorTipo, fetchListadoUsuarioPorTipoPending } = useFetchListadoUsuarioPorTipo();
     const { menu, fetchMenu, fetchMenuPending } = useFetchMenu();
     const { restriccionesEdicion, fetchRestriccionesEdicion, fetchRestriccionesEdicionPending } = useFetchRestriccionesEdicion();
     const { updateRestricciones, updateRestriccionesPending, updateRestriccionesError, updateRestriccionesNotify } = useUpdateRestricciones();
 
     useEffect(() => {
         if (auth.tokenFirebase === "") return;
-        if (fetchListadoUsuarioPending) return;
+        if (fetchListadoUsuarioPorTipoPending) return;
         if (fetchMenuPending) return;
 
         if (!datosCargados) {
-            fetchListadoUsuario(auth.tokenFirebase);
+            fetchListadoUsuarioPorTipo({ tipo: 2, token: auth.tokenFirebase });
             fetchMenu(auth.tokenFirebase);
             setDatosCargados(true);
             return;
         }
 
-        if (listadoUsuarios && listadoUsuarios.length > 0 && menu)
-            setListaLocal(listadoUsuarios);
+        if (operadores && operadores.length > 0 && menu)
+            setListaLocal(operadores);
 
         setLoading(false);
-    }, [auth.tokenFirebase, fetchListadoUsuarioPending, listadoUsuarios, datosCargados, fetchListadoUsuario, menu, fetchMenu, fetchMenuPending]);
+    }, [auth.tokenFirebase, fetchListadoUsuarioPorTipoPending, operadores, datosCargados, fetchListadoUsuarioPorTipo, menu, fetchMenu, fetchMenuPending]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -89,7 +90,7 @@ const Permisos = () => {
 
     const buscarClientes = (e) => {
         let busqueda = e.target.value;
-        setListaLocal(listadoUsuarios.filter(us =>
+        setListaLocal(operadores.filter(us =>
             us.nombre.toUpperCase().includes(busqueda.toUpperCase())
             || us.apellidoPaterno.toUpperCase().includes(busqueda.toUpperCase())
             || us.apellidoMaterno.toUpperCase().includes(busqueda.toUpperCase())
