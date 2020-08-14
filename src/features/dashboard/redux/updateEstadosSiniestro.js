@@ -16,7 +16,7 @@ export function updateEstadosSiniestro(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/Siniestros`,
+        url: `https://localhost:44341/api/Siniestros`,
         method: 'POST',
         data: args.data,
         headers: {

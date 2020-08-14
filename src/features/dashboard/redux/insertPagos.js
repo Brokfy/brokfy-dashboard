@@ -25,7 +25,7 @@ export function insertPagos(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/Pagos`,
+        url: `https://localhost:44341/api/Pagos`,
         method: 'POST',
         data: args.data,
         headers: {

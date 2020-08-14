@@ -124,7 +124,7 @@ const SiniestrosActivos = () => {
         <div>
             {loading === true ? <BLoading /> : null}
             {datosCargados && !loading ? <BTable columns={columns} data={datosGrid} options={options} token={auth.tokenFirebase} /> : null}
-            <SiniestroDrawer polizaDraw={polizaSiniestroDrawer} open={openSiniestroDrawer} setOpen={setOpenSiniestroDrawer} />
+            <SiniestroDrawer polizaDraw={polizaSiniestroDrawer} estatusPolizaDraw={0} open={openSiniestroDrawer} setOpen={setOpenSiniestroDrawer} />
         </div>
     );
 }

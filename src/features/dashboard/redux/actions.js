@@ -138,3 +138,11 @@ export {
   dismissUpdateComentariosSiniestroError,
 } from './updateComentariosSiniestro';
 export { updateSiniestroActivo, dismissUpdateSiniestroActivoError } from './updateSiniestroActivo';
+export {
+  updateFinalizarSiniestro,
+  dismissUpdateFinalizarSiniestroError,
+} from './updateFinalizarSiniestro';
+export {
+  fetchListadoUsuarioPorTipo,
+  dismissFetchListadoUsuarioPorTipoError,
+} from './fetchListadoUsuarioPorTipo';

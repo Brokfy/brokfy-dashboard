@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link} from 'react-router-dom';
+import { Link, Redirect} from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
 import { useFetchRestricciones } from './redux/fetchRestricciones';
 
@@ -35,7 +35,7 @@ const NavLink = (props) => {
   </a>);
 
   const Item = !props.data.childrenRoutes || props.data.childrenRoutes.length === 0 ? LinkRoute : NotLinkRoute;
-  
+
   return(
     <li className={className}>
       <Item />
@@ -45,13 +45,11 @@ const NavLink = (props) => {
             {
               props.data.childrenRoutes.map((element, index) => {
                 return restricciones.filter(res => res.idMenu === element.id).length > 0 ? null :
-                //return (
                   <li key={`subitem_${props.data.to}_${index}`}>
                     <Link className={className} to={element.to} onClick={(evt) => { activeLink(evt, false); }}>
                       {element.label}
                     </Link>
                   </li>
-                //);
               })
             }
           </ul> :

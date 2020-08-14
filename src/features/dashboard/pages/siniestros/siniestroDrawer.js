@@ -4,9 +4,11 @@ import { useGetToken } from '../../../common/redux/hooks';
 import { useFetchSiniestroTimeline } from '../../redux/fetchSiniestroTimeline';
 import { useFetchEstadosSiniestro } from '../../redux/fetchEstadosSiniestro';
 import { useUpdateEstadosSiniestro } from '../../redux/updateEstadosSiniestro';
+import { useUpdateFinalizarSiniestro } from '../../redux/updateFinalizarSiniestro';
 import { useFetchSiniestros } from '../../redux/fetchSiniestros';
 
 import BLoading from '../../../../components/bloading';
+import BConfirm from '../../../../components/bconfirm';
 import { getCRUDConfig } from '../../../../common/utils';
 import format from 'date-fns/format';
 import formatRelative from 'date-fns/formatRelative';
@@ -123,8 +125,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SiniestroDrawer = (props) => {
-    const { polizaDraw, open } = props;
+    const { polizaDraw, open, estatusPolizaDraw } = props;
     const [loading, setLoading] = useState(true);
+    const [confirmOpen, setConfirmOpen] = useState(false);
     const [ultimoEstado, setUltimoEstado] = useState();
     const [value, setValue] = useState(0);
     const [datosCargados, setDatosCargados] = useState(false);
@@ -133,6 +136,7 @@ const SiniestroDrawer = (props) => {
     const { siniestroTimeline, fetchSiniestroTimeline, fetchSiniestroTimelinePending } = useFetchSiniestroTimeline();
     const { estadoSiniestro, fetchEstadosSiniestro, fetchEstadosSiniestroPending } = useFetchEstadosSiniestro();
     const { updateEstadosSiniestro, updateEstadosSiniestroPending, updateEstadosSiniestroError } = useUpdateEstadosSiniestro();
+    const { updateFinalizarSiniestro, updateFinalizarSiniestroPending, updateFinalizarSiniestroError } = useUpdateFinalizarSiniestro();
     const { siniestros, fetchSiniestros, fetchSiniestrosPending } = useFetchSiniestros();
 
     const { auth } = useGetToken();
@@ -167,11 +171,11 @@ const SiniestroDrawer = (props) => {
         setLoading(false);
     }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
-    const finalizarSiniestro = () => {
-        
+    const confirmDelete = (args) => {
+        setConfirmOpen(false);
+        updateFinalizarSiniestro({ idPolizaSiniestro: polizaDraw, token: auth.tokenFirebase });
+        props.setOpen(false);
     }
-
-    //console.log(siniestroTimeline);
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
         <Drawer
@@ -195,7 +199,7 @@ const SiniestroDrawer = (props) => {
                         <div className="panel-body">
                             {siniestroTimeline[0] == null || !estadoSiniestro ? null : estadoSiniestro.filter(x => x.idEstadoSiniestro === siniestroTimeline[0].idEstadoSiniestro)[0].nombre}
                             <hr />
-                            <Button onClick={finalizarSiniestro} color="primary">{"Finalizar Siniestro"}</Button>
+                            <Button onClick={() => setConfirmOpen(true)} disabled={estatusPolizaDraw == 1 ? false : true} color="primary">{"Finalizar Siniestro"}</Button>
                         </div>
                     </div>
                     <br />
@@ -210,6 +214,7 @@ const SiniestroDrawer = (props) => {
                                     labelId="demo-simple-select-label"
                                     value={cambioEstatus}
                                     onChange={(e) => setCambioEstatus(e.target.value)}
+                                    disabled={estatusPolizaDraw == 1 ? false : true}
                                 >
                                     {!estadoSiniestro || estadoSiniestro.length <= 0 ? null
                                         : estadoSiniestro.map(x => <MenuItem value={x.idEstadoSiniestro}>{x.nombre}</MenuItem>)}
@@ -223,9 +228,10 @@ const SiniestroDrawer = (props) => {
                                 rows={4}
                                 defaultValue={cambioComentario}
                                 onChange={(e) => setCambioComentario(e.target.value)}
+                                disabled={estatusPolizaDraw == 1 ? false : true}
                             />
                             <br /><br />
-                            <Button onClick={() => {
+                            <Button disabled={estatusPolizaDraw == 1 ? false : true} onClick={() => {
                                 updateEstadosSiniestro({ data: { idPolizaSiniestro: siniestroTimeline[0].idPolizaSiniestro, fecha: new Date(), idEstadoSiniestro: cambioEstatus, comentario: cambioComentario, username: auth.username }, token: auth.tokenFirebase });
                                 //fetchSiniestroTimeline({ idPolizaSiniestro: polizaDraw, tokenFirebase: auth.tokenFirebase });
 
@@ -255,13 +261,12 @@ const SiniestroDrawer = (props) => {
                                         </div>
                                         <hr />
                                     </div>
-
                                 )
                             })}
                     </div>
                 </TabPanel>
             </div>
-
+            <BConfirm open={confirmOpen} setOpen={setConfirmOpen} confirmAction={confirmDelete} title="Desea continuar?" body="Esta apunto de finalizar el siniestro y reactivar la poliza, esta seguro?" />
         </Drawer>
 }
 

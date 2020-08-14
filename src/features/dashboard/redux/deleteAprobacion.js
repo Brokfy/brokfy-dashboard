@@ -17,7 +17,7 @@ export function deleteAprobacion(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://apipruebas.brokfy.com:4300/api/Aprobaciones`,
+        url: `https://localhost:44341/api/Aprobaciones`,
         method: 'DELETE',
         data: args.data,
         headers: {
