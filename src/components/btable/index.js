@@ -200,7 +200,7 @@ BTable.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'list', 'currency']).isRequired,
+      type: PropTypes.oneOf(['string', 'date', 'int', 'long', 'byte', 'list', 'currency', 'tel']).isRequired,
       required: PropTypes.bool,
       defaultValue: PropTypes.string,
       options: PropTypes.shape({

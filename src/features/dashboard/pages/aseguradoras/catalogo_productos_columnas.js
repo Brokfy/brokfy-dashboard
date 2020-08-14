@@ -39,6 +39,7 @@ export default (listadoAseguradora, listadoProductosBrokfy) => {
             data: [...arrayAseguradoras.map(item => { return {text: item.nombre, value: item.idAseguradora}; })],
             required: true,
             defaultValue: "",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -52,6 +53,7 @@ export default (listadoAseguradora, listadoProductosBrokfy) => {
             type: "string",
             required: true,
             defaultValue: "",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -65,6 +67,7 @@ export default (listadoAseguradora, listadoProductosBrokfy) => {
             data: [...arrayProductosBrokfy.map(item => { return {text: item.producto, value: item.id}; })],
             required: true,
             defaultValue: "",
+            visible: true,
             options: {
                 filter: false,
                 sort: false,
@@ -77,6 +80,7 @@ export default (listadoAseguradora, listadoProductosBrokfy) => {
             type: "string",
             required: false,
             defaultValue: "",
+            visible: true,
             options: {
                 filter: true,
                 sort: false,

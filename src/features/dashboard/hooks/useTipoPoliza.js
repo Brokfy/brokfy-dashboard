@@ -64,7 +64,7 @@ const useTipoPoliza = (dropdownTipoPoliza = []) => {
       setTipoPoliza(tipo);
   }
 
-  const TipoPolizaView = () => (
+  const TipoPolizaView = (props) => (
     <FormControl className={classes.formControl}>
       <InputLabel id="poliza-TipoPoliza-label">Tipo Poliza</InputLabel>
       <Select
@@ -73,7 +73,12 @@ const useTipoPoliza = (dropdownTipoPoliza = []) => {
         name="tipo"
         type="text"
         value={tipoPoliza}
-        onChange={event => setTipoPoliza(event.target.value)}
+        onChange={event => {
+          if( props.onChange && typeof props.onChange === 'function' ) {
+            props.onChange();
+          }
+          setTipoPoliza(event.target.value);
+        }}
       >
         {
           options.map((item, index) => <MenuItem key={`TipoPoliza-${index}`} value={item.id}>{item.tipo}</MenuItem>)

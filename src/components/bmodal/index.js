@@ -82,8 +82,8 @@ const BModal = (props) => {
                 <form ref={form} onSubmit={(event) => SubmitForm(event)} id="simple-modal-description" className={classes.root} noValidate autoComplete="off" style={{ overflowX: 'hidden', overflowY: 'auto', height: 'calc(80% - (50px))' }}>
                     <Grid container spacing={3}>
                         {!props.columns || props.columns.length <= 0 ?
-                            null : props.columns.map((col, index) =>
-                                <Grid key={`grid_${index}_${col.name}`} item xs={4} >
+                            null : props.columns.map((col, index) => 
+                                <Grid key={`grid_${index}_${col.name}`} item xs={4} hidden={col.visible !== true}>
                                     <BInput key={`col_${index}_${col.name}`} {...col} editValue={!props.data || props.data.length <= 0 ? null : props.data.filter(x => x.name === col.name)[0].value} error={errors[col.name] !== undefined && errors[col.name] !== null && errors[col.name] !== ""} errorMessage={errors[col.name]} />
                                 </Grid>
                             )}
@@ -125,7 +125,7 @@ BModal.propTypes = {
         PropTypes.shape({
             name: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,
-            type: PropTypes.oneOf(['string', 'date', 'int', 'list', 'long', 'currency']).isRequired,
+            type: PropTypes.oneOf(['string', 'date', 'int', 'list', 'long', 'currency', 'tel']).isRequired,
             required: PropTypes.bool,
             defaultValue: PropTypes.string,
             options: PropTypes.shape({

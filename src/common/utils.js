@@ -6,6 +6,9 @@ const inputParsers = {
   text(input) {
     return input;
   },
+  tel(input) {
+    return input;
+  },
   number(input) {
     return parseFloat(input);
   },
@@ -31,7 +34,7 @@ const getFormData = (form) => {
 
   for (const [index, input] of Array.from(form).entries()) {
     const { name, value, type, checked } = input;
-    if (type === "text" || type === "number" || type === "date" || type === "email" || type === "url" || type === "hidden" || type === "checkbox") {
+    if (type === "text" || type === "number" || type === "date" || type === "email" || type === "url" || type === "hidden" || type === "checkbox" || type === "tel" ) {
       let parser = inputParsers[type];
 
       data = {

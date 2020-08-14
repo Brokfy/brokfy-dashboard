@@ -62,6 +62,14 @@ const MisClientes = ({ clientes }) => {
     }));
     const classes = useStyles();
 
+    const NoHayRegistros = () => {
+        return (
+            <div className="ibox-content ibox-heading" style={{ textAlign: "center" }}>
+                <h3>No se encontraron pólizas para el cliente seleccionado</h3>
+            </div>
+        );
+    }
+
     return (
         <div className="panel panel-default">
             <div className="panel-body panel-body-alt-2">
@@ -90,7 +98,8 @@ const MisClientes = ({ clientes }) => {
                 </Grid>
                 <div className="dashboard-panel">
                     {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
-                    {!polizasCliente || polizasCliente.length <= 0 || !busco ? null :
+                    {!busco ? null :
+                        ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :
                         <table className="table table-bordered" style={{marginBottom: 0}}>
                             <thead>
                                 <tr>

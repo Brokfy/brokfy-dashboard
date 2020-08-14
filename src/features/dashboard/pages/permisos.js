@@ -171,7 +171,7 @@ const Permisos = () => {
                                                                         <ListItemIcon>
                                                                             {updateRestriccionesPending && idMenuActual === m.idMenu ? <HourglassEmptyIcon /> :
                                                                                 restriccionesEdicion.filter(x => x.idMenu === m.idMenu).length <= 0 ?
-                                                                                    <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                                    <CheckBoxIcon className="Mui-checked" /> : <CheckBoxOutlineBlankIcon />}
                                                                         </ListItemIcon>
                                                                     </ListItem>
                                                                     {m.inverseIdMenuPadreNavigation.length <= 0 ? null :
@@ -183,7 +183,7 @@ const Permisos = () => {
                                                                                         <ListItemIcon>
                                                                                             {updateRestriccionesPending && idMenuActual === h.idMenu ? <HourglassEmptyIcon /> :
                                                                                                 restriccionesEdicion.filter(x => x.idMenu === h.idMenu).length <= 0 ?
-                                                                                                    <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                                                                                                    <CheckBoxIcon className="Mui-checked" /> : <CheckBoxOutlineBlankIcon />}
                                                                                         </ListItemIcon>
                                                                                     </ListItem>
                                                                                 </List>

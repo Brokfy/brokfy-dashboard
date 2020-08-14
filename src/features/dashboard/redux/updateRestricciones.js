@@ -24,7 +24,7 @@ export function updateRestricciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Restricciones`,
+        url: `https://apipruebas.brokfy.com:4300/api/Restricciones`,
         method: 'POST',
         data: { username: args.username, idMenu: args.idMenu },
         headers: {

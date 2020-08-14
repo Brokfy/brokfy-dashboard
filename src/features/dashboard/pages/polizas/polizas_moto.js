@@ -80,7 +80,7 @@ const PolizasMoto = (props) => {
     module: "PolizaMoto",
     buttons: {
       hideCreate: true,
-      hideEdit: true,
+      hideEdit: false,
       hideDelete: false,
       customButtons: []
     },

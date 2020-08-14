@@ -31,6 +31,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -43,6 +44,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -55,6 +57,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -67,6 +70,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -79,6 +83,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -91,6 +96,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -103,6 +109,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -115,6 +122,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -127,6 +135,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,
@@ -139,6 +148,7 @@ export default (listadoAseguradoras) => {
             type: "long",
             required: true,
             defaultValue: "0.00",
+            visible: true,
             options: {
                 filter: true,
                 sort: true,

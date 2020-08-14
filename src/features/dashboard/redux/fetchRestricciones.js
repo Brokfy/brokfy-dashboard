@@ -16,7 +16,7 @@ export function fetchRestricciones(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Restricciones?dato=${args.dato}&campo=${args.campo}`,
+        url: `https://apipruebas.brokfy.com:4300/api/Restricciones?dato=${args.dato}&campo=${args.campo}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,
