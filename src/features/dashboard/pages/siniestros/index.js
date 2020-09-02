@@ -25,12 +25,13 @@ const SiniestrosActivos = () => {
         siniestros: false,
         tipoPolizas: false,
     });
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [seleccion, guardarSeleccion] = useState([]);
     const [datosGrid, setDatosGrid] = useState([]);
     const [columns, setColumns] = useState([]);
     const { auth } = useGetToken();
 
+    const [tipoPolizaDrawer, settipoPolizaDrawer] = useState("");
     const [polizaSiniestroDrawer, setPolizaSiniestroDrawer] = useState("");
     const [openSiniestroDrawer, setOpenSiniestroDrawer] = useState(false);
 
@@ -90,7 +91,9 @@ const SiniestrosActivos = () => {
     const updateSelected = ({ data: [{ index }] }, displayData, setSelectedRows, option, history) => {
         const { data } = displayData[index];
         const noPoliza = data[0];
+        const tipoPoliza = data[2];
 
+        settipoPolizaDrawer(tipoPoliza);
         setPolizaSiniestroDrawer(noPoliza);
         setOpenSiniestroDrawer(true);
         /* if (option === 1) {
@@ -136,7 +139,7 @@ const SiniestrosActivos = () => {
         <div>
             {loading === true ? <BLoading /> : null}
             {datosCargados && !loading ? <BTable columns={columns} data={datosGrid} options={options} token={auth.tokenFirebase} /> : null}
-            <SiniestroDrawer polizaDraw={polizaSiniestroDrawer} estatusPolizaDraw={1} open={openSiniestroDrawer} setOpen={setOpenSiniestroDrawer} />
+            <SiniestroDrawer polizaDraw={polizaSiniestroDrawer} estatusPolizaDraw={1} open={openSiniestroDrawer} setOpen={setOpenSiniestroDrawer} tipoPoliza={tipoPolizaDrawer} listadoTipoPoliza={listadoTipoPoliza} />
         </div>
     );
 }

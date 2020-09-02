@@ -6,6 +6,7 @@ import { useFetchEstadosSiniestro } from '../../redux/fetchEstadosSiniestro';
 import { useUpdateEstadosSiniestro } from '../../redux/updateEstadosSiniestro';
 import { useUpdateFinalizarSiniestro } from '../../redux/updateFinalizarSiniestro';
 import { useFetchSiniestros } from '../../redux/fetchSiniestros';
+import { useFetchDropdownTipoPoliza } from '../../redux/fetchDropdownTipoPoliza';
 
 import BLoading from '../../../../components/bloading';
 import BConfirm from '../../../../components/bconfirm';
@@ -125,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SiniestroDrawer = (props) => {
-    const { polizaDraw, open, estatusPolizaDraw } = props;
+    const { polizaDraw, open, estatusPolizaDraw, listadoTipoPoliza, tipoPoliza } = props;
     const [loading, setLoading] = useState(true);
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [ultimoEstado, setUltimoEstado] = useState();
@@ -169,13 +170,15 @@ const SiniestroDrawer = (props) => {
             setDatosCargados(false);
 
         setLoading(false);
-    }, [auth.tokenFirebase, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
+    }, [auth, fetchSiniestroTimelinePending, siniestroTimeline, datosCargados, estadoSiniestro, fetchSiniestroTimeline, fetchEstadosSiniestro, polizaDraw, open, loading, fetchEstadosSiniestroPending]);
 
     const confirmDelete = (args) => {
         setConfirmOpen(false);
         updateFinalizarSiniestro({ idPolizaSiniestro: polizaDraw, token: auth.tokenFirebase });
         props.setOpen(false);
     }
+
+
 
     return !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
         <Drawer
@@ -217,7 +220,7 @@ const SiniestroDrawer = (props) => {
                                     disabled={estatusPolizaDraw == 1 ? false : true}
                                 >
                                     {!estadoSiniestro || estadoSiniestro.length <= 0 ? null
-                                        : estadoSiniestro.map(x => <MenuItem value={x.idEstadoSiniestro}>{x.nombre}</MenuItem>)}
+                                        : estadoSiniestro.filter(x => x.idTipoPoliza === listadoTipoPoliza.filter(w => w.tipo === tipoPoliza)[0].id).map(x => <MenuItem key={x.idEstadoSiniestro} value={x.idEstadoSiniestro}>{x.nombre}</MenuItem>)}
                                 </Select>
                             </FormControl>
                             <br /><br />
@@ -246,7 +249,7 @@ const SiniestroDrawer = (props) => {
                         {!estadoSiniestro || !siniestroTimeline || siniestroTimeline.length <= 0 ? null :
                             siniestroTimeline.map(s => {
                                 return (
-                                    <div className="timeline-item">
+                                    <div key={s.idSeguimientoSiniestro} className="timeline-item">
                                         <div className="row">
                                             <div className="col-4 date">
                                                 <i className="fa fa-clock-o"></i>
