@@ -65,7 +65,7 @@
     "react-app-polyfill": "^0.2.0",
     "react-bootstrap-typeahead": "^5.0.0-rc.3",
     "react-chartjs-2": "^2.9.0",
-    "react-dev-utils": "^7.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.12.12",
     "react-number-format": "^4.4.1",
