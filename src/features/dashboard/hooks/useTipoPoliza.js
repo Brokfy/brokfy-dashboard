@@ -31,7 +31,7 @@ const useTipoPoliza = (dropdownTipoPoliza = []) => {
 
     if( auth && auth.tokenFirebase ) {
       const config = {
-        url: `https://localhost:44341/api/Dropdown/tipo_poliza`,
+        url: `https://apipruebas.brokfy.com:4300/api/Dropdown/tipo_poliza`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${auth.tokenFirebase}`,

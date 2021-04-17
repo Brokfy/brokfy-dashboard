@@ -347,7 +347,7 @@ const PolizaDrawer = (props) => {
     }
 
     useEffect(() => {
-        if (auth.tokenFirebase === "") return;
+        if (!auth || !auth.tokenFirebase || auth.tokenFirebase === "") return;
         if (fetchDetallePolizaPending) return;
         if (!polizaDraw) return;
         if (open && datosCargados && !loading) return;
@@ -364,7 +364,7 @@ const PolizaDrawer = (props) => {
             setDatosCargados(false);
 
         setLoading(false);
-    }, [auth.tokenFirebase, fetchDetallePolizaPending, detallePoliza, datosCargados, fetchDetallePoliza, polizaDraw, open, loading]);
+    }, [auth, fetchDetallePolizaPending, detallePoliza, datosCargados, fetchDetallePoliza, polizaDraw, open, loading]);
 
 
     return !detallePoliza || detallePoliza.length <= 0 ? null :

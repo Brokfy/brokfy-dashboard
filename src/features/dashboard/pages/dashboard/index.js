@@ -26,16 +26,19 @@ const Dashboard = () => {
     const [clientes, setClientes] = useState();
 
     useEffect(() => {
+        if (!auth || !auth.tokenFirebase)
+            return;
+
         getDashboardInit({ tokenFirebase: auth.tokenFirebase });
-    }, [getDashboardInit, auth.tokenFirebase]);
+    }, [getDashboardInit, auth]);
 
     useEffect(() => {
-        if( dashboardInit ) {
+        if (dashboardInit) {
             setTipoPoliza(dashboardInit.tipoPoliza);
             setClientes(dashboardInit.clientes);
-        }        
+        }
     }, [dashboardInit]);
-    
+
     return (
         <div>
             {loading === true ? <BLoading /> : null}

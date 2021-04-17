@@ -16,7 +16,7 @@ export function fetchListadoUsuarioPorTipo(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Operadores?tipo=${args.tipo}`,
+        url: `https://apipruebas.brokfy.com:4300/api/Operadores?tipo=${args.tipo}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args.token}`,

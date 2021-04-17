@@ -10,7 +10,7 @@ const Protected = (props) => {
   const { restricciones } = useFetchRestricciones();
   const location = useLocation();
 
-  console.log({ restricciones, location });
+  //console.log({ restricciones, location });
 
   if(!restricciones) 
     return props.children;

@@ -17,7 +17,7 @@ export function updateFinalizarSiniestro(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/Siniestros/${args.idPolizaSiniestro}`,
+        url: `https://apipruebas.brokfy.com:4300/api/Siniestros/${args.idPolizaSiniestro}`,
         method: 'PUT',
         //data: args.data,
         headers: {

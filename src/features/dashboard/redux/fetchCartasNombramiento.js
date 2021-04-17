@@ -17,7 +17,7 @@ export function fetchCartasNombramiento(args = {}) {
 
     const promise = new Promise((resolve, reject) => {
       const options = {
-        url: `https://localhost:44341/api/CartaNombramiento`,
+        url: `https://apipruebas.brokfy.com:4300/api/CartaNombramiento`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${args}`,

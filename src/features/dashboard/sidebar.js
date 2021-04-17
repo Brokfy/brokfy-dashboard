@@ -18,6 +18,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (!auth || !auth.tokenFirebase || auth.tokenFirebase === "") return;
+    console.log({ auth })
     fetchRestricciones({ dato: auth.tokenFirebase, campo: "token", token: auth.tokenFirebase });
     fetchListadoReportes(auth.tokenFirebase);
   }, [fetchListadoReportes, fetchRestricciones, auth]);
@@ -60,10 +61,12 @@ const Sidebar = () => {
       },
 
       { id: 15, icon: RoomServiceOutlined, to: "/atencion-clientes", label: "Atención Clientes", protected: true, open: false, active: false },
-      { id: 76, icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, childrenRoutes: [
-        { id: 78, to: "/siniestros/activos", label: "Activos" },
-        { id: 79, to: "/siniestros/finalizados", label: "Finalizados" }
-      ] },
+      {
+        id: 76, icon: ReportProblemOutlined, to: "/siniestros", label: "Siniestros", protected: true, childrenRoutes: [
+          { id: 78, to: "/siniestros/activos", label: "Activos" },
+          { id: 79, to: "/siniestros/finalizados", label: "Finalizados" }
+        ]
+      },
       {
         id: 17,
         icon: InsertChartOutlined, to: "/reportes", label: "Reportes", protected: true, childrenRoutes: [

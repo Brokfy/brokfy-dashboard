@@ -83,7 +83,7 @@ const Clientes = () => {
         }
 
         setChecked(value);
-        console.log(value)
+        
         fetchDetalleUsuario({ username: value, tokenFirebase: auth.tokenFirebase });
     };
 
