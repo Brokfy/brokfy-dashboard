@@ -35,4 +35,56 @@ color: black;
 .message {
   display: flex;
   align-items: center;
+  border: none;
+}
+
+.video {
+  width: 420px;
+}
+
+.chat-container {
+  display: flex;
+  background-color: white;
+  height: 100vh ;
+}
+
+
+.chat-main {
+  max-width: 100%;
+  width: 60vw;
+  padding: 10px;
+  height: 60vh;
+  margin: 10vh 0 10vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-main::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.chat-main::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.chat-main::-webkit-scrollbar-thumb {
+  background: #FFF;
+}
+
+.chat-form-d {
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  background-color: rgb(24, 23, 23);
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+  color: #FFF;
+}
+
+.chat-form button-d {
+  width: 20%;
+  //background-color: rgb(255, 255, 255);
 }
