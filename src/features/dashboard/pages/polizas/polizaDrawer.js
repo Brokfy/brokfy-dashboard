@@ -304,6 +304,71 @@ const PolizaDrawer = (props) => {
         }
     }
 
+    const PagosPendientes = ({ poliza, auto, vida }) => {
+        let pagados = 0;
+        let pendientes = 0;
+        
+        detallePoliza.historicoPagos.forEach(item => {
+            if(item.pagado === true){
+                pagados = pagados +1;
+            }
+            else {
+                pendientes = pendientes +1;
+            }
+        })
+        return (
+            <Grid item xs={12}>
+                <div className="panel panel-default" style={{marginBottom: "0px"}}>
+                    <div className="panel-heading" style={{marginBottom: "10px"}}>
+                        Pagos pendientes <b>{detallePoliza.historicoPagos.length-pagados}</b>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                        <table className="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Vencimiento</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"> #</th>
+                            </tr>
+                        </thead>
+
+                    {
+                        detallePoliza.historicoPagos.map( item => {     
+                        return (
+                            <tr>
+                                <td>
+                                    <Typography variant="body1" className="text-muted">
+                                        {format(new Date(item.vencimiento), 'dd/MM/yyyy')}
+                                    </Typography>
+                                </td>
+
+                                <td>
+                                    <h4>${item.valor}</h4>
+                                </td>
+
+                                <td>
+                                    <h4>{item.pagado ? 'Completado' : 'Pendiente'}</h4>
+                                </td>
+
+                                <td>
+                                    <Avatar className={item.pagado ? classes.green : classes.red}>{' '}</Avatar>
+                                </td>
+
+                            </tr>
+                            ) 
+                        })
+                    }
+                    </table>
+                        </div>
+                    </div>
+                </div>
+            </Grid>
+        );
+
+    }
+
     const TipoPolizaSection = ({ poliza, auto, vida }) => {
         switch (poliza.tipoPoliza) {
             case 1:
@@ -459,6 +524,8 @@ const PolizaDrawer = (props) => {
                                                 </div>
                                             </div>
                                         </Grid>
+
+                                        {PagosPendientes(detallePoliza)}
 
                                         <Grid item xs={12}>
                                             <div className="panel panel-default" style={{marginBottom: "0px"}}>
