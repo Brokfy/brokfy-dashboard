@@ -116,7 +116,7 @@ const MisClientes = ({ clientes, auth }) => {
                             </tbody>
                         </table>
                     }
-                    <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                    { 1 == 1 ? null : <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />}
                 </div>
             </div>
         </div>
