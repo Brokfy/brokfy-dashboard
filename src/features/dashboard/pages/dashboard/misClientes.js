@@ -32,8 +32,8 @@ const MisClientes = ({ clientes, auth }) => {
 
     const buscarPolizas = () => {
         setBusco(true);
-        if (selectedClient !== '')
-            dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });
+        /*if (selectedClient !== '')
+            dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });*/
     }
 
     const useStyles = makeStyles((theme) => ({
