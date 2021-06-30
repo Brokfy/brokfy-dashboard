@@ -56,16 +56,9 @@ const MisClientes = ({ clientes, auth }) => {
     }));
     const classes = useStyles();
 
-    const NoHayRegistros = () => {
-        return (
-            <div className="ibox-content ibox-heading" style={{ textAlign: "center" }}>
-                <h3>No se encontraron pólizas para el cliente seleccionado</h3>
-            </div>
-        );
-    }
+
 
     console.log('EJECUCION ====== RELOAD o DRAW');
-    let polizasClienteData = polizasCliente;
 
     return (
         <div className="panel panel-default">
@@ -95,11 +88,9 @@ const MisClientes = ({ clientes, auth }) => {
                 </Grid>
                 <div className="dashboard-panel">
                     {
-                        busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
-                    {
-                        !busco ? null : ( !polizasClienteData || polizasClienteData.length <= 0 ) ? <NoHayRegistros /> :<TableClients polizasCliente= {polizasCliente}/>
-                        
+                        busco ? <TableClients polizasCliente= {polizasCliente}/> : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>
                     }
+            
                     <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
                 </div>
             </div>
