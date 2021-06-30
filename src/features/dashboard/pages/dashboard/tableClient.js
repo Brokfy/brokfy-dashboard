@@ -28,12 +28,12 @@ const TableClients = ({polizasCliente}) => {
             </thead>
             <tbody>
                 {
-                  /*  polizasCliente.map((p, i) => <tr key={'misClientes'+i.toString()}>
+                    polizasCliente.map((p, i) => <tr key={'misClientes'+i.toString()}>
                         <td>1</td>
                         <td>{p.tipoPoliza}</td>
                         <td>{p.aseguradora}</td>
                         <td>{p.estadoPoliza}</td>
-                    </tr>);*/
+                    </tr>)
                 }
             </tbody>
         </table>
