@@ -96,7 +96,7 @@ const MisClientes = ({ clientes, auth }) => {
                     {
                         busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
                     {
-                        !busco ? null : ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :<TableClients polizasCliente= {polizasCliente}/>
+                        !busco ? null :<TableClients polizasCliente= {polizasCliente}/>
                         
                     }
                     <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
