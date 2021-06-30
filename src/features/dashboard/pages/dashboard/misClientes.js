@@ -65,6 +65,7 @@ const MisClientes = ({ clientes, auth }) => {
     }
 
     console.log('EJECUCION ====== RELOAD o DRAW');
+    let polizasClienteData = polizasCliente;
 
     return (
         <div className="panel panel-default">
@@ -96,7 +97,7 @@ const MisClientes = ({ clientes, auth }) => {
                     {
                         busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
                     {
-                        !busco ? null :<TableClients polizasCliente= {polizasCliente}/>
+                        !busco ? null : ( !polizasClienteData || polizasClienteData.length <= 0 ) ? <NoHayRegistros /> :<TableClients polizasCliente= {polizasCliente}/>
                         
                     }
                     <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
