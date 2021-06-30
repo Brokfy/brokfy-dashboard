@@ -1,7 +1,16 @@
-import React from 'react'
-
+import React, {useState} from 'react'
+import { Link } from '@material-ui/core';
+import PolizaDrawer from '../polizas/polizaDrawer';
 
 const TableClients = ({polizasCliente}) => {
+
+    const [open, setOpen] = useState(false);
+    const [poliza, setPoliza] = useState("");
+
+    const seleccionarPoliza = (noPoliza) => {
+        setPoliza(noPoliza);
+        setOpen(true);
+    }
 
     const NoHayRegistros = () => {
         return (
@@ -28,18 +37,19 @@ const TableClients = ({polizasCliente}) => {
             </thead>
             <tbody>
                 {
-                    polizasCliente.map((p, i) => <tr key={'misClientes'+i.toString()}>
-                        <td>1</td>
-                        <td>{p.tipoPoliza}</td>
-                        <td>{p.aseguradora}</td>
-                        <td>{p.estadoPoliza}</td>
-                    </tr>)
+                polizasCliente.map((p, i) => <tr key={`misClientes_${i.toString()}`}>
+                <td><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
+                <td>{p.tipoPoliza}</td>
+                <td>{p.aseguradora}</td>
+                <td>{p.estadoPoliza}</td>
+                </tr>)
                 }
             </tbody>
         </table>
-    </>
+        </>
     
-    }
+        }
+        <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
         </>
         
     );

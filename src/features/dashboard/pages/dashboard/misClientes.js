@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDashboardMisClientes } from '../../redux/dashboardMisClientes';
-import PolizaDrawer from '../polizas/polizaDrawer';
 import { Link, Grid, makeStyles, Button, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -21,15 +20,8 @@ const MisClientes = ({ clientes, auth }) => {
     const [selectedClient, setSelectedCliente] = useState("");
     const { polizasCliente, dashboardMisClientes, dashboardMisClientesPending } = useDashboardMisClientes();
   
-    const [poliza, setPoliza] = useState("");
-    const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
-    const [open, setOpen] = useState(false);
     const [busco, setBusco] = useState(false);
 
-    const seleccionarPoliza = (noPoliza) => {
-        setPoliza(noPoliza);
-        setOpen(true);
-    }
 
     const buscarPolizas = () => {
         setBusco(true);
@@ -91,7 +83,7 @@ const MisClientes = ({ clientes, auth }) => {
                         busco ? <TableClients polizasCliente= {polizasCliente}/> : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>
                     }
             
-                    <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                   
                 </div>
             </div>
         </div>
