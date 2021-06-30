@@ -92,13 +92,7 @@ const MisClientes = ({ clientes, auth }) => {
                         </Button>
                     </Grid>
                 </Grid>
-                <div className="dashboard-panel">
-                    {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
-                    {!busco ? null : ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :<TableClients polizasCliente= {polizasCliente}/>
-                        
-                    }
-                    { 1 == 1 ? null : <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />}
-                </div>
+                
             </div>
         </div>
     )
