@@ -54,7 +54,7 @@ const Dashboard = () => {
                         </Grid>
 
                         <Grid item xs={12} lg={6} xl={4}>
-                            <MisClientes clientes={clientes} />
+                            <MisClientes clientes={clientes} auth={auth} />
                         </Grid>
 
                         <Grid item xs={12} lg={6} xl={4}>

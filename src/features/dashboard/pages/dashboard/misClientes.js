@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useGetToken } from '../../../common/redux/hooks';
 import { useDashboardMisClientes } from '../../redux/dashboardMisClientes';
 import PolizaDrawer from '../polizas/polizaDrawer';
-import BLoading from '../../../../components/bloading';
-import { Link, Paper, InputBase, Divider, InputAdornment, Grid, TextField, makeStyles, Button, List, ListItem, ListItemIcon, ListItemText, Checkbox, IconButton } from '@material-ui/core';
-import CommentIcon from '@material-ui/icons/Comment';
+import { Link, Grid, makeStyles, Button, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import MenuIcon from '@material-ui/icons/Menu';
-import { NumberFormatCustom } from '../../../../common/utils';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import options from './data';
+
 import MuiAlert from '@material-ui/lab/Alert';
 
 function filterBy(option, state) {
@@ -22,11 +16,10 @@ function filterBy(option, state) {
     return optionText.toLowerCase().indexOf(state.text.toLowerCase()) > -1;
 }
 
-const MisClientes = ({ clientes }) => {
-
+const MisClientes = ({ clientes, auth }) => {
     const [selectedClient, setSelectedCliente] = useState("");
     const { polizasCliente, dashboardMisClientes, dashboardMisClientesPending } = useDashboardMisClientes();
-    const { auth } = useGetToken();
+  
     const [poliza, setPoliza] = useState("");
     const [selectedTipoPoliza, setSelectedTipoPoliza] = useState(0);
     const [open, setOpen] = useState(false);
@@ -69,6 +62,8 @@ const MisClientes = ({ clientes }) => {
             </div>
         );
     }
+
+    console.log('EJECUCION ====== RELOAD o DRAW');
 
     return (
         <div className="panel panel-default">
@@ -128,4 +123,4 @@ const MisClientes = ({ clientes }) => {
     )
 }
 
-export default MisClientes;
+export default React.memo(MisClientes);
