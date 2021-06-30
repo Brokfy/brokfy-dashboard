@@ -91,6 +91,11 @@ const MisClientes = ({ clientes, auth }) => {
                         </Button>
                     </Grid>
                 </Grid>
+                <div className="dashboard-panel">
+                    
+                    
+                    <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                </div>
             </div>
         </div>
     )
