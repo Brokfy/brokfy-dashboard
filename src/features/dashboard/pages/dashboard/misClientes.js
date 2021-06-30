@@ -91,33 +91,6 @@ const MisClientes = ({ clientes, auth }) => {
                         </Button>
                     </Grid>
                 </Grid>
-                <div className="dashboard-panel">
-                    {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
-                    {!busco ? null :
-                        ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :
-                        <table className="table table-bordered" style={{marginBottom: 0}}>
-                            <thead>
-                                <tr>
-                                    <th>Póliza</th>
-                                    <th>Tipo</th>
-                                    <th>Aseguradora</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    polizasCliente.map((p, i) => <tr key={`misClientes_${i.toString()}`}>
-                                        <td><Link className="detallePoliza" onClick={() => seleccionarPoliza(p.noPoliza)}>{p.noPoliza}</Link></td>
-                                        <td>{p.tipoPoliza}</td>
-                                        <td>{p.aseguradora}</td>
-                                        <td>{p.estadoPoliza}</td>
-                                    </tr>)
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    { 1 == 1 ? null : <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />}
-                </div>
             </div>
         </div>
     )
