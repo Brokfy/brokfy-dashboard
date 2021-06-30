@@ -4,6 +4,7 @@ import PolizaDrawer from '../polizas/polizaDrawer';
 import { Link, Grid, makeStyles, Button, } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import TableClients from './tableClient';
 
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -32,8 +33,8 @@ const MisClientes = ({ clientes, auth }) => {
 
     const buscarPolizas = () => {
         setBusco(true);
-        /*if (selectedClient !== '')
-            dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });*/
+        if (selectedClient !== '')
+            dashboardMisClientes({ username: selectedClient, tokenFirebase: auth.tokenFirebase });
     }
 
     const useStyles = makeStyles((theme) => ({
@@ -92,9 +93,11 @@ const MisClientes = ({ clientes, auth }) => {
                     </Grid>
                 </Grid>
                 <div className="dashboard-panel">
-                    
-                    
-                    <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />
+                    {busco ? null : <MuiAlert className="alert-pad" elevation={6} variant="filled" severity="info" >Escriba los datos del cliente</MuiAlert>}
+                    {!busco ? null : ( !polizasCliente || polizasCliente.length <= 0 ) ? <NoHayRegistros /> :<TableClients polizasCliente= {polizasCliente}/>
+                        
+                    }
+                    { 1 == 1 ? null : <PolizaDrawer polizaDraw={poliza} open={open} setOpen={setOpen} />}
                 </div>
             </div>
         </div>
@@ -102,3 +105,4 @@ const MisClientes = ({ clientes, auth }) => {
 }
 
 export default React.memo(MisClientes);
+
